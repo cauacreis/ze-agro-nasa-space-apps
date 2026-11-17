@@ -1,0 +1,7 @@
+﻿municipio_key;nome;uf;microrregiao;lat;lon;solo_predominante;data_referencia_nasa;gwetroot_atual;gwettop_atual;chuva_30d_mm;temp_max_media_30d;temp_min_media_30d;dias_calor_extremo_30d;radiacao_media;chuva_prevista_14d_mm;et0_previsto_14d_mm;balanco_hidrico_14d_mm;dias_chuva_forte_14d
+rio_verde;Rio Verde;GO;Sudoeste Goiano;-17.7923;-50.9192;Latossolo Vermelho Argiloso;2026-11-11;0.47;0.44;84;36.6;22.7;22;20.9;104.8;60.2;44.6;0
+jatai;Jataí;GO;Sudoeste Goiano;-17.8814;-51.7144;Latossolo Vermelho Argiloso;2026-11-11;0.48;0.45;84.3;35;21.5;19;18.8;101.4;61.8;39.6;1
+cristalina;Cristalina;GO;Entorno do DF / Leste Goiano;-16.7686;-47.6136;Latossolo Vermelho-Amarelo;2026-11-11;0.43;0.48;152.7;33.7;21.8;15;20;149;53.8;95.2;0
+itaguaru;Itaguaru;GO;Anápolis / Centro Goiano;-15.7589;-49.6033;Cambissolo / Argissolo;2026-11-11;0.46;0.44;128.9;35.3;22.3;21;20.6;128.1;52.3;75.8;0
+anapolis;Anápolis;GO;Centro Goiano;-16.3281;-48.953;Latossolo Vermelho-Amarelo;2026-11-11;0.48;0.44;132.4;34.1;21;15;19.7;123.5;52;71.5;0
+goiania;Goiânia;GO;Metropolitana de Goiânia;-16.6869;-49.2648;Latossolo Vermelho;2026-11-11;0.45;0.42;110.1;35.5;22.1;22;20.8;124.3;54.3;70;0

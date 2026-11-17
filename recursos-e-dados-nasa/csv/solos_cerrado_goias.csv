@@ -1,0 +1,5 @@
+﻿key;nome;cad_mm_cm;retencao_label;fator_agua;fator_compactacao;resumo
+argiloso_fertil;Terra Argilosa Boa (Latossolo);1.4;Alta retenção de água;1;0.75;Segura bem a umidade na raiz, mas compacta fácil se repetir a mesma raiz.
+medio_cerrado;Terra Mista de Cerrado;1;Retenção média de água;0.85;0.65;Equilibrada para grãos, mas perde umidade rápido sem cobertura de palhada.
+arenoso_seco;Terra Arenosa (Seca Rápido);0.6;Baixa retenção de água;0.65;0.35;"Esquenta e seca rápido nos veranicos; exige raiz profunda e palhada contínua."
+degradado_compactado;Terra Cansada / Sem Palhada;0.75;Baixa infiltração no solo;0.68;0.95;"Pouca matéria orgânica e camada dura; precisa de descompactação biológica e nitrogênio."

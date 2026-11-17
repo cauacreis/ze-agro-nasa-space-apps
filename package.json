@@ -1,0 +1,51 @@
+{
+  "name": "personalagro",
+  "version": "1.0.0",
+  "description": "PersonalAgro (Zé Agro) — Cumpadre Digital no WhatsApp e painel web para rotação de culturas e resiliência do solo com dados NASA POWER, NASA GIBS, Open-Meteo FAO ET0, base Embrapa e trava anti-efeito manada.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node scripts/test-rotacao-nasa.js && node scripts/test_operacional.mjs && node scripts/test-multilingue.js && node scripts/test-imagem.js",
+    "test:nasa": "node scripts/test-rotacao-nasa.js",
+    "test:ops": "node scripts/test_operacional.mjs",
+    "test:i18n": "node scripts/test-multilingue.js",
+    "test:img": "node scripts/test-imagem.js",
+    "fetch:nasa": "node scripts/fetch-nasa-goias.js",
+    "export:csv": "node scripts/export-recursos-csv.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cauacreis/ze-agro-nasa-space-apps.git"
+  },
+  "keywords": [
+    "nasa-space-apps",
+    "nasa-power",
+    "nasa-gibs",
+    "crop-rotation",
+    "agriculture",
+    "whatsapp",
+    "food-security",
+    "brazil",
+    "cerrado"
+  ],
+  "author": "Cauã Felype Caetano Reis",
+  "license": "AGPL-3.0-only",
+  "bugs": {
+    "url": "https://github.com/cauacreis/ze-agro-nasa-space-apps/issues"
+  },
+  "homepage": "https://github.com/cauacreis/ze-agro-nasa-space-apps#readme",
+  "type": "module",
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "@supabase/supabase-js": "^2.108.2",
+    "@whiskeysockets/baileys": "^7.0.0-rc14",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "groq-sdk": "^1.2.1",
+    "mime-types": "^3.0.2",
+    "node-cron": "^4.6.0",
+    "pg": "^8.21.0",
+    "qrcode": "^1.5.4",
+    "qrcode-terminal": "^0.12.0"
+  }
+}

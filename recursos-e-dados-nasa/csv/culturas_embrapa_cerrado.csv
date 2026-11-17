@@ -1,0 +1,12 @@
+﻿key;nome;familia;papel;ciclo_dias;demanda_agua_mm;tolerancia_seca;tolerancia_calor;fixa_nitrogenio_kg_ha;aporte_palhada_t_ha;profundidade_raiz_cm;retorno_economico;quebra_nematoides;pragas_comuns
+soja;Soja;leguminosa;Comercial (proteína / renda);115;550;3;3;90;2.5;45;5;nao;Ferrugem-asiática | Percevejo-marrom | Nematoides
+milho;Milho;graminea;Comercial + boa palhada;125;580;3;3;-45;6.5;75;4;nao;Cigarrinha-do-milho | Lagarta-do-cartucho
+feijao;Feijão;leguminosa;Comercial ciclo curto;85;360;3;2;45;2;35;4;nao;Mosca-branca | Mofo-branco | Antracnose
+sorgo;Sorgo Granífero;graminea;Comercial rústico anti-seca;105;380;5;5;-25;7.5;110;3;sim;Pulgão-do-sorgo
+mandioca;Mandioca;euforbiacea;Comercial rústica / segurança alimentar;300;520;5;5;-30;4;90;4;sim;Mandarová | Ácaro-verde
+tomate;Tomate;solanacea;Hortaliça de alto valor;110;500;1;2;-50;1.5;40;5;nao;Traça-do-tomateiro | Mosca-branca | Requeima
+pasto_fraco;Pasto Fraco / Degradado;graminea;Área em reforma;180;400;3;4;-20;2;50;2;nao;Cigarrinha-das-pastagens | Compactação superficial
+braquiaria;Braquiária (Cobertura / Palhada);graminea;Cobertura e descompactação;90;300;5;5;0;9;160;2;sim;Baixo risco em rotação curta
+crotalaria;Crotalária (Adubo Verde);leguminosa;Fixação de nitrogênio e controle de nematoides;75;280;4;5;110;5.5;130;2;sim;Supressora de nematoides de solo
+girassol;Girassol;asteracea;Ciclagem de nutrientes e quebra de família;100;380;4;4;-20;4.5;140;3;nao;Mancha-de-alternária
+gergelim;Gergelim;pedaliacea;Comercial muito tolerante à seca e calor;95;310;5;5;-15;3;100;4;sim;Baixa incidência de pragas no Cerrado

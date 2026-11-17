@@ -1,0 +1,138 @@
+{
+  "atualizado_em": "2026-11-17T14:36:25.143Z",
+  "regioes": {
+    "rio_verde": {
+      "municipio": "Rio Verde",
+      "culturas_em_alta": [
+        "Milho",
+        "Soja",
+        "Milho + Braquiária",
+        "Sorgo"
+      ],
+      "alerta_fitossanitario": "Pressão elevada de cigarrinha-do-milho e percevejo-marrom relatada na região — evitar repetir gramínea em sequência direta.",
+      "tendencia_solo_agua": "Produtores da região estão consorciando braquiária para segurar umidade após ondas de calor acima de 35°C.",
+      "total_relatos_regiao": 141,
+      "contagem_prioridades": {
+        "agua": 119,
+        "solo": 10,
+        "renda": 3,
+        "pragas": 3,
+        "escoamento": 6
+      },
+      "planos_mais_buscados": {
+        "Gergelim → Braquiária → Feijão": 48,
+        "Braquiária (Palhada) → Soja → Milho": 35,
+        "Crotalária → Milho → Soja": 33,
+        "Sorgo Granífero → Feijão → Girassol": 2,
+        "Crotalária (Adubo Verde) → Mandioca → Feijão": 5
+      },
+      "culturas_recomendadas": {
+        "crotalaria": 37,
+        "sorgo": 2,
+        "gergelim": 11,
+        "braquiaria": 1
+      }
+    },
+    "jatai": {
+      "municipio": "Jataí",
+      "culturas_em_alta": [
+        "Milho",
+        "Soja",
+        "Milho Safrinha",
+        "Crotalária"
+      ],
+      "alerta_fitossanitario": "Relatos frequentes de nematoides e percevejo em áreas de sucessão contínua soja-milho.",
+      "tendencia_solo_agua": "Adoção crescente de crotalária na janela de cobertura para reduzir nematoides e repor nitrogênio.",
+      "total_relatos_regiao": 40,
+      "contagem_prioridades": {
+        "agua": 30,
+        "solo": 5,
+        "renda": 2,
+        "pragas": 3
+      },
+      "planos_mais_buscados": {
+        "Gergelim → Braquiária → Feijão": 26
+      }
+    },
+    "cristalina": {
+      "municipio": "Cristalina",
+      "culturas_em_alta": [
+        "Feijão",
+        "Soja",
+        "Milho"
+      ],
+      "alerta_fitossanitario": "Atenção redobrada para mosca-branca e mofo-branco entre lavouras de feijão e soja.",
+      "tendencia_solo_agua": "Busca ativa por quebra de ciclo com gramíneas (milho ou sorgo) para cortar fungos de solo.",
+      "total_relatos_regiao": 41,
+      "contagem_prioridades": {
+        "agua": 29,
+        "solo": 4,
+        "renda": 4,
+        "pragas": 4
+      },
+      "planos_mais_buscados": {
+        "Braquiária (Palhada) → Soja → Milho": 26
+      }
+    },
+    "itaguaru": {
+      "municipio": "Itaguaru",
+      "culturas_em_alta": [
+        "Mandioca",
+        "Soja",
+        "Banana",
+        "Milho"
+      ],
+      "alerta_fitossanitario": "Relatos de cigarrinha no milho e déficit de cobertura morta em áreas inclinadas.",
+      "tendencia_solo_agua": "Pequenos produtores priorizando consórcio de feijão, mandioca e braquiária para proteger o solo da erosão.",
+      "total_relatos_regiao": 67,
+      "contagem_prioridades": {
+        "agua": 4,
+        "solo": 57,
+        "renda": 3,
+        "pragas": 1,
+        "escoamento": 2
+      },
+      "planos_mais_buscados": {
+        "Braquiária (Palhada) → Soja → Milho": 52,
+        "Crotalária → Milho → Soja": 1,
+        "Gergelim → Braquiária → Feijão": 2
+      }
+    },
+    "anapolis": {
+      "municipio": "Anápolis",
+      "culturas_em_alta": [
+        "Tomate",
+        "Feijão",
+        "Milho"
+      ],
+      "alerta_fitossanitario": "Pressão de traça-do-tomateiro e doenças fúngicas de solo onde houve repetição de hortaliças.",
+      "tendencia_solo_agua": "Produtores buscando descanso do solo com sorgo/milho e adubação verde antes de voltar com hortaliças.",
+      "total_relatos_regiao": 11,
+      "contagem_prioridades": {
+        "agua": 2,
+        "solo": 4,
+        "renda": 2,
+        "pragas": 3
+      },
+      "planos_mais_buscados": {}
+    },
+    "goiania": {
+      "municipio": "Goiânia",
+      "culturas_em_alta": [
+        "Mandioca",
+        "Feijão",
+        "Milho"
+      ],
+      "alerta_fitossanitario": "Sinais dispersos de ácaro e perda de vigor em terras com baixa cobertura vegetal.",
+      "tendencia_solo_agua": "Foco em recuperação rápida de matéria orgânica e proteção térmica do solo com palhada.",
+      "total_relatos_regiao": 9,
+      "contagem_prioridades": {
+        "agua": 3,
+        "solo": 3,
+        "renda": 2,
+        "pragas": 1
+      },
+      "planos_mais_buscados": {}
+    }
+  }
+}

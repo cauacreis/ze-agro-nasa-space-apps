@@ -1,0 +1,254 @@
+{
+  "oleo de neem": {
+    "nome": "Óleo de Neem Puro",
+    "categoria": "defensivo biologico",
+    "links": [
+      { "loja": "Mercado Livre", "url": "https://lista.mercadolivre.com.br/oleo-de-neem" },
+      { "loja": "Agrofy", "url": "https://www.agrofy.com.br/busca?q=oleo+de+neem" }
+    ],
+    "dica": "Procure versão pura (100% concentration) — dilua 2-5ml por litro d'água."
+  },
+  "adubo npk": {
+    "nome": "Fertilizante NPK",
+    "categoria": "fertilizante",
+    "links": [
+      { "loja": "Mercado Livre", "url": "https://lista.mercadolivre.com.br/adubo-npk" },
+      { "loja": "Agrofy", "url": "https://www.agrofy.com.br/busca?q=adubo+npk" }
+    ],
+    "dica": "A proporção NPK varia conforme a cultura — 10-10-10 é versátil pra hortaliças."
+  },
+  "copel": {
+    "nome": "Copel (Difenoconazol + Piraclostrobina)",
+    "categoria": "fungicida",
+    "links": [
+      { "loja": "Mercado Livre", "url": "https://lista.mercadolivre.com.br/fungicida-copel" },
+      { "loja": "Agrofy", "url": "https://www.agrofy.com.br/busca?q=copel+fungicida" }
+    ],
+    "dica": "Fungicida sistêmico — funciona por prevenção, não cura. Aplique antes da doença aparecer."
+  },
+  "pulverizador costal": {
+    "nome": "Pulverizador Costal",
+    "categoria": "equipamento",
+    "links": [
+      { "loja": "Mercado Livre", "url": "https://lista.mercadolivre.com.br/pulverizador-costal" },
+      { "loja": "Agrofy", "url": "https://www.agrofy.com.br/busca?q=pulverizador+costal" }
+    ],
+    "dica": "Costal manual (20L) é o mais barato. Motorizado (25-40L) rende mais em área grande."
+  },
+  "bomba de irrigacao": {
+    "nome": "Bomba d'Água para Irrigação",
+    "categoria": "irrigação",
+    "links": [
+      { "loja": "Mercado Livre", "url": "https://lista.mercadolivre.com.br/bomba-de-irrigacao" },
+      { "loja": "Agrofy", "url": "https://www.agrofy.com.br/busca?q=bomba+irrigacao" }
+    ],
+    "dica": "Submersa pra poço profundo, superfície pra lagoa/reservatório. Calcule a altura manométrica."
+  },
+  "herbicida glyphosate": {
+    "nome": "Glifosato (Herbicida)",
+    "categoria": "herbicida",
+    "links": [
+      { "loja": "Mercado Livre", "url": "https://lista.mercadolivre.com.br/glyphosate" },
+      { "loja": "Agrofy", "url": "https://www.agrofy.com.br/busca?q=glifosato" }
+    ],
+    "dica": "Não seletivo — mata tudo que tocar. Cuidado com a deriva pro lado da lavoura."
+  },
+  "semente de feijao": {
+    "nome": "Semente de Feijão",
+    "categoria": "semente",
+    "links": [
+      { "loja": "Mercado Livre", "url": "https://lista.mercadolivre.com.br/semente-de-feijao" },
+      { "loja": "Agrofy", "url": "https://www.agrofy.com.br/busca?q=semente+feijao" }
+    ],
+    "dica": "Escolha variedade adaptada à sua região — Carioca (cerrado), Rosinha (solos frios)."
+  },
+  "semente de milho": {
+    "nome": "Semente de Milho",
+    "categoria": "semente",
+    "links": [
+      { "loja": "Mercado Livre", "url": "https://lista.mercadolivre.com.br/semente-de-milho" },
+      { "loja": "Agrofy", "url": "https://www.agrofy.com.br/busca?q=semente+milho" }
+    ],
+    "dica": "Híbrido (BRS, Semetis) rende mais que=open pollinated. A spacing é chave: 90cm entre linhas."
+  },
+  "tela de cerca": {
+    "nome": "Tela para Cerca / Cercamento",
+    "categoria": "infraestrutura",
+    "links": [
+      { "loja": "Mercado Livre", "url": "https://lista.mercadolivre.com.br/tela-cerca" },
+      { "loja": "Agrofy", "url": "https://www.agrofy.com.br/busca?q=tela+cerca" }
+    ],
+    "dica": "Galvanizada dura mais. 1,20m é suficiente pra aves; 1,80m pra gado pequeno."
+  },
+  "ra ox": {
+    "nome": "Ração para Bovinos (Concentrado/RA)",
+    "categoria": "pecuária",
+    "links": [
+      { "loja": "Mercado Livre", "url": "https://lista.mercadolivre.com.br/racao-bovina" },
+      { "loja": "Agrofy", "url": "https://www.agrofy.com.br/busca?q=racao+bovina" }
+    ],
+    "dica": "RA (Ração de Aceitação) é o concentrado — 1kg por 1kg de leite produzido."
+  },
+  "sal mineral": {
+    "nome": "Sal Mineral para Gado",
+    "categoria": "pecuária",
+    "links": [
+      { "loja": "Mercado Livre", "url": "https://lista.mercadolivre.com.br/sal-mineral-bovino" },
+      { "loja": "Agrofy", "url": "https://www.agrofy.com.br/busca?q=sal+mineral+bovino" }
+    ],
+    "dica": "Suplemento mineral é barato e evita déficit que custa em peso. Nunca falte no cocho."
+  },
+  "carrapaticida": {
+    "nome": "Carrapaticida para Bovinos",
+    "categoria": "pecuária",
+    "links": [
+      { "loja": "Mercado Livre", "url": "https://lista.mercadolivre.com.br/carrapaticida-bovino" },
+      { "loja": "Agrofy", "url": "https://www.agrofy.com.br/busca?q=carrapaticida" }
+    ],
+    "dica": "Roteio de princípios ativos é essencial — alternar entre classes químicas pra evitar resistência."
+  },
+  "cal virgem": {
+    "nome": "Cal Virgem (Óxido de Cálcio)",
+    "categoria": "corretivo",
+    "links": [
+      { "loja": "Mercado Livre", "url": "https://lista.mercadolivre.com.br/cal-virgem" },
+      { "loja": "Agrofy", "url": "https://www.agrofy.com.br/busca?q=cal+virgem" }
+    ],
+    "dica": "Corretivo de acidez — usa-se no preparo do solo. Análise de solo primeiro pra saber dose."
+  },
+  "gotejamento": {
+    "nome": "Fita de Gotejamento",
+    "categoria": "irrigação",
+    "links": [
+      { "loja": "Mercado Livre", "url": "https://lista.mercadolivre.com.br/fita-gotejamento" },
+      { "loja": "Agrofy", "url": "https://www.agrofy.com.br/busca?q=fita+gotejamento" }
+    ],
+    "dica": "Gotejamento subsuperficial evita evaporacão — ideal pra regiões secas."
+  },
+  "formicida": {
+    "nome": "Formicida para Lavoura",
+    "categoria": "defensivo",
+    "links": [
+      { "loja": "Mercado Livre", "url": "https://lista.mercadolivre.com.br/formicida-agricola" },
+      { "loja": "Agrofy", "url": "https://www.agrofy.com.br/busca?q=formicida+agricola" }
+    ],
+    "dica": "Isca granulada é mais prática que formicida líquido — espalhe no solo ao entardecer."
+  },
+  "acidez do solo": {
+    "nome": "Corretivo de Acidez (Calcário)",
+    "categoria": "corretivo",
+    "links": [
+      { "loja": "Mercado Livre", "url": "https://lista.mercadolivre.com.br/calcario-agricola" },
+      { "loja": "Agrofy", "url": "https://www.agrofy.com.br/busca?q=calcario+agricola" }
+    ],
+    "dica": "PRNT é o índice de eficiência — quanto maior, melhor. Calcário dolomítico dá também magnésio."
+  },
+  "adubo organico": {
+    "nome": "Adubo Orgânico / Composto",
+    "categoria": "fertilizante",
+    "links": [
+      { "loja": "Mercado Livre", "url": "https://lista.mercadolivre.com.br/adubo-organico" },
+      { "loja": "Agrofy", "url": "https://www.agrofy.com.br/busca?q=adubo+organico" }
+    ],
+    "dica": "Esterco curtido (composto) é mais seguro que bruto — evita queimar raiz e matar semente."
+  },
+  "inseticida": {
+    "nome": "Inseticida Agrícola",
+    "categoria": "defensivo",
+    "links": [
+      { "loja": "Mercado Livre", "url": "https://lista.mercadolivre.com.br/inseticida-agricola" },
+      { "loja": "Agrofy", "url": "https://www.agrofy.com.br/busca?q=inseticida" }
+    ],
+    "dica": "Confira na bula se o produto serve para a sua cultura e para a praga vista, aplique no fim da tarde e respeite o prazo de carência."
+  },
+  "bioinsumo": {
+    "nome": "Bioinsumos / Insumos Biológicos",
+    "categoria": "biológico",
+    "links": [
+      { "loja": "Mercado Livre", "url": "https://lista.mercadolivre.com.br/bioinsumo" },
+      { "loja": "Agrofy", "url": "https://www.agrofy.com.br/busca?q=bioinsumo" }
+    ],
+    "dica": "Micorrizas, Trichoderma, Bt — são complementares aos químicos, não substitutos totais."
+  },
+  "tubete": {
+    "nome": "Tubete para Mudas",
+    "categoria": "material vegetativo",
+    "links": [
+      { "loja": "Mercado Livre", "url": "https://lista.mercadolivre.com.br/tubete" },
+      { "loja": "Agrofy", "url": "https://www.agrofy.com.br/busca?q=tubete" }
+    ],
+    "dica": "Tubete 280ml é o mais usado. Furos no fundo pra drenagem são obrigatórios."
+  },
+  "barbante": {
+    "nome": "Barbante / Linha para Tutoramento",
+    "categoria": "material vegetativo",
+    "links": [
+      { "loja": "Mercado Livre", "url": "https://lista.mercadolivre.com.br/barbante-tutoramento" },
+      { "loja": "Agrofy", "url": "https://www.agrofy.com.br/busca?q=barbante+tutoramento" }
+    ],
+    "dica": "Nylon ou polipropileno dura mais que algodão — considera custo-benefício."
+  },
+  "rent": {
+    "nome": "RENT (Dicarboximida)",
+    "categoria": "fungicida",
+    "links": [
+      { "loja": "Mercado Livre", "url": "https://lista.mercadolivre.com.br/rent-fungicida" },
+      { "loja": "Agrofy", "url": "https://www.agrofy.com.br/busca?q=rent+fungicida" }
+    ],
+    "dica": "Trata Botrytis, Oídio e Sclerotinia. Alternância com outro grupo químico pra evitar resistência."
+  },
+  "abamectina": {
+    "nome": "Abamectina (Acaricida/Inseticida)",
+    "categoria": "defensivo",
+    "links": [
+      { "loja": "Mercado Livre", "url": "https://lista.mercadolivre.com.br/abamectina" },
+      { "loja": "Agrofy", "url": "https://www.agrofy.com.br/busca?q=abamectina" }
+    ],
+    "dica": "Excelente contra ácaros e minadoras. Aplique ao entardecer — degrada com luz solar."
+  },
+  "enxada": {
+    "nome": "Enxada / Capinadeira",
+    "categoria": "ferramenta",
+    "links": [
+      { "loja": "Mercado Livre", "url": "https://lista.mercadolivre.com.br/enxada" },
+      { "loja": "Agrofy", "url": "https://www.agrofy.com.br/busca?q=enxada" }
+    ],
+    "dica": "Enxada de 5 dentes é a mais versátil. Capinadeira mecânica acelera em área maior."
+  },
+  "embalagem": {
+    "nome": "Embalagem para Safra (Sacos, Caixas)",
+    "categoria": "embalagem",
+    "links": [
+      { "loja": "Mercado Livre", "url": "https://lista.mercadolivre.com.br/embalagem-agricola" },
+      { "loja": "Agrofy", "url": "https://www.agrofy.com.br/busca?q=embalagem+agricola" }
+    ],
+    "dica": "Saco de rafia 40x60 dura mais que papel. Caixas de madeira são mais baratas que plásticas."
+  },
+  "manga": {
+    "nome": "Muda de Manga / Enxerto",
+    "categoria": "muda",
+    "links": [
+      { "loja": "Mercado Livre", "url": "https://lista.mercadolivre.com.br/muda-de-manga" },
+      { "loja": "Agrofy", "url": "https://www.agrofy.com.br/busca?q=muda+manga" }
+    ],
+    "dica": "Enxerto garante fruta igual à mãe — subaqüa (imperial) ou garfada (mais comum)."
+  },
+  "banana": {
+    "nome": "Muda de Banana",
+    "categoria": "muda",
+    "links": [
+      { "loja": "Mercado Livre", "url": "https://lista.mercadolivre.com.br/muda-de-banana" },
+      { "loja": "Agrofy", "url": "https://www.agrofy.com.br/busca?q=muda+banana" }
+    ],
+    "dica": "Filhotes de korrdig ou prata são mais resistentes a sigatoka-negra."
+  },
+  "cafe": {
+    "nome": "Muda de Café / Insumos Café",
+    "categoria": "café",
+    "links": [
+      { "loja": "Mercado Livre", "url": "https://lista.mercadolivre.com.br/muda-de-cafe" },
+      { "loja": "Agrofy", "url": "https://www.agrofy.com.br/busca?q=muda+cafe" }
+    ],
+    "dica": "Catuaí e Mundo Novo são os padrões — Conilon pra baixada, tolera mais calor."
+  }
+}

@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1380" height="1285" viewBox="0 0 1380 1285" font-family="Segoe UI, Arial, Helvetica, sans-serif">
+
+    <defs>
+      <filter id="cardShadow" x="-4%" y="-4%" width="108%" height="112%">
+        <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#0F172A" flood-opacity="0.07"/>
+      </filter>
+      <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M 0 1.5 L 8.5 5 L 0 8.5 z" fill="#475569"/>
+      </marker>
+      <marker id="arrowGreen" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M 0 1.5 L 8.5 5 L 0 8.5 z" fill="#15803D"/>
+      </marker>
+      <marker id="arrowBlue" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M 0 1.5 L 8.5 5 L 0 8.5 z" fill="#1D4ED8"/>
+      </marker>
+      <marker id="arrowRed" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M 0 1.5 L 8.5 5 L 0 8.5 z" fill="#B91C1C"/>
+      </marker>
+      <marker id="arrowPurple" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M 0 1.5 L 8.5 5 L 0 8.5 z" fill="#6D28D9"/>
+      </marker>
+    </defs>
+<rect width="1380" height="1285" fill="#FAFBF8"/>
+<rect x="0" y="0" width="1380" height="96" fill="#0F172A"/>
+<rect x="0" y="92" width="1380" height="4" fill="#16A34A"/>
+<rect x="44" y="16" width="150" height="24" rx="12" fill="#166534"/>
+<text x="119" y="32" text-anchor="middle" font-size="11.5" font-weight="700" letter-spacing="0.8" fill="#DCFCE7">VISÃO HUMANA</text>
+<text x="44" y="64" font-size="25" font-weight="700" fill="#FFFFFF">Como o Cumpadre Digital conversa com o produtor</text>
+<text x="44" y="84" font-size="13.5" font-weight="400" fill="#CBD5E1">Do áudio, foto ou mensagem simples no WhatsApp até uma orientação prática no campo</text>
+<rect x="40" y="126" width="1300" height="200" rx="16" fill="#FFFFFF" fill-opacity="0.55" stroke="#CBD5E1" stroke-width="1.5" stroke-dasharray="6 5"/>
+<rect x="56" y="113" width="259" height="26" rx="13" fill="#1E293B"/>
+<text x="185.5" y="130" text-anchor="middle" font-size="11.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF">1. CHEGADA NO WHATSAPP E PROTEÇÃO</text>
+<rect x="40" y="366" width="1300" height="212" rx="16" fill="#F3F8FF" fill-opacity="0.55" stroke="#93C5FD" stroke-width="1.5" stroke-dasharray="6 5"/>
+<rect x="56" y="353" width="287" height="26" rx="13" fill="#1D4ED8"/>
+<text x="199.5" y="370" text-anchor="middle" font-size="11.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF">2. COMO ELE ENTENDE O QUE FOI MANDADO</text>
+<rect x="40" y="616" width="1300" height="342" rx="16" fill="#F4FBF5" fill-opacity="0.55" stroke="#86EFAC" stroke-width="1.5" stroke-dasharray="6 5"/>
+<rect x="56" y="603" width="308" height="26" rx="13" fill="#166534"/>
+<text x="210" y="620" text-anchor="middle" font-size="11.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF">3. COMO ELE PENSA E BUSCA OS DADOS REAIS</text>
+<rect x="40" y="996" width="1300" height="236" rx="16" fill="#F0FDFA" fill-opacity="0.55" stroke="#5EEAD4" stroke-width="1.5" stroke-dasharray="6 5"/>
+<rect x="56" y="983" width="266" height="26" rx="13" fill="#0F766E"/>
+<text x="189" y="1000" text-anchor="middle" font-size="11.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF">4. COMO ELE RESPONDE SEM COMPLICAR</text>
+<g filter="url(#cardShadow)">
+<rect x="68" y="162" width="270" height="134" rx="12" fill="#F4FBF5" stroke="#86EFAC" stroke-width="1.8"/>
+<path d="M 80 162 H 326 Q 338 162 338 174 V 196 H 68 V 174 Q 68 162 80 162 Z" fill="#166534"/>
+</g>
+<text x="82" y="184" font-size="14.5" font-weight="700" fill="#FFFFFF">Produtor no WhatsApp</text>
+<rect x="260.3" y="169" width="67.69999999999999" height="20" rx="10" fill="#DCFCE7"/>
+<text x="294.15" y="182.5" text-anchor="middle" font-size="10.2" font-weight="700" fill="#166534">ENTRADA</text>
+<text x="82" y="216" font-size="12.6" font-weight="400" fill="#334155">Funciona no celular simples:</text>
+<text x="82" y="235.1" font-size="12.6" font-weight="400" fill="#1E293B">• Texto comum do dia a dia</text>
+<text x="82" y="254.2" font-size="12.6" font-weight="400" fill="#1E293B">• Áudio gravado na lavoura</text>
+<text x="82" y="273.3" font-size="12.6" font-weight="400" fill="#1E293B">• Foto de planta, fruto ou praga</text>
+<g filter="url(#cardShadow)">
+<polygon points="525,172 645,229 525,286 405,229" fill="#FFFBEB" stroke="#B45309" stroke-width="2"/>
+</g>
+<text x="525" y="225" text-anchor="middle" font-size="13" font-weight="700" fill="#78350F">É grupo, spam</text>
+<text x="525" y="241" text-anchor="middle" font-size="13" font-weight="700" fill="#78350F">ou já respondendo?</text>
+<g filter="url(#cardShadow)">
+<rect x="695" y="162" width="260" height="134" rx="12" fill="#FFF5F5" stroke="#FCA5A5" stroke-width="1.8"/>
+<path d="M 707 162 H 943 Q 955 162 955 174 V 196 H 695 V 174 Q 695 162 707 162 Z" fill="#B91C1C"/>
+</g>
+<text x="709" y="184" font-size="14.5" font-weight="700" fill="#FFFFFF">Segurança e fila</text>
+<rect x="884.4" y="169" width="60.599999999999994" height="20" rx="10" fill="#FEE2E2"/>
+<text x="914.7" y="182.5" text-anchor="middle" font-size="10.2" font-weight="700" fill="#991B1B">ESCUDO</text>
+<text x="709" y="216" font-size="12.6" font-weight="400" fill="#1E293B">• Ignora mensagens de grupos</text>
+<text x="709" y="235.1" font-size="12.6" font-weight="400" fill="#1E293B">• Bloqueia rajada/abuso</text>
+<text x="709" y="254.2" font-size="12.6" font-weight="400" fill="#1E293B">• Se estiver ocupada, avisa:</text>
+<text x="709" y="273.3" font-size="12.6" font-weight="400" fill="#334155">  &quot;calma aí, tô terminando&quot;</text>
+<g filter="url(#cardShadow)">
+<rect x="1005" y="162" width="305" height="134" rx="12" fill="#F0FDFA" stroke="#5EEAD4" stroke-width="1.8"/>
+<path d="M 1017 162 H 1298 Q 1310 162 1310 174 V 196 H 1005 V 174 Q 1005 162 1017 162 Z" fill="#0F766E"/>
+</g>
+<text x="1019" y="184" font-size="14.5" font-weight="700" fill="#FFFFFF">Atalhos na hora (0 custo)</text>
+<rect x="1239.4" y="169" width="60.599999999999994" height="20" rx="10" fill="#CCFBF1"/>
+<text x="1269.7" y="182.5" text-anchor="middle" font-size="10.2" font-weight="700" fill="#115E59">DIRETO</text>
+<text x="1019" y="216" font-size="12.6" font-weight="400" fill="#1E293B">• Pedido de ajuda / como usar</text>
+<text x="1019" y="235.1" font-size="12.6" font-weight="400" fill="#1E293B">• Apagar todos os dados (LGPD)</text>
+<text x="1019" y="254.2" font-size="12.6" font-weight="400" fill="#1E293B">• Ligar/desligar aviso diário das 6h</text>
+<text x="1019" y="273.3" font-size="12.6" font-weight="400" fill="#1E293B">• Exportar caderno de campo em CSV</text>
+<path d="M 338 229 L 405 229" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<path d="M 645 229 L 695 229" fill="none" stroke="#B91C1C" stroke-width="2" marker-end="url(#arrowRed)" stroke-linejoin="round"/>
+<rect x="651" y="219" width="38" height="20" rx="6" fill="#FFFFFF" stroke="#B91C1C" stroke-width="1"/>
+<text x="670" y="233" text-anchor="middle" font-size="11" font-weight="700" fill="#B91C1C">Sim</text>
+<path d="M 525 286 L 525 344 L 1157 344 L 1157 296" fill="none" stroke="#0F766E" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<rect x="765" y="334" width="150" height="20" rx="6" fill="#FFFFFF" stroke="#0F766E" stroke-width="1"/>
+<text x="840" y="348" text-anchor="middle" font-size="11" font-weight="700" fill="#0F766E">Pediu atalho direto?</text>
+<g filter="url(#cardShadow)">
+<rect x="68" y="406" width="360" height="144" rx="12" fill="#F3F8FF" stroke="#93C5FD" stroke-width="1.8"/>
+<path d="M 80 406 H 416 Q 428 406 428 418 V 440 H 68 V 418 Q 68 406 80 406 Z" fill="#1D4ED8"/>
+</g>
+<text x="82" y="428" font-size="14.5" font-weight="700" fill="#FFFFFF">Se veio ÁUDIO da roça</text>
+<rect x="314.8" y="413" width="103.19999999999999" height="20" rx="10" fill="#DBEAFE"/>
+<text x="366.4" y="426.5" text-anchor="middle" font-size="10.2" font-weight="700" fill="#1E40AF">OUVIDO RURAL</text>
+<text x="82" y="460" font-size="12.6" font-weight="400" fill="#334155">Transcreve entendendo sotaque e gíria:</text>
+<text x="82" y="479.1" font-size="12.6" font-weight="400" fill="#1E293B">• &quot;mi&quot; -&gt; milho | &quot;pranta&quot; -&gt; planta</text>
+<text x="82" y="498.2" font-size="12.6" font-weight="400" fill="#1E293B">• Cidades goianas (Inhumas, Jataí...)</text>
+<text x="82" y="517.3" font-size="12.6" font-weight="400" fill="#1E293B">• Se vier chiado, pede outro áudio/foto</text>
+<g filter="url(#cardShadow)">
+<rect x="468" y="406" width="385" height="144" rx="12" fill="#F3F8FF" stroke="#93C5FD" stroke-width="1.8"/>
+<path d="M 480 406 H 841 Q 853 406 853 418 V 440 H 468 V 418 Q 468 406 480 406 Z" fill="#1D4ED8"/>
+</g>
+<text x="482" y="428" font-size="14.5" font-weight="700" fill="#FFFFFF">Se veio FOTO da lavoura</text>
+<rect x="739.8" y="413" width="103.19999999999999" height="20" rx="10" fill="#DBEAFE"/>
+<text x="791.4" y="426.5" text-anchor="middle" font-size="10.2" font-weight="700" fill="#1E40AF">OLHO CLÍNICO</text>
+<text x="482" y="460" font-size="12.6" font-weight="400" fill="#334155">Analisa a imagem junto com a legenda:</text>
+<text x="482" y="479.1" font-size="12.6" font-weight="400" fill="#1E293B">• Identifica sintoma ou bicho visível</text>
+<text x="482" y="498.2" font-size="12.6" font-weight="400" fill="#1E293B">• Dá 1 ou 2 hipóteses em português claro</text>
+<text x="482" y="517.3" font-size="12.6" font-weight="400" fill="#1E293B">• Prioriza manejo simples antes de veneno</text>
+<g filter="url(#cardShadow)">
+<rect x="893" y="406" width="417" height="144" rx="12" fill="#F3F8FF" stroke="#93C5FD" stroke-width="1.8"/>
+<path d="M 905 406 H 1298 Q 1310 406 1310 418 V 440 H 893 V 418 Q 893 406 905 406 Z" fill="#1D4ED8"/>
+</g>
+<text x="907" y="428" font-size="14.5" font-weight="700" fill="#FFFFFF">Se veio TEXTO + Memória</text>
+<rect x="1218.1" y="413" width="81.9" height="20" rx="10" fill="#DBEAFE"/>
+<text x="1259.05" y="426.5" text-anchor="middle" font-size="10.2" font-weight="700" fill="#1E40AF">HISTÓRICO</text>
+<text x="907" y="460" font-size="12.6" font-weight="400" fill="#334155">Lembra do contexto sem perguntar tudo de novo:</text>
+<text x="907" y="479.1" font-size="12.6" font-weight="400" fill="#1E293B">• Cidade e cultura já citadas pelo produtor</text>
+<text x="907" y="498.2" font-size="12.6" font-weight="400" fill="#1E293B">• Ignora cidade negada (&quot;não tô em Rio Verde&quot;)</text>
+<text x="907" y="517.3" font-size="12.6" font-weight="400" fill="#1E293B">• Mantém os últimos 12 turnos da conversa</text>
+<path d="M 525 286 L 525 388 L 1100 388 L 1100 406" fill="none" stroke="#1D4ED8" stroke-width="2" marker-end="url(#arrowBlue)" stroke-linejoin="round"/>
+<rect x="896" y="378" width="48" height="20" rx="6" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="1"/>
+<text x="920" y="392" text-anchor="middle" font-size="11" font-weight="700" fill="#1D4ED8">Texto</text>
+<path d="M 525 388 L 248 388 L 248 406" fill="none" stroke="#1D4ED8" stroke-width="2" marker-end="url(#arrowBlue)" stroke-linejoin="round"/>
+<rect x="362" y="378" width="48" height="20" rx="6" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="1"/>
+<text x="386" y="392" text-anchor="middle" font-size="11" font-weight="700" fill="#1D4ED8">Áudio</text>
+<path d="M 525 388 L 660 388 L 660 406" fill="none" stroke="#1D4ED8" stroke-width="2" marker-end="url(#arrowBlue)" stroke-linejoin="round"/>
+<rect x="571.4" y="378" width="41.2" height="20" rx="6" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="1"/>
+<text x="592" y="392" text-anchor="middle" font-size="11" font-weight="700" fill="#1D4ED8">Foto</text>
+<g filter="url(#cardShadow)">
+<polygon points="285,656 430,718 285,780 140,718" fill="#FFFBEB" stroke="#B45309" stroke-width="2"/>
+</g>
+<text x="285" y="714" text-anchor="middle" font-size="13" font-weight="700" fill="#78350F">Quer saber o que plantar</text>
+<text x="285" y="730" text-anchor="middle" font-size="13" font-weight="700" fill="#78350F">depois da colheita?</text>
+<g filter="url(#cardShadow)">
+<rect x="68" y="812" width="435" height="126" rx="12" fill="#F4FBF5" stroke="#86EFAC" stroke-width="1.8"/>
+<path d="M 80 812 H 491 Q 503 812 503 824 V 846 H 68 V 824 Q 68 812 80 812 Z" fill="#166534"/>
+</g>
+<text x="82" y="834" font-size="14.5" font-weight="700" fill="#FFFFFF">Plano de Rotação com Dados da NASA</text>
+<rect x="361.4" y="819" width="131.6" height="20" rx="10" fill="#DCFCE7"/>
+<text x="427.2" y="832.5" text-anchor="middle" font-size="10.2" font-weight="700" fill="#166534">SATÉLITE + CLIMA</text>
+<text x="82" y="866" font-size="12.6" font-weight="400" fill="#1E293B">• Lê umidade do solo na raiz (NASA) + chuva de 14 dias</text>
+<text x="82" y="885.1" font-size="12.6" font-weight="400" fill="#1E293B">• Ranqueia opções por economia de água, custo e palhada</text>
+<text x="82" y="904.2" font-size="12.6" font-weight="400" fill="#1E293B">• Mostra onde escoar/vender perto e calcula por área</text>
+<g filter="url(#cardShadow)">
+<rect x="545" y="654" width="370" height="130" rx="12" fill="#F9F5FF" stroke="#D8B4FE" stroke-width="1.8"/>
+<path d="M 557 654 H 903 Q 915 654 915 666 V 688 H 545 V 666 Q 545 654 557 654 Z" fill="#6D28D9"/>
+</g>
+<text x="559" y="676" font-size="14.5" font-weight="700" fill="#FFFFFF">Escolhe o Especialista Certo</text>
+<rect x="830.2" y="661" width="74.8" height="20" rx="10" fill="#EDE9FE"/>
+<text x="867.6" y="674.5" text-anchor="middle" font-size="10.2" font-weight="700" fill="#5B21B6">ROTEADOR</text>
+<text x="559" y="708" font-size="12.6" font-weight="400" fill="#1E293B">• Milho, Soja, Feijão, Mandioca, Tomate,</text>
+<text x="559" y="727.1" font-size="12.6" font-weight="400" fill="#334155">  Banana, Café, Citros, Boi ou PRONAF</text>
+<text x="559" y="746.2" font-size="12.6" font-weight="400" fill="#1E293B">• Culturas como maxixe e quiabo vão</text>
+<text x="559" y="765.3" font-size="12.6" font-weight="400" fill="#334155">  para o agente geral sem &quot;travar&quot; em milho</text>
+<g filter="url(#cardShadow)">
+<rect x="545" y="812" width="370" height="126" rx="12" fill="#F4FBF5" stroke="#86EFAC" stroke-width="1.8"/>
+<path d="M 557 812 H 903 Q 915 812 915 824 V 846 H 545 V 824 Q 545 812 557 812 Z" fill="#166534"/>
+</g>
+<text x="559" y="834" font-size="14.5" font-weight="700" fill="#FFFFFF">Usa Só as Ferramentas Necessárias</text>
+<rect x="808.9" y="819" width="96.1" height="20" rx="10" fill="#DCFCE7"/>
+<text x="856.95" y="832.5" text-anchor="middle" font-size="10.2" font-weight="700" fill="#166534">SOB DEMANDA</text>
+<text x="559" y="866" font-size="12.6" font-weight="400" fill="#1E293B">• Clima e melhor janela de pulverização/plantio</text>
+<text x="559" y="885.1" font-size="12.6" font-weight="400" fill="#1E293B">• Caderno de campo, contas, lembretes e safra</text>
+<text x="559" y="904.2" font-size="12.6" font-weight="400" fill="#1E293B">• Cotação CEASA e loja só se pedir produto</text>
+<g filter="url(#cardShadow)">
+<rect x="950" y="654" width="360" height="284" rx="12" fill="#FFFBEB" stroke="#FCD34D" stroke-width="1.8"/>
+<path d="M 962 654 H 1298 Q 1310 654 1310 666 V 688 H 950 V 666 Q 950 654 962 654 Z" fill="#B45309"/>
+</g>
+<text x="964" y="676" font-size="14.5" font-weight="700" fill="#FFFFFF">Cuidado com o Produtor</text>
+<rect x="1196.8" y="661" width="103.19999999999999" height="20" rx="10" fill="#FEF3C7"/>
+<text x="1248.4" y="674.5" text-anchor="middle" font-size="10.2" font-weight="700" fill="#92400E">JEITO HUMANO</text>
+<text x="964" y="708" font-size="12.6" font-weight="700" fill="#334155">• Autonomia sempre:</text>
+<text x="964" y="727.1" font-size="12.6" font-weight="400" fill="#334155">  Nunca empurra para &quot;ir ao agrônomo&quot;</text>
+<text x="964" y="746.2" font-size="12.6" font-weight="400" fill="#334155">  a menos que o próprio produtor peça.</text>
+<text x="964" y="765.3" font-size="12.6" font-weight="700" fill="#334155">• Segurança com defensivos:</text>
+<text x="964" y="784.4" font-size="12.6" font-weight="400" fill="#334155">  Não receita veneno sem praga confirmada</text>
+<text x="964" y="803.5" font-size="12.6" font-weight="400" fill="#334155">  nem chuta dosagem fora da bula.</text>
+<text x="964" y="822.6" font-size="12.6" font-weight="700" fill="#334155">• Plano B mesmo sem internet externa:</text>
+<text x="964" y="841.7" font-size="12.6" font-weight="400" fill="#334155">  Se alguma API cair, responde com</text>
+<text x="964" y="860.8" font-size="12.6" font-weight="400" fill="#334155">  base local de clima/cultura sem travar.</text>
+<path d="M 248 550 L 248 596 L 660 596" fill="none" stroke="#475569" stroke-width="2" stroke-linejoin="round"/>
+<path d="M 1100 550 L 1100 596 L 660 596" fill="none" stroke="#475569" stroke-width="2" stroke-linejoin="round"/>
+<path d="M 660 550 L 660 636 L 285 636 L 285 656" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<path d="M 285 780 L 285 812" fill="none" stroke="#15803D" stroke-width="2" marker-end="url(#arrowGreen)" stroke-linejoin="round"/>
+<rect x="266" y="786" width="38" height="20" rx="6" fill="#FFFFFF" stroke="#15803D" stroke-width="1"/>
+<text x="285" y="800" text-anchor="middle" font-size="11" font-weight="700" fill="#15803D">Sim</text>
+<path d="M 430 718 L 490 718 L 545 718" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<rect x="433.8" y="682" width="102.39999999999999" height="20" rx="6" fill="#FFFFFF" stroke="#475569" stroke-width="1"/>
+<text x="485" y="696" text-anchor="middle" font-size="11" font-weight="700" fill="#475569">Outro assunto</text>
+<path d="M 730 784 L 730 812" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<path d="M 915 719 L 950 719" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<path d="M 915 875 L 950 875" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<g filter="url(#cardShadow)">
+<rect x="68" y="1034" width="390" height="166" rx="12" fill="#F0FDFA" stroke="#5EEAD4" stroke-width="1.8"/>
+<path d="M 80 1034 H 446 Q 458 1034 458 1046 V 1068 H 68 V 1046 Q 68 1034 80 1034 Z" fill="#0F766E"/>
+</g>
+<text x="82" y="1056" font-size="14.5" font-weight="700" fill="#FFFFFF">Revisão Final da Mensagem</text>
+<rect x="380.3" y="1041" width="67.69999999999999" height="20" rx="10" fill="#CCFBF1"/>
+<text x="414.15" y="1054.5" text-anchor="middle" font-size="10.2" font-weight="700" fill="#115E59">CLAREZA</text>
+<text x="82" y="1088" font-size="12.6" font-weight="400" fill="#1E293B">• Tira tabelas e códigos técnicos confusos</text>
+<text x="82" y="1107.1" font-size="12.6" font-weight="400" fill="#1E293B">• Traduz siglas (&quot;kg/ha&quot; vira por extenso</text>
+<text x="82" y="1126.2" font-size="12.6" font-weight="400" fill="#334155">  no áudio; símbolos como N e Zn ficam claros)</text>
+<text x="82" y="1145.3" font-size="12.6" font-weight="400" fill="#1E293B">• Adapta o vocabulário ao estilo do produtor</text>
+<g filter="url(#cardShadow)">
+<polygon points="615,1058 725,1117 615,1176 505,1117" fill="#FFFBEB" stroke="#B45309" stroke-width="2"/>
+</g>
+<text x="615" y="1113" text-anchor="middle" font-size="13" font-weight="700" fill="#78350F">Produtor mandou</text>
+<text x="615" y="1129" text-anchor="middle" font-size="13" font-weight="700" fill="#78350F">ÁUDIO na entrada?</text>
+<g filter="url(#cardShadow)">
+<rect x="780" y="1026" width="530" height="86" rx="12" fill="#F3F8FF" stroke="#93C5FD" stroke-width="1.8"/>
+<path d="M 792 1026 H 1298 Q 1310 1026 1310 1038 V 1060 H 780 V 1038 Q 780 1026 792 1026 Z" fill="#1D4ED8"/>
+</g>
+<text x="794" y="1048" font-size="14.5" font-weight="700" fill="#FFFFFF">Responde 100% em Áudio (Mensagem de Voz)</text>
+<rect x="1232.3" y="1033" width="67.69999999999999" height="20" rx="10" fill="#DBEAFE"/>
+<text x="1266.15" y="1046.5" text-anchor="middle" font-size="10.2" font-weight="700" fill="#1E40AF">PTT VOZ</text>
+<text x="794" y="1080" font-size="12.6" font-weight="400" fill="#1E293B">• Voz masculina natural em português brasileiro (nunca manda textão)</text>
+<text x="794" y="1099.1" font-size="12.6" font-weight="400" fill="#1E293B">• Pergunta no fim se ficou alguma dúvida quando o assunto for longo</text>
+<g filter="url(#cardShadow)">
+<rect x="780" y="1128" width="530" height="86" rx="12" fill="#F4FBF5" stroke="#86EFAC" stroke-width="1.8"/>
+<path d="M 792 1128 H 1298 Q 1310 1128 1310 1140 V 1162 H 780 V 1140 Q 780 1128 792 1128 Z" fill="#166534"/>
+</g>
+<text x="794" y="1150" font-size="14.5" font-weight="700" fill="#FFFFFF">Responde em Texto Limpo no WhatsApp</text>
+<rect x="1246" y="1135" width="54" height="20" rx="10" fill="#DCFCE7"/>
+<text x="1273" y="1148.5" text-anchor="middle" font-size="10.2" font-weight="700" fill="#166534">TEXTO</text>
+<text x="794" y="1182" font-size="12.6" font-weight="400" fill="#1E293B">• Mensagem dividida em blocos fáceis de ler no celular</text>
+<text x="794" y="1201.1" font-size="12.6" font-weight="400" fill="#1E293B">• Quando a explicação for longa, fecha perguntando se restou dúvida</text>
+<path d="M 285 938 L 285 974 L 730 974" fill="none" stroke="#475569" stroke-width="2" stroke-linejoin="round"/>
+<path d="M 1130 938 L 1130 974 L 730 974" fill="none" stroke="#475569" stroke-width="2" stroke-linejoin="round"/>
+<path d="M 730 938 L 730 1014 L 263 1014 L 263 1034" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<path d="M 458 1117 L 505 1117" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<path d="M 615 1058 L 615 1069 L 780 1069" fill="none" stroke="#1D4ED8" stroke-width="2" marker-end="url(#arrowBlue)" stroke-linejoin="round"/>
+<rect x="678.5" y="1053.5" width="38" height="20" rx="6" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="1"/>
+<text x="697.5" y="1067.5" text-anchor="middle" font-size="11" font-weight="700" fill="#1D4ED8">Sim</text>
+<path d="M 615 1176 L 615 1171 L 780 1171" fill="none" stroke="#15803D" stroke-width="2" marker-end="url(#arrowGreen)" stroke-linejoin="round"/>
+<rect x="678.5" y="1163.5" width="38" height="20" rx="6" fill="#FFFFFF" stroke="#15803D" stroke-width="1"/>
+<text x="697.5" y="1177.5" text-anchor="middle" font-size="11" font-weight="700" fill="#15803D">Não</text>
+<text x="44" y="1269" font-size="11.5" fill="#64748B">Fluxo funcional verificado em src/services/whatsapp.js, ai.js e rotation.js</text>
+<text x="1336" y="1269" text-anchor="end" font-size="11.5" font-weight="600" fill="#475569">PersonalAgro / Cumpadre Digital • NASA Space Apps</text>
+</svg>

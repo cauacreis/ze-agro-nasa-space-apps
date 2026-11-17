@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1520" height="1580" viewBox="0 0 1520 1580" font-family="Segoe UI, Arial, Helvetica, sans-serif">
+
+    <defs>
+      <filter id="cardShadow" x="-4%" y="-4%" width="108%" height="112%">
+        <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#0F172A" flood-opacity="0.07"/>
+      </filter>
+      <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M 0 1.5 L 8.5 5 L 0 8.5 z" fill="#475569"/>
+      </marker>
+      <marker id="arrowGreen" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M 0 1.5 L 8.5 5 L 0 8.5 z" fill="#15803D"/>
+      </marker>
+      <marker id="arrowBlue" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M 0 1.5 L 8.5 5 L 0 8.5 z" fill="#1D4ED8"/>
+      </marker>
+      <marker id="arrowRed" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M 0 1.5 L 8.5 5 L 0 8.5 z" fill="#B91C1C"/>
+      </marker>
+      <marker id="arrowPurple" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M 0 1.5 L 8.5 5 L 0 8.5 z" fill="#6D28D9"/>
+      </marker>
+    </defs>
+<rect width="1520" height="1580" fill="#F8FAFC"/>
+<rect x="0" y="0" width="1520" height="96" fill="#0F172A"/>
+<rect x="0" y="92" width="1520" height="4" fill="#16A34A"/>
+<rect x="44" y="16" width="290.4" height="24" rx="12" fill="#166534"/>
+<text x="189.2" y="32" text-anchor="middle" font-size="11.5" font-weight="700" letter-spacing="0.8" fill="#DCFCE7">ARQUITETURA &amp; PIPELINE DE CÓDIGO</text>
+<text x="44" y="64" font-size="25" font-weight="700" fill="#FFFFFF">Fluxo Técnico do Chatbot — PersonalAgro / Cumpadre Digital</text>
+<text x="44" y="84" font-size="13.5" font-weight="400" fill="#CBD5E1">Baileys WhatsApp Gateway -&gt; Pré-processamento Multimodal -&gt; Orquestração LLM + Tools -&gt; Sanitização &amp; TTS</text>
+<rect x="36" y="122" width="1448" height="224" rx="16" fill="#FFFFFF" fill-opacity="0.55" stroke="#CBD5E1" stroke-width="1.5" stroke-dasharray="6 5"/>
+<rect x="52" y="109" width="574" height="26" rx="13" fill="#1E293B"/>
+<text x="339" y="126" text-anchor="middle" font-size="11.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF">CAMADA 1 — GATEWAY WHATSAPP &amp; GUARDRAILS DE ENTRADA (src/services/whatsapp.js)</text>
+<rect x="36" y="386" width="1448" height="260" rx="16" fill="#F3F8FF" fill-opacity="0.55" stroke="#93C5FD" stroke-width="1.5" stroke-dasharray="6 5"/>
+<rect x="52" y="373" width="497" height="26" rx="13" fill="#1D4ED8"/>
+<text x="300.5" y="390" text-anchor="middle" font-size="11.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF">CAMADA 2 — PRÉ-PROCESSAMENTO MULTIMODAL, HISTÓRICO &amp; FAST-PATH NASA</text>
+<rect x="36" y="686" width="1448" height="526" rx="16" fill="#F9F5FF" fill-opacity="0.55" stroke="#D8B4FE" stroke-width="1.5" stroke-dasharray="6 5"/>
+<rect x="52" y="673" width="651" height="26" rx="13" fill="#6D28D9"/>
+<text x="377.5" y="690" text-anchor="middle" font-size="11.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF">CAMADA 3 — MOTOR DE IA, ROTEAMENTO, TOOLS &amp; FAILOVER (src/services/ai.js + provedores.js)</text>
+<rect x="36" y="1254" width="1448" height="258" rx="16" fill="#F0FDFA" fill-opacity="0.55" stroke="#5EEAD4" stroke-width="1.5" stroke-dasharray="6 5"/>
+<rect x="52" y="1241" width="469" height="26" rx="13" fill="#0F766E"/>
+<text x="286.5" y="1258" text-anchor="middle" font-size="11.5" font-weight="700" letter-spacing="0.3" fill="#FFFFFF">CAMADA 4 — PÓS-PROCESSAMENTO, FALLBACK LOCAL &amp; ENTREGA DE SAÍDA</text>
+<g filter="url(#cardShadow)">
+<rect x="60" y="158" width="285" height="166" rx="12" fill="#0F172A" stroke="#334155" stroke-width="1.8"/>
+<path d="M 72 158 H 333 Q 345 158 345 170 V 192 H 60 V 170 Q 60 158 72 158 Z" fill="#1E293B"/>
+</g>
+<text x="74" y="180" font-size="14.5" font-weight="700" fill="#F8FAFC">messages.upsert (Baileys)</text>
+<rect x="274.4" y="165" width="60.599999999999994" height="20" rx="10" fill="#1E293B"/>
+<text x="304.7" y="178.5" text-anchor="middle" font-size="10.2" font-weight="700" fill="#E2E8F0">EVENTO</text>
+<text x="74" y="212" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#E2E8F0">Filtra fromMe, sem conteúdo,</text>
+<text x="74" y="231.1" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#E2E8F0">status@broadcast e @g.us</text>
+<text x="74" y="250.2" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#E2E8F0">resolveSenderNumber(msg)</text>
+<text x="74" y="269.3" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#E2E8F0">Lock: processingUsers.has()</text>
+<text x="74" y="288.4" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#E2E8F0">Se ocupado -&gt; responderTextoOuAudio</text>
+<g filter="url(#cardShadow)">
+<rect x="380" y="158" width="330" height="166" rx="12" fill="#FFF5F5" stroke="#FCA5A5" stroke-width="1.8"/>
+<path d="M 392 158 H 698 Q 710 158 710 170 V 192 H 380 V 170 Q 380 158 392 158 Z" fill="#B91C1C"/>
+</g>
+<text x="394" y="180" font-size="14.5" font-weight="700" fill="#FFFFFF">Admin, Abuso &amp; Intenções</text>
+<rect x="625.2" y="165" width="74.8" height="20" rx="10" fill="#FEE2E2"/>
+<text x="662.6" y="178.5" text-anchor="middle" font-size="10.2" font-weight="700" fill="#991B1B">PRÉ-COTA</text>
+<text x="394" y="212" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#1E293B">• rawText.startsWith(&quot;/&quot;) se OWNER</text>
+<text x="394" y="231.1" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#1E293B">• verificarAbuso(texto, msgType, seg)</text>
+<text x="394" y="250.2" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#1E293B">• detectarIntencaoNatural(rawText)</text>
+<text x="394" y="269.3" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#334155">  (ajuda, apagar_dados, quero_aviso,</text>
+<text x="394" y="288.4" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#334155">   falar_com_tecnico, exportar_csv)</text>
+<g filter="url(#cardShadow)">
+<rect x="782" y="158" width="320" height="166" rx="12" fill="#F0FDFA" stroke="#5EEAD4" stroke-width="1.8"/>
+<path d="M 794 158 H 1090 Q 1102 158 1102 170 V 192 H 782 V 170 Q 782 158 794 158 Z" fill="#0F766E"/>
+</g>
+<text x="796" y="180" font-size="14.5" font-weight="700" fill="#FFFFFF">atenderIntencaoNatural()</text>
+<rect x="1017.2" y="165" width="74.8" height="20" rx="10" fill="#CCFBF1"/>
+<text x="1054.6" y="178.5" text-anchor="middle" font-size="10.2" font-weight="700" fill="#115E59">0 TOKENS</text>
+<text x="796" y="212" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#1E293B">• Resposta imediata sem chamar LLM</text>
+<text x="796" y="231.1" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#1E293B">• LGPD: apagarPerfil + dados locais</text>
+<text x="796" y="250.2" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#1E293B">• Opt-in aviso diário 6h</text>
+<text x="796" y="269.3" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#1E293B">• Exporta CSV caderno_ze_agro.csv</text>
+<text x="796" y="288.4" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#1E293B">• Retorna após envio</text>
+<g filter="url(#cardShadow)">
+<rect x="1138" y="158" width="320" height="166" rx="12" fill="#F4FBF5" stroke="#86EFAC" stroke-width="1.8"/>
+<path d="M 1150 158 H 1446 Q 1458 158 1458 170 V 192 H 1138 V 170 Q 1138 158 1150 158 Z" fill="#166534"/>
+</g>
+<text x="1152" y="180" font-size="14.5" font-weight="700" fill="#FFFFFF">checkMessageLimit(num)</text>
+<rect x="1359" y="165" width="89" height="20" rx="10" fill="#DCFCE7"/>
+<text x="1403.5" y="178.5" text-anchor="middle" font-size="10.2" font-weight="700" fill="#166534">MEMÓRIA DB</text>
+<text x="1152" y="212" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#334155">Carrega perfil do produtor:</text>
+<text x="1152" y="231.1" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#1E293B">• check.city / selectedCrop</text>
+<text x="1152" y="250.2" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#1E293B">• check.userVariety / notes</text>
+<text x="1152" y="269.3" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#1E293B">• check.planType / degraded</text>
+<text x="1152" y="288.4" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#1E293B">• Trata exportar_csv após check</text>
+<path d="M 345 241 L 380 241" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<path d="M 710 210 L 782 210" fill="none" stroke="#0F766E" stroke-width="2" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<rect x="718.6" y="200" width="54.8" height="20" rx="6" fill="#FFFFFF" stroke="#0F766E" stroke-width="1"/>
+<text x="746" y="214" text-anchor="middle" font-size="11" font-weight="700" fill="#0F766E">!= csv</text>
+<path d="M 545 324 L 545 336 L 1298 336 L 1298 324" fill="none" stroke="#15803D" stroke-width="2" marker-end="url(#arrowGreen)" stroke-linejoin="round"/>
+<rect x="877.2" y="326" width="95.6" height="20" rx="6" fill="#FFFFFF" stroke="#15803D" stroke-width="1"/>
+<text x="925" y="340" text-anchor="middle" font-size="11" font-weight="700" fill="#15803D">Fluxo normal</text>
+<g filter="url(#cardShadow)">
+<rect x="60" y="424" width="250" height="198" rx="12" fill="#F3F8FF" stroke="#93C5FD" stroke-width="1.8"/>
+<path d="M 72 424 H 298 Q 310 424 310 436 V 458 H 60 V 436 Q 60 424 72 424 Z" fill="#1D4ED8"/>
+</g>
+<text x="74" y="446" font-size="14.5" font-weight="700" fill="#FFFFFF">Texto</text>
+<rect x="232.3" y="431" width="67.69999999999999" height="20" rx="10" fill="#DBEAFE"/>
+<text x="266.15" y="444.5" text-anchor="middle" font-size="10.2" font-weight="700" fill="#1E40AF">msgType</text>
+<text x="74" y="478" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#334155">conversation /</text>
+<text x="74" y="497.1" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#334155">extendedTextMessage</text>
+<text x="74" y="516.2" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#334155">-&gt; cortar(MAX_INPUT=1000)</text>
+<text x="74" y="535.3" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#334155">Evita estouro de tokens</text>
+<text x="74" y="554.4" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#334155">e flood de contexto</text>
+<g filter="url(#cardShadow)">
+<rect x="338" y="424" width="330" height="198" rx="12" fill="#F3F8FF" stroke="#93C5FD" stroke-width="1.8"/>
+<path d="M 350 424 H 656 Q 668 424 668 436 V 458 H 338 V 436 Q 338 424 350 424 Z" fill="#1D4ED8"/>
+</g>
+<text x="352" y="446" font-size="14.5" font-weight="700" fill="#FFFFFF">Imagem -&gt; Visão</text>
+<rect x="569" y="431" width="89" height="20" rx="10" fill="#DBEAFE"/>
+<text x="613.5" y="444.5" text-anchor="middle" font-size="10.2" font-weight="700" fill="#1E40AF">GEMINI 2.5</text>
+<text x="352" y="478" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#334155">downloadMediaMessage(buffer)</text>
+<text x="352" y="497.1" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#334155">analyzeCropImage(buf, mime, caption)</text>
+<text x="352" y="516.2" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#334155">gemini-2.5-flash (até 3 retries)</text>
+<text x="352" y="535.3" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#334155">Prompt enxuto (&lt;=600 chars)</text>
+<text x="352" y="554.4" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#334155">-&gt; [DIAGNÓSTICO...] + Legenda</text>
+<g filter="url(#cardShadow)">
+<rect x="696" y="424" width="365" height="198" rx="12" fill="#F3F8FF" stroke="#93C5FD" stroke-width="1.8"/>
+<path d="M 708 424 H 1049 Q 1061 424 1061 436 V 458 H 696 V 436 Q 696 424 708 424 Z" fill="#1D4ED8"/>
+</g>
+<text x="710" y="446" font-size="14.5" font-weight="700" fill="#FFFFFF">Áudio -&gt; Transcrição</text>
+<rect x="962" y="431" width="89" height="20" rx="10" fill="#DBEAFE"/>
+<text x="1006.5" y="444.5" text-anchor="middle" font-size="10.2" font-weight="700" fill="#1E40AF">WHISPER V3</text>
+<text x="710" y="478" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#334155">downloadMediaMessage -&gt; .ogg</text>
+<text x="710" y="497.1" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#334155">transcribeAudio():</text>
+<text x="710" y="516.2" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#334155">1) Groq whisper-large-v3 +</text>
+<text x="710" y="535.3" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#334155">   WHISPER_PROMPT_AGRO (Goiás)</text>
+<text x="710" y="554.4" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#334155">2) Fallback: transcreverAudioGemini</text>
+<text x="710" y="573.5" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#334155">3) Recheca detectarIntencaoNatural</text>
+<g filter="url(#cardShadow)">
+<rect x="1089" y="424" width="369" height="198" rx="12" fill="#F4FBF5" stroke="#86EFAC" stroke-width="1.8"/>
+<path d="M 1101 424 H 1446 Q 1458 424 1458 436 V 458 H 1089 V 436 Q 1089 424 1101 424 Z" fill="#166534"/>
+</g>
+<text x="1103" y="446" font-size="14.5" font-weight="700" fill="#FFFFFF">Histórico &amp; Fast-Path NASA</text>
+<rect x="1351.9" y="431" width="96.1" height="20" rx="10" fill="#DCFCE7"/>
+<text x="1399.95" y="444.5" text-anchor="middle" font-size="10.2" font-weight="700" fill="#166534">ROTATION.JS</text>
+<text x="1103" y="478" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#334155">obterHistoricoUsuario() + push user</text>
+<text x="1103" y="497.1" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#334155">interpretarMensagemRotacao()</text>
+<text x="1103" y="516.2" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#334155">Se comando/detalhe de rotação:</text>
+<text x="1103" y="535.3" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#334155">-&gt; avaliarRotacaoNasa()</text>
+<text x="1103" y="554.4" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#334155">-&gt; formatarDetalheRotacaoWhatsApp</text>
+<text x="1103" y="573.5" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#334155">   ou generateAgroResponse(detalhe)</text>
+<path d="M 1298 324 L 1298 406 L 185 406 L 185 424" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<path d="M 503 406 L 503 424" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<path d="M 878 406 L 878 424" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<path d="M 503 622 L 503 634" fill="none" stroke="#475569" stroke-width="2" stroke-linejoin="round"/>
+<path d="M 878.5 622 L 878 634" fill="none" stroke="#475569" stroke-width="2" stroke-linejoin="round"/>
+<path d="M 185 622 L 185 634 L 1273 634 L 1273 622" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<g filter="url(#cardShadow)">
+<rect x="60" y="728" width="325" height="200" rx="12" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.8"/>
+<path d="M 72 728 H 373 Q 385 728 385 740 V 762 H 60 V 740 Q 60 728 72 728 Z" fill="#1E293B"/>
+</g>
+<text x="74" y="750" font-size="14.5" font-weight="700" fill="#FFFFFF">generateAgroResponse()</text>
+<rect x="300.2" y="735" width="74.8" height="20" rx="10" fill="#F1F5F9"/>
+<text x="337.6" y="748.5" text-anchor="middle" font-size="10.2" font-weight="700" fill="#334155">0 TOKENS</text>
+<text x="74" y="782" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#334155">1) verificarGuardrailInput()</text>
+<text x="74" y="801.1" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#334155">   (prompt injection / uso ilegal)</text>
+<text x="74" y="820.2" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#334155">2) respostaInstantanea()</text>
+<text x="74" y="839.3" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#334155">   (saudação fria sem histórico)</text>
+<text x="74" y="858.4" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#334155">3) orchestratorAgent():</text>
+<text x="74" y="877.5" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#334155">   detectRouteFast -&gt; OUTRAS_CULTURAS</text>
+<text x="74" y="896.6" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#334155">   -&gt; validRegisteredCrop -&gt; router</text>
+<g filter="url(#cardShadow)">
+<rect x="415" y="728" width="355" height="200" rx="12" fill="#F3F8FF" stroke="#93C5FD" stroke-width="1.8"/>
+<path d="M 427 728 H 758 Q 770 728 770 740 V 762 H 415 V 740 Q 415 728 427 728 Z" fill="#1D4ED8"/>
+</g>
+<text x="429" y="750" font-size="14.5" font-weight="700" fill="#FFFFFF">Contexto, Clima &amp; Cache</text>
+<rect x="678.1" y="735" width="81.9" height="20" rx="10" fill="#DBEAFE"/>
+<text x="719.05" y="748.5" text-anchor="middle" font-size="10.2" font-weight="700" fill="#1E40AF">PRÉ-BUSCA</text>
+<text x="429" y="782" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#1E293B">• Se check.degraded: buildDegradedMessages</text>
+<text x="429" y="801.1" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#1E293B">• detectarEstiloUsuario(isAudio)</text>
+<text x="429" y="820.2" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#1E293B">• detectarCidadeConversa(history, city)</text>
+<text x="429" y="839.3" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#1E293B">• Se rotação: executarRotacaoNasaERegistrar</text>
+<text x="429" y="858.4" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#1E293B">• getWeatherAndRainRisk(city)</text>
+<text x="429" y="877.5" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#1E293B">• respostaCachePalco (TTL em RAM)</text>
+<g filter="url(#cardShadow)">
+<rect x="800" y="728" width="320" height="200" rx="12" fill="#F9F5FF" stroke="#D8B4FE" stroke-width="1.8"/>
+<path d="M 812 728 H 1108 Q 1120 728 1120 740 V 762 H 800 V 740 Q 800 728 812 728 Z" fill="#6D28D9"/>
+</g>
+<text x="814" y="750" font-size="14.5" font-weight="700" fill="#FFFFFF">Prompt &amp; Seleção de Tools</text>
+<rect x="1042.3" y="735" width="67.69999999999999" height="20" rx="10" fill="#EDE9FE"/>
+<text x="1076.15" y="748.5" text-anchor="middle" font-size="10.2" font-weight="700" fill="#5B21B6">AGENTES</text>
+<text x="814" y="782" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#1E293B">• buildCropMessages(routeKey,</text>
+<text x="814" y="801.1" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#334155">  history.slice(-12), memory)</text>
+<text x="814" y="820.2" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#1E293B">• selecionarFerramentasConversa():</text>
+<text x="814" y="839.3" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#334155">  filtra 13 tools por intenção,</text>
+<text x="814" y="858.4" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#334155">  evita buscar_produto_real sem</text>
+<text x="814" y="877.5" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#334155">  pedido explícito na legenda de foto</text>
+<g filter="url(#cardShadow)">
+<rect x="1150" y="728" width="308" height="200" rx="12" fill="#0F172A" stroke="#334155" stroke-width="1.8"/>
+<path d="M 1162 728 H 1446 Q 1458 728 1458 740 V 762 H 1150 V 740 Q 1150 728 1162 728 Z" fill="#1E293B"/>
+</g>
+<text x="1164" y="750" font-size="14.5" font-weight="700" fill="#F8FAFC">chatCompletions()</text>
+<rect x="1337.7" y="735" width="110.3" height="20" rx="10" fill="#1E293B"/>
+<text x="1392.85" y="748.5" text-anchor="middle" font-size="10.2" font-weight="700" fill="#E2E8F0">PROVEDORES.JS</text>
+<text x="1164" y="782" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#E2E8F0">Failover automático (429 / 5xx):</text>
+<text x="1164" y="801.1" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#E2E8F0">• Round-robin de múltiplas chaves</text>
+<text x="1164" y="820.2" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#E2E8F0">• Cadeias main / format / router:</text>
+<text x="1164" y="839.3" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#E2E8F0">  Groq (gpt-oss-120b / 20b)</text>
+<text x="1164" y="858.4" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#E2E8F0">  Gemini (2.5-flash / lite / 3-flash)</text>
+<text x="1164" y="877.5" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#E2E8F0">  Cerebras / GitHub / Mistral...</text>
+<g filter="url(#cardShadow)">
+<rect x="60" y="968" width="710" height="212" rx="12" fill="#F4FBF5" stroke="#86EFAC" stroke-width="1.8"/>
+<path d="M 72 968 H 758 Q 770 968 770 980 V 1002 H 60 V 980 Q 60 968 72 968 Z" fill="#166534"/>
+</g>
+<text x="74" y="990" font-size="14.5" font-weight="700" fill="#FFFFFF">Execução de Tool Calls (quando responseMessage.tool_calls existe)</text>
+<rect x="685.2" y="975" width="74.8" height="20" rx="10" fill="#DCFCE7"/>
+<text x="722.6" y="988.5" text-anchor="middle" font-size="10.2" font-weight="700" fill="#166534">13 TOOLS</text>
+<text x="74" y="1022" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#1E293B">• Agronomia &amp; Clima: planejar_rotacao_nasa | consultar_clima | melhor_janela | buscar_produto_real</text>
+<text x="74" y="1041.1" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#1E293B">• Gestão &amp; Campo:    registrar_campo | resumo_campo | contas | lembretes</text>
+<text x="74" y="1060.2" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#1E293B">• Financeiro &amp; CEASA: calcular_safra | relacao_troca | comparar_aplicacao | consultar_preco_ceasa</text>
+<text x="74" y="1079.3" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#1E293B">• Memória Longa:     memorizar_cidade | memorizar_perfil_plantio | memorizar_nota</text>
+<text x="74" y="1098.4" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#1E293B">• Injeta [PRODUCT_IMAGE:url] e bloco &quot;Onde comprar&quot; somente se buscar_produto_real rodou</text>
+<g filter="url(#cardShadow)">
+<rect x="800" y="968" width="658" height="212" rx="12" fill="#F9F5FF" stroke="#D8B4FE" stroke-width="1.8"/>
+<path d="M 812 968 H 1446 Q 1458 968 1458 980 V 1002 H 800 V 980 Q 800 968 812 968 Z" fill="#6D28D9"/>
+</g>
+<text x="814" y="990" font-size="14.5" font-weight="700" fill="#FFFFFF">2ª Passada LLM (Formatação / Pós-Tool) &amp; Tratamento de Falha</text>
+<rect x="1380.3" y="975" width="67.69999999999999" height="20" rx="10" fill="#EDE9FE"/>
+<text x="1414.15" y="988.5" text-anchor="middle" font-size="10.2" font-weight="700" fill="#5B21B6">CHAT #2</text>
+<text x="814" y="1022" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#1E293B">• Se precisou só memorizar OU tem [DIAGNÓSTICO TÉCNICO DE IMAGEM]:</text>
+<text x="814" y="1041.1" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#334155">  usa purpose = &quot;main&quot; (qualidade clínica) sem reasoning: low</text>
+<text x="814" y="1060.2" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#1E293B">• Demais tool calls: usa purpose = &quot;format&quot; (modelo leve/rápido, cota separada)</text>
+<text x="814" y="1079.3" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#1E293B">• Fallback se formatação falhar: construirFallbackPosTools()</text>
+<text x="814" y="1098.4" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#1E293B">• Catch geral: retry único após 2s (429/5xx/rede) -&gt; construirFallbackEmergenciaLocal()</text>
+<path d="M 1273.5 622 L 1273 706 L 222 706 L 222 728" fill="none" stroke="#6D28D9" stroke-width="2" marker-end="url(#arrowPurple)" stroke-linejoin="round"/>
+<rect x="1238.8" y="656" width="68.4" height="20" rx="6" fill="#FFFFFF" stroke="#6D28D9" stroke-width="1"/>
+<text x="1273" y="670" text-anchor="middle" font-size="11" font-weight="700" fill="#6D28D9">Fluxo IA</text>
+<path d="M 385 828 L 415 828" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<path d="M 770 828 L 800 828" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<path d="M 1120 828 L 1150 828" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<path d="M 1304 928 L 1304 948 L 415 948 L 415 968" fill="none" stroke="#15803D" stroke-width="2" marker-end="url(#arrowGreen)" stroke-linejoin="round"/>
+<rect x="819" y="938" width="82" height="20" rx="6" fill="#FFFFFF" stroke="#15803D" stroke-width="1"/>
+<text x="860" y="952" text-anchor="middle" font-size="11" font-weight="700" fill="#15803D">tool_calls</text>
+<path d="M 770 1074 L 800 1074" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<g filter="url(#cardShadow)">
+<rect x="60" y="1296" width="445" height="194" rx="12" fill="#F0FDFA" stroke="#5EEAD4" stroke-width="1.8"/>
+<path d="M 72 1296 H 493 Q 505 1296 505 1308 V 1330 H 60 V 1308 Q 60 1296 72 1296 Z" fill="#0F766E"/>
+</g>
+<text x="74" y="1318" font-size="14.5" font-weight="700" fill="#FFFFFF">Saída: Rotação &amp; Guardrail</text>
+<rect x="427.3" y="1303" width="67.69999999999999" height="20" rx="10" fill="#CCFBF1"/>
+<text x="461.15" y="1316.5" text-anchor="middle" font-size="10.2" font-weight="700" fill="#115E59">LIMPEZA</text>
+<text x="74" y="1350" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#334155">resolverSaidaRotacao() + sanitizarSaidaGuardrail()</text>
+<text x="74" y="1369.1" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#1E293B">• converterTabelasMarkdownParaWhatsApp()</text>
+<text x="74" y="1388.2" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#1E293B">• Normaliza unidades e símbolos químicos p/ fala</text>
+<text x="74" y="1407.3" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#334155">  (L/ha, kg/ha, P2O5, Zn, N, K2O...)</text>
+<text x="74" y="1426.4" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#1E293B">• Injeta check de dúvida se resposta longa</text>
+<g filter="url(#cardShadow)">
+<polygon points="640,1334 745,1393 640,1452 535,1393" fill="#FFFBEB" stroke="#B45309" stroke-width="2"/>
+</g>
+<text x="640" y="1389" text-anchor="middle" font-size="13" font-weight="700" fill="#78350F">ehAudioEntrada</text>
+<text x="640" y="1405" text-anchor="middle" font-size="13" font-weight="700" fill="#78350F">=== true?</text>
+<g filter="url(#cardShadow)">
+<rect x="790" y="1290" width="668" height="96" rx="12" fill="#F3F8FF" stroke="#93C5FD" stroke-width="1.8"/>
+<path d="M 802 1290 H 1446 Q 1458 1290 1458 1302 V 1324 H 790 V 1302 Q 790 1290 802 1290 Z" fill="#1D4ED8"/>
+</g>
+<text x="804" y="1312" font-size="14.5" font-weight="700" fill="#FFFFFF">responderTextoOuAudio(preferirAudio=true)</text>
+<rect x="1344.8" y="1297" width="103.19999999999999" height="20" rx="10" fill="#DBEAFE"/>
+<text x="1396.4" y="1310.5" text-anchor="middle" font-size="10.2" font-weight="700" fill="#1E40AF">OGG OPUS PTT</text>
+<text x="804" y="1344" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#334155">limparTextoParaFala() -&gt; gerarMp3TTS(): edge-tts (pt-BR-AntonioNeural +8%)</text>
+<text x="804" y="1363.1" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#334155">-&gt; fallback Google TTS + ffmpeg pitch -&gt; converterMp3ParaOggOpus() -&gt; ptt: true</text>
+<g filter="url(#cardShadow)">
+<rect x="790" y="1400" width="668" height="96" rx="12" fill="#F4FBF5" stroke="#86EFAC" stroke-width="1.8"/>
+<path d="M 802 1400 H 1446 Q 1458 1400 1458 1412 V 1434 H 790 V 1412 Q 790 1400 802 1400 Z" fill="#166534"/>
+</g>
+<text x="804" y="1422" font-size="14.5" font-weight="700" fill="#FFFFFF">Envio Texto / Imagem de Produto (WhatsApp)</text>
+<rect x="1394" y="1407" width="54" height="20" rx="10" fill="#DCFCE7"/>
+<text x="1421" y="1420.5" text-anchor="middle" font-size="10.2" font-weight="700" fill="#166534">TEXTO</text>
+<text x="804" y="1454" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#334155">Extrai [PRODUCT_IMAGE:url] -&gt; envia imagem antes (só quando !ehAudioEntrada)</text>
+<text x="804" y="1473.1" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="400" fill="#334155">Salva no histórico (slice(-12) na próxima leitura) -&gt; sendHumanLike(splitMessage 900)</text>
+<path d="M 1129 1180 L 1129 1274 L 282 1274 L 282 1296" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<path d="M 1458 828 L 1468 828 L 1468 1232 L 1129 1232" fill="none" stroke="#475569" stroke-width="2" stroke-dasharray="6 4" stroke-linejoin="round"/>
+<rect x="1387.4" y="1204" width="75.19999999999999" height="20" rx="6" fill="#FFFFFF" stroke="#475569" stroke-width="1"/>
+<text x="1425" y="1218" text-anchor="middle" font-size="11" font-weight="700" fill="#475569">Sem tools</text>
+<path d="M 505 1393 L 535 1393" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)" stroke-linejoin="round"/>
+<path d="M 640 1334 L 640 1338 L 790 1338" fill="none" stroke="#1D4ED8" stroke-width="2" marker-end="url(#arrowBlue)" stroke-linejoin="round"/>
+<rect x="696" y="1326" width="38" height="20" rx="6" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="1"/>
+<text x="715" y="1340" text-anchor="middle" font-size="11" font-weight="700" fill="#1D4ED8">Sim</text>
+<path d="M 640 1452 L 640 1448 L 790 1448" fill="none" stroke="#15803D" stroke-width="2" marker-end="url(#arrowGreen)" stroke-linejoin="round"/>
+<rect x="696" y="1440" width="38" height="20" rx="6" fill="#FFFFFF" stroke="#15803D" stroke-width="1"/>
+<text x="715" y="1454" text-anchor="middle" font-size="11" font-weight="700" fill="#15803D">Não</text>
+<text x="44" y="1564" font-size="11.5" fill="#64748B">Pipeline técnico verificado em src/services/whatsapp.js, ai.js, rotation.js e provedores.js</text>
+<text x="1476" y="1564" text-anchor="end" font-size="11.5" font-weight="600" fill="#475569">PersonalAgro / Cumpadre Digital • NASA Space Apps</text>
+</svg>

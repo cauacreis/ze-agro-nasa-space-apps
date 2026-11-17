@@ -1,0 +1,1359 @@
+{
+  "atualizado_em": "2026-11-14T13:10:20.791Z",
+  "fontes": {
+    "nasa": "NASA POWER Agroclimatology API (community=AG)",
+    "previsao": "Open-Meteo 14-day FAO ET0 Forecast"
+  },
+  "municipios": {
+    "rio_verde": {
+      "municipio_key": "rio_verde",
+      "key": "rio_verde",
+      "nome": "Rio Verde",
+      "uf": "GO",
+      "microrregiao": "Sudoeste Goiano",
+      "lat": -17.7923,
+      "lon": -50.9192,
+      "solo_predominante": "Latossolo Vermelho Argiloso",
+      "solo_key_padrao": "argiloso_fertil",
+      "data_referencia_nasa": "2026-11-11",
+      "dias_validos_nasa": 30,
+      "gwetroot_atual": 0.47,
+      "gwettop_atual": 0.44,
+      "chuva_30d_mm": 84,
+      "temp_max_media_30d": 36.6,
+      "temp_min_media_30d": 22.7,
+      "dias_calor_extremo_30d": 22,
+      "radiacao_media": 20.9,
+      "serie_ultimos_14d": [
+        {
+          "data": "2026-10-29",
+          "gwetroot": 0.45,
+          "chuva_mm": 2.9,
+          "temp_max": 30.2
+        },
+        {
+          "data": "2026-10-30",
+          "gwetroot": 0.45,
+          "chuva_mm": 4.5,
+          "temp_max": 32.4
+        },
+        {
+          "data": "2026-10-31",
+          "gwetroot": 0.45,
+          "chuva_mm": 7.5,
+          "temp_max": 33.4
+        },
+        {
+          "data": "2026-11-01",
+          "gwetroot": 0.46,
+          "chuva_mm": 0.4,
+          "temp_max": 35.9
+        },
+        {
+          "data": "2026-11-02",
+          "gwetroot": 0.46,
+          "chuva_mm": 4,
+          "temp_max": 37.8
+        },
+        {
+          "data": "2026-11-03",
+          "gwetroot": 0.46,
+          "chuva_mm": 1.2,
+          "temp_max": 38.5
+        },
+        {
+          "data": "2026-11-04",
+          "gwetroot": 0.45,
+          "chuva_mm": 2,
+          "temp_max": 39.3
+        },
+        {
+          "data": "2026-11-05",
+          "gwetroot": 0.45,
+          "chuva_mm": 1.3,
+          "temp_max": 39.9
+        },
+        {
+          "data": "2026-11-06",
+          "gwetroot": 0.45,
+          "chuva_mm": 0.9,
+          "temp_max": 39.5
+        },
+        {
+          "data": "2026-11-07",
+          "gwetroot": 0.45,
+          "chuva_mm": 4.5,
+          "temp_max": 40.7
+        },
+        {
+          "data": "2026-11-08",
+          "gwetroot": 0.46,
+          "chuva_mm": 9.9,
+          "temp_max": 30.3
+        },
+        {
+          "data": "2026-11-09",
+          "gwetroot": 0.47,
+          "chuva_mm": 2.8,
+          "temp_max": 32.2
+        },
+        {
+          "data": "2026-11-10",
+          "gwetroot": 0.47,
+          "chuva_mm": 3.9,
+          "temp_max": 36.1
+        },
+        {
+          "data": "2026-11-11",
+          "gwetroot": 0.47,
+          "chuva_mm": 5.2,
+          "temp_max": 36.4
+        }
+      ],
+      "chuva_prevista_14d_mm": 104.8,
+      "et0_previsto_14d_mm": 60.2,
+      "balanco_hidrico_14d_mm": 44.6,
+      "dias_chuva_forte_14d": 0,
+      "temp_max_prevista_14d": 31.7,
+      "previsao_14d": [
+        {
+          "data": "2026-11-14",
+          "temp_max": 31.4,
+          "temp_min": 20.3,
+          "chuva_mm": 0.2,
+          "prob_chuva_pct": 57,
+          "et0_mm": 5.9
+        },
+        {
+          "data": "2026-11-15",
+          "temp_max": 31.7,
+          "temp_min": 20,
+          "chuva_mm": 3,
+          "prob_chuva_pct": 93,
+          "et0_mm": 5.1
+        },
+        {
+          "data": "2026-11-16",
+          "temp_max": 25.6,
+          "temp_min": 20,
+          "chuva_mm": 15.6,
+          "prob_chuva_pct": 96,
+          "et0_mm": 2.8
+        },
+        {
+          "data": "2026-11-17",
+          "temp_max": 26.8,
+          "temp_min": 20.2,
+          "chuva_mm": 24.2,
+          "prob_chuva_pct": 100,
+          "et0_mm": 3.1
+        },
+        {
+          "data": "2026-11-18",
+          "temp_max": 29.2,
+          "temp_min": 20,
+          "chuva_mm": 2.1,
+          "prob_chuva_pct": 99,
+          "et0_mm": 4.5
+        },
+        {
+          "data": "2026-11-19",
+          "temp_max": 28,
+          "temp_min": 20.7,
+          "chuva_mm": 5.1,
+          "prob_chuva_pct": 87,
+          "et0_mm": 3.5
+        },
+        {
+          "data": "2026-11-20",
+          "temp_max": 29.9,
+          "temp_min": 21.3,
+          "chuva_mm": 4.4,
+          "prob_chuva_pct": 87,
+          "et0_mm": 4.4
+        },
+        {
+          "data": "2026-11-21",
+          "temp_max": 29.1,
+          "temp_min": 21.2,
+          "chuva_mm": 5,
+          "prob_chuva_pct": 81,
+          "et0_mm": 4.2
+        },
+        {
+          "data": "2026-11-22",
+          "temp_max": 30,
+          "temp_min": 21,
+          "chuva_mm": 4.4,
+          "prob_chuva_pct": 72,
+          "et0_mm": 4.8
+        },
+        {
+          "data": "2026-11-23",
+          "temp_max": 30,
+          "temp_min": 21.6,
+          "chuva_mm": 2.6,
+          "prob_chuva_pct": 81,
+          "et0_mm": 4.8
+        },
+        {
+          "data": "2026-11-24",
+          "temp_max": 29.1,
+          "temp_min": 21.1,
+          "chuva_mm": 9,
+          "prob_chuva_pct": 82,
+          "et0_mm": 4.6
+        },
+        {
+          "data": "2026-11-25",
+          "temp_max": 28.6,
+          "temp_min": 21,
+          "chuva_mm": 22.6,
+          "prob_chuva_pct": 90,
+          "et0_mm": 3.5
+        },
+        {
+          "data": "2026-11-26",
+          "temp_max": 27.8,
+          "temp_min": 20.8,
+          "chuva_mm": 3.6,
+          "prob_chuva_pct": 89,
+          "et0_mm": 3.9
+        },
+        {
+          "data": "2026-11-27",
+          "temp_max": 27.6,
+          "temp_min": 19.6,
+          "chuva_mm": 3,
+          "prob_chuva_pct": 83,
+          "et0_mm": 5.1
+        }
+      ]
+    },
+    "jatai": {
+      "municipio_key": "jatai",
+      "key": "jatai",
+      "nome": "Jataí",
+      "uf": "GO",
+      "microrregiao": "Sudoeste Goiano",
+      "lat": -17.8814,
+      "lon": -51.7144,
+      "solo_predominante": "Latossolo Vermelho Argiloso",
+      "solo_key_padrao": "argiloso_fertil",
+      "data_referencia_nasa": "2026-11-11",
+      "dias_validos_nasa": 30,
+      "gwetroot_atual": 0.48,
+      "gwettop_atual": 0.45,
+      "chuva_30d_mm": 84.3,
+      "temp_max_media_30d": 35,
+      "temp_min_media_30d": 21.5,
+      "dias_calor_extremo_30d": 19,
+      "radiacao_media": 18.8,
+      "serie_ultimos_14d": [
+        {
+          "data": "2026-10-29",
+          "gwetroot": 0.47,
+          "chuva_mm": 3,
+          "temp_max": 28.4
+        },
+        {
+          "data": "2026-10-30",
+          "gwetroot": 0.47,
+          "chuva_mm": 5.8,
+          "temp_max": 33.5
+        },
+        {
+          "data": "2026-10-31",
+          "gwetroot": 0.48,
+          "chuva_mm": 9.9,
+          "temp_max": 32.1
+        },
+        {
+          "data": "2026-11-01",
+          "gwetroot": 0.48,
+          "chuva_mm": 3.1,
+          "temp_max": 34.4
+        },
+        {
+          "data": "2026-11-02",
+          "gwetroot": 0.48,
+          "chuva_mm": 2,
+          "temp_max": 35.7
+        },
+        {
+          "data": "2026-11-03",
+          "gwetroot": 0.48,
+          "chuva_mm": 1.5,
+          "temp_max": 36.7
+        },
+        {
+          "data": "2026-11-04",
+          "gwetroot": 0.47,
+          "chuva_mm": 1.5,
+          "temp_max": 37.2
+        },
+        {
+          "data": "2026-11-05",
+          "gwetroot": 0.47,
+          "chuva_mm": 0.6,
+          "temp_max": 38
+        },
+        {
+          "data": "2026-11-06",
+          "gwetroot": 0.47,
+          "chuva_mm": 2.3,
+          "temp_max": 37.3
+        },
+        {
+          "data": "2026-11-07",
+          "gwetroot": 0.47,
+          "chuva_mm": 3.3,
+          "temp_max": 38.7
+        },
+        {
+          "data": "2026-11-08",
+          "gwetroot": 0.48,
+          "chuva_mm": 11.4,
+          "temp_max": 28.9
+        },
+        {
+          "data": "2026-11-09",
+          "gwetroot": 0.49,
+          "chuva_mm": 3.6,
+          "temp_max": 31.2
+        },
+        {
+          "data": "2026-11-10",
+          "gwetroot": 0.48,
+          "chuva_mm": 3.4,
+          "temp_max": 34.1
+        },
+        {
+          "data": "2026-11-11",
+          "gwetroot": 0.48,
+          "chuva_mm": 4,
+          "temp_max": 34.9
+        }
+      ],
+      "chuva_prevista_14d_mm": 101.4,
+      "et0_previsto_14d_mm": 61.8,
+      "balanco_hidrico_14d_mm": 39.6,
+      "dias_chuva_forte_14d": 1,
+      "temp_max_prevista_14d": 31.1,
+      "previsao_14d": [
+        {
+          "data": "2026-11-14",
+          "temp_max": 30.9,
+          "temp_min": 20.5,
+          "chuva_mm": 0.2,
+          "prob_chuva_pct": 35,
+          "et0_mm": 5.9
+        },
+        {
+          "data": "2026-11-15",
+          "temp_max": 31.1,
+          "temp_min": 20.4,
+          "chuva_mm": 2.9,
+          "prob_chuva_pct": 92,
+          "et0_mm": 5.1
+        },
+        {
+          "data": "2026-11-16",
+          "temp_max": 25.9,
+          "temp_min": 19.9,
+          "chuva_mm": 14.6,
+          "prob_chuva_pct": 93,
+          "et0_mm": 2.8
+        },
+        {
+          "data": "2026-11-17",
+          "temp_max": 27.1,
+          "temp_min": 20.6,
+          "chuva_mm": 12.9,
+          "prob_chuva_pct": 100,
+          "et0_mm": 3.6
+        },
+        {
+          "data": "2026-11-18",
+          "temp_max": 28.7,
+          "temp_min": 20.2,
+          "chuva_mm": 2.9,
+          "prob_chuva_pct": 99,
+          "et0_mm": 4.3
+        },
+        {
+          "data": "2026-11-19",
+          "temp_max": 28.3,
+          "temp_min": 21.2,
+          "chuva_mm": 3.1,
+          "prob_chuva_pct": 82,
+          "et0_mm": 4.3
+        },
+        {
+          "data": "2026-11-20",
+          "temp_max": 29.7,
+          "temp_min": 21.3,
+          "chuva_mm": 6.8,
+          "prob_chuva_pct": 79,
+          "et0_mm": 4.5
+        },
+        {
+          "data": "2026-11-21",
+          "temp_max": 29.6,
+          "temp_min": 21.3,
+          "chuva_mm": 4.2,
+          "prob_chuva_pct": 75,
+          "et0_mm": 4.4
+        },
+        {
+          "data": "2026-11-22",
+          "temp_max": 30.9,
+          "temp_min": 21.1,
+          "chuva_mm": 10,
+          "prob_chuva_pct": 76,
+          "et0_mm": 5.3
+        },
+        {
+          "data": "2026-11-23",
+          "temp_max": 30.4,
+          "temp_min": 21.3,
+          "chuva_mm": 3.6,
+          "prob_chuva_pct": 79,
+          "et0_mm": 4.9
+        },
+        {
+          "data": "2026-11-24",
+          "temp_max": 28.4,
+          "temp_min": 20.9,
+          "chuva_mm": 10.6,
+          "prob_chuva_pct": 81,
+          "et0_mm": 4
+        },
+        {
+          "data": "2026-11-25",
+          "temp_max": 28.2,
+          "temp_min": 20.8,
+          "chuva_mm": 25.8,
+          "prob_chuva_pct": 87,
+          "et0_mm": 3.4
+        },
+        {
+          "data": "2026-11-26",
+          "temp_max": 27.8,
+          "temp_min": 20.5,
+          "chuva_mm": 3.2,
+          "prob_chuva_pct": 76,
+          "et0_mm": 4.4
+        },
+        {
+          "data": "2026-11-27",
+          "temp_max": 26.7,
+          "temp_min": 19.4,
+          "chuva_mm": 0.6,
+          "prob_chuva_pct": 71,
+          "et0_mm": 4.9
+        }
+      ]
+    },
+    "cristalina": {
+      "municipio_key": "cristalina",
+      "key": "cristalina",
+      "nome": "Cristalina",
+      "uf": "GO",
+      "microrregiao": "Entorno do DF / Leste Goiano",
+      "lat": -16.7686,
+      "lon": -47.6136,
+      "solo_predominante": "Latossolo Vermelho-Amarelo",
+      "solo_key_padrao": "medio_cerrado",
+      "data_referencia_nasa": "2026-11-11",
+      "dias_validos_nasa": 30,
+      "gwetroot_atual": 0.43,
+      "gwettop_atual": 0.48,
+      "chuva_30d_mm": 152.7,
+      "temp_max_media_30d": 33.7,
+      "temp_min_media_30d": 21.8,
+      "dias_calor_extremo_30d": 15,
+      "radiacao_media": 20,
+      "serie_ultimos_14d": [
+        {
+          "data": "2026-10-29",
+          "gwetroot": 0.35,
+          "chuva_mm": 10.2,
+          "temp_max": 29.7
+        },
+        {
+          "data": "2026-10-30",
+          "gwetroot": 0.37,
+          "chuva_mm": 12.8,
+          "temp_max": 31.2
+        },
+        {
+          "data": "2026-10-31",
+          "gwetroot": 0.38,
+          "chuva_mm": 5,
+          "temp_max": 32.8
+        },
+        {
+          "data": "2026-11-01",
+          "gwetroot": 0.38,
+          "chuva_mm": 5.8,
+          "temp_max": 32.4
+        },
+        {
+          "data": "2026-11-02",
+          "gwetroot": 0.38,
+          "chuva_mm": 6.6,
+          "temp_max": 33.1
+        },
+        {
+          "data": "2026-11-03",
+          "gwetroot": 0.38,
+          "chuva_mm": 1.8,
+          "temp_max": 34.4
+        },
+        {
+          "data": "2026-11-04",
+          "gwetroot": 0.38,
+          "chuva_mm": 11.7,
+          "temp_max": 35
+        },
+        {
+          "data": "2026-11-05",
+          "gwetroot": 0.39,
+          "chuva_mm": 5.3,
+          "temp_max": 34.5
+        },
+        {
+          "data": "2026-11-06",
+          "gwetroot": 0.39,
+          "chuva_mm": 2.9,
+          "temp_max": 34.5
+        },
+        {
+          "data": "2026-11-07",
+          "gwetroot": 0.39,
+          "chuva_mm": 3.1,
+          "temp_max": 35
+        },
+        {
+          "data": "2026-11-08",
+          "gwetroot": 0.39,
+          "chuva_mm": 3.4,
+          "temp_max": 31.1
+        },
+        {
+          "data": "2026-11-09",
+          "gwetroot": 0.4,
+          "chuva_mm": 17.7,
+          "temp_max": 30.5
+        },
+        {
+          "data": "2026-11-10",
+          "gwetroot": 0.42,
+          "chuva_mm": 16.3,
+          "temp_max": 28.6
+        },
+        {
+          "data": "2026-11-11",
+          "gwetroot": 0.43,
+          "chuva_mm": 1.7,
+          "temp_max": 28.6
+        }
+      ],
+      "chuva_prevista_14d_mm": 149,
+      "et0_previsto_14d_mm": 53.8,
+      "balanco_hidrico_14d_mm": 95.2,
+      "dias_chuva_forte_14d": 0,
+      "temp_max_prevista_14d": 27.1,
+      "previsao_14d": [
+        {
+          "data": "2026-11-14",
+          "temp_max": 26.6,
+          "temp_min": 16.7,
+          "chuva_mm": 1.7,
+          "prob_chuva_pct": 84,
+          "et0_mm": 5.1
+        },
+        {
+          "data": "2026-11-15",
+          "temp_max": 26.8,
+          "temp_min": 16.6,
+          "chuva_mm": 8.8,
+          "prob_chuva_pct": 94,
+          "et0_mm": 5.1
+        },
+        {
+          "data": "2026-11-16",
+          "temp_max": 24.5,
+          "temp_min": 17.7,
+          "chuva_mm": 9.7,
+          "prob_chuva_pct": 86,
+          "et0_mm": 2.8
+        },
+        {
+          "data": "2026-11-17",
+          "temp_max": 23.9,
+          "temp_min": 17.5,
+          "chuva_mm": 16,
+          "prob_chuva_pct": 98,
+          "et0_mm": 2.6
+        },
+        {
+          "data": "2026-11-18",
+          "temp_max": 24.5,
+          "temp_min": 17.4,
+          "chuva_mm": 5,
+          "prob_chuva_pct": 96,
+          "et0_mm": 3.5
+        },
+        {
+          "data": "2026-11-19",
+          "temp_max": 24.7,
+          "temp_min": 17.8,
+          "chuva_mm": 6.7,
+          "prob_chuva_pct": 91,
+          "et0_mm": 3.2
+        },
+        {
+          "data": "2026-11-20",
+          "temp_max": 25.5,
+          "temp_min": 17.8,
+          "chuva_mm": 9.3,
+          "prob_chuva_pct": 87,
+          "et0_mm": 3.9
+        },
+        {
+          "data": "2026-11-21",
+          "temp_max": 26.1,
+          "temp_min": 17.8,
+          "chuva_mm": 13,
+          "prob_chuva_pct": 90,
+          "et0_mm": 3.9
+        },
+        {
+          "data": "2026-11-22",
+          "temp_max": 26.1,
+          "temp_min": 17.6,
+          "chuva_mm": 13.8,
+          "prob_chuva_pct": 84,
+          "et0_mm": 4.1
+        },
+        {
+          "data": "2026-11-23",
+          "temp_max": 27.1,
+          "temp_min": 18,
+          "chuva_mm": 6,
+          "prob_chuva_pct": 83,
+          "et0_mm": 4.6
+        },
+        {
+          "data": "2026-11-24",
+          "temp_max": 25.8,
+          "temp_min": 17.8,
+          "chuva_mm": 5.8,
+          "prob_chuva_pct": 77,
+          "et0_mm": 4.3
+        },
+        {
+          "data": "2026-11-25",
+          "temp_max": 26.6,
+          "temp_min": 18.2,
+          "chuva_mm": 13.4,
+          "prob_chuva_pct": 91,
+          "et0_mm": 4
+        },
+        {
+          "data": "2026-11-26",
+          "temp_max": 25.4,
+          "temp_min": 17.6,
+          "chuva_mm": 15.4,
+          "prob_chuva_pct": 88,
+          "et0_mm": 3.7
+        },
+        {
+          "data": "2026-11-27",
+          "temp_max": 24.7,
+          "temp_min": 17.7,
+          "chuva_mm": 24.4,
+          "prob_chuva_pct": 95,
+          "et0_mm": 3
+        }
+      ]
+    },
+    "itaguaru": {
+      "municipio_key": "itaguaru",
+      "key": "itaguaru",
+      "nome": "Itaguaru",
+      "uf": "GO",
+      "microrregiao": "Anápolis / Centro Goiano",
+      "lat": -15.7589,
+      "lon": -49.6033,
+      "solo_predominante": "Cambissolo / Argissolo",
+      "solo_key_padrao": "medio_cerrado",
+      "data_referencia_nasa": "2026-11-11",
+      "dias_validos_nasa": 30,
+      "gwetroot_atual": 0.46,
+      "gwettop_atual": 0.44,
+      "chuva_30d_mm": 128.9,
+      "temp_max_media_30d": 35.3,
+      "temp_min_media_30d": 22.3,
+      "dias_calor_extremo_30d": 21,
+      "radiacao_media": 20.6,
+      "serie_ultimos_14d": [
+        {
+          "data": "2026-10-29",
+          "gwetroot": 0.44,
+          "chuva_mm": 2.7,
+          "temp_max": 30.2
+        },
+        {
+          "data": "2026-10-30",
+          "gwetroot": 0.44,
+          "chuva_mm": 6.4,
+          "temp_max": 34.1
+        },
+        {
+          "data": "2026-10-31",
+          "gwetroot": 0.44,
+          "chuva_mm": 5.6,
+          "temp_max": 34
+        },
+        {
+          "data": "2026-11-01",
+          "gwetroot": 0.45,
+          "chuva_mm": 3.9,
+          "temp_max": 32.6
+        },
+        {
+          "data": "2026-11-02",
+          "gwetroot": 0.44,
+          "chuva_mm": 6.5,
+          "temp_max": 35.5
+        },
+        {
+          "data": "2026-11-03",
+          "gwetroot": 0.45,
+          "chuva_mm": 4.6,
+          "temp_max": 36.1
+        },
+        {
+          "data": "2026-11-04",
+          "gwetroot": 0.45,
+          "chuva_mm": 6.6,
+          "temp_max": 35.5
+        },
+        {
+          "data": "2026-11-05",
+          "gwetroot": 0.45,
+          "chuva_mm": 4.9,
+          "temp_max": 36.6
+        },
+        {
+          "data": "2026-11-06",
+          "gwetroot": 0.45,
+          "chuva_mm": 2.4,
+          "temp_max": 36.7
+        },
+        {
+          "data": "2026-11-07",
+          "gwetroot": 0.44,
+          "chuva_mm": 1.2,
+          "temp_max": 37.8
+        },
+        {
+          "data": "2026-11-08",
+          "gwetroot": 0.44,
+          "chuva_mm": 11.7,
+          "temp_max": 34.6
+        },
+        {
+          "data": "2026-11-09",
+          "gwetroot": 0.46,
+          "chuva_mm": 9.4,
+          "temp_max": 30.8
+        },
+        {
+          "data": "2026-11-10",
+          "gwetroot": 0.47,
+          "chuva_mm": 8.2,
+          "temp_max": 34
+        },
+        {
+          "data": "2026-11-11",
+          "gwetroot": 0.46,
+          "chuva_mm": 3.9,
+          "temp_max": 31.6
+        }
+      ],
+      "chuva_prevista_14d_mm": 128.1,
+      "et0_previsto_14d_mm": 52.3,
+      "balanco_hidrico_14d_mm": 75.8,
+      "dias_chuva_forte_14d": 0,
+      "temp_max_prevista_14d": 29.9,
+      "previsao_14d": [
+        {
+          "data": "2026-11-14",
+          "temp_max": 28.9,
+          "temp_min": 19.8,
+          "chuva_mm": 0.8,
+          "prob_chuva_pct": 63,
+          "et0_mm": 4.7
+        },
+        {
+          "data": "2026-11-15",
+          "temp_max": 29.9,
+          "temp_min": 20.6,
+          "chuva_mm": 1.3,
+          "prob_chuva_pct": 83,
+          "et0_mm": 4.9
+        },
+        {
+          "data": "2026-11-16",
+          "temp_max": 26.8,
+          "temp_min": 20.2,
+          "chuva_mm": 13,
+          "prob_chuva_pct": 94,
+          "et0_mm": 2.5
+        },
+        {
+          "data": "2026-11-17",
+          "temp_max": 25.9,
+          "temp_min": 20,
+          "chuva_mm": 24,
+          "prob_chuva_pct": 100,
+          "et0_mm": 2.6
+        },
+        {
+          "data": "2026-11-18",
+          "temp_max": 26.1,
+          "temp_min": 20.1,
+          "chuva_mm": 5.8,
+          "prob_chuva_pct": 100,
+          "et0_mm": 2.9
+        },
+        {
+          "data": "2026-11-19",
+          "temp_max": 27.1,
+          "temp_min": 21.2,
+          "chuva_mm": 10,
+          "prob_chuva_pct": 96,
+          "et0_mm": 3
+        },
+        {
+          "data": "2026-11-20",
+          "temp_max": 27.9,
+          "temp_min": 21.1,
+          "chuva_mm": 3.6,
+          "prob_chuva_pct": 99,
+          "et0_mm": 4.2
+        },
+        {
+          "data": "2026-11-21",
+          "temp_max": 28.7,
+          "temp_min": 20.9,
+          "chuva_mm": 6,
+          "prob_chuva_pct": 88,
+          "et0_mm": 3.6
+        },
+        {
+          "data": "2026-11-22",
+          "temp_max": 29.1,
+          "temp_min": 21.1,
+          "chuva_mm": 4.8,
+          "prob_chuva_pct": 86,
+          "et0_mm": 4.1
+        },
+        {
+          "data": "2026-11-23",
+          "temp_max": 29.6,
+          "temp_min": 21.4,
+          "chuva_mm": 3.2,
+          "prob_chuva_pct": 84,
+          "et0_mm": 4.9
+        },
+        {
+          "data": "2026-11-24",
+          "temp_max": 28.1,
+          "temp_min": 21.1,
+          "chuva_mm": 8.2,
+          "prob_chuva_pct": 80,
+          "et0_mm": 4.3
+        },
+        {
+          "data": "2026-11-25",
+          "temp_max": 28.6,
+          "temp_min": 20.6,
+          "chuva_mm": 10.2,
+          "prob_chuva_pct": 84,
+          "et0_mm": 4
+        },
+        {
+          "data": "2026-11-26",
+          "temp_max": 27.4,
+          "temp_min": 20.8,
+          "chuva_mm": 12.8,
+          "prob_chuva_pct": 86,
+          "et0_mm": 3.2
+        },
+        {
+          "data": "2026-11-27",
+          "temp_max": 27.4,
+          "temp_min": 20.4,
+          "chuva_mm": 24.4,
+          "prob_chuva_pct": 92,
+          "et0_mm": 3.4
+        }
+      ]
+    },
+    "anapolis": {
+      "municipio_key": "anapolis",
+      "key": "anapolis",
+      "nome": "Anápolis",
+      "uf": "GO",
+      "microrregiao": "Centro Goiano",
+      "lat": -16.3281,
+      "lon": -48.953,
+      "solo_predominante": "Latossolo Vermelho-Amarelo",
+      "solo_key_padrao": "medio_cerrado",
+      "data_referencia_nasa": "2026-11-11",
+      "dias_validos_nasa": 30,
+      "gwetroot_atual": 0.48,
+      "gwettop_atual": 0.44,
+      "chuva_30d_mm": 132.4,
+      "temp_max_media_30d": 34.1,
+      "temp_min_media_30d": 21,
+      "dias_calor_extremo_30d": 15,
+      "radiacao_media": 19.7,
+      "serie_ultimos_14d": [
+        {
+          "data": "2026-10-29",
+          "gwetroot": 0.45,
+          "chuva_mm": 5.2,
+          "temp_max": 30.3
+        },
+        {
+          "data": "2026-10-30",
+          "gwetroot": 0.45,
+          "chuva_mm": 9.3,
+          "temp_max": 32.7
+        },
+        {
+          "data": "2026-10-31",
+          "gwetroot": 0.46,
+          "chuva_mm": 6.8,
+          "temp_max": 33.5
+        },
+        {
+          "data": "2026-11-01",
+          "gwetroot": 0.46,
+          "chuva_mm": 8,
+          "temp_max": 33.4
+        },
+        {
+          "data": "2026-11-02",
+          "gwetroot": 0.46,
+          "chuva_mm": 8.1,
+          "temp_max": 33.5
+        },
+        {
+          "data": "2026-11-03",
+          "gwetroot": 0.47,
+          "chuva_mm": 4.2,
+          "temp_max": 34.7
+        },
+        {
+          "data": "2026-11-04",
+          "gwetroot": 0.46,
+          "chuva_mm": 7.3,
+          "temp_max": 34.8
+        },
+        {
+          "data": "2026-11-05",
+          "gwetroot": 0.47,
+          "chuva_mm": 5.2,
+          "temp_max": 35.6
+        },
+        {
+          "data": "2026-11-06",
+          "gwetroot": 0.47,
+          "chuva_mm": 2.9,
+          "temp_max": 35.1
+        },
+        {
+          "data": "2026-11-07",
+          "gwetroot": 0.46,
+          "chuva_mm": 1.6,
+          "temp_max": 36.1
+        },
+        {
+          "data": "2026-11-08",
+          "gwetroot": 0.46,
+          "chuva_mm": 4.8,
+          "temp_max": 31.6
+        },
+        {
+          "data": "2026-11-09",
+          "gwetroot": 0.47,
+          "chuva_mm": 7.1,
+          "temp_max": 30.7
+        },
+        {
+          "data": "2026-11-10",
+          "gwetroot": 0.47,
+          "chuva_mm": 9.7,
+          "temp_max": 32.9
+        },
+        {
+          "data": "2026-11-11",
+          "gwetroot": 0.48,
+          "chuva_mm": 2.8,
+          "temp_max": 30.7
+        }
+      ],
+      "chuva_prevista_14d_mm": 123.5,
+      "et0_previsto_14d_mm": 52,
+      "balanco_hidrico_14d_mm": 71.5,
+      "dias_chuva_forte_14d": 0,
+      "temp_max_prevista_14d": 28.2,
+      "previsao_14d": [
+        {
+          "data": "2026-11-14",
+          "temp_max": 27,
+          "temp_min": 17.9,
+          "chuva_mm": 1,
+          "prob_chuva_pct": 88,
+          "et0_mm": 4.8
+        },
+        {
+          "data": "2026-11-15",
+          "temp_max": 27.5,
+          "temp_min": 19.2,
+          "chuva_mm": 2.4,
+          "prob_chuva_pct": 86,
+          "et0_mm": 4.6
+        },
+        {
+          "data": "2026-11-16",
+          "temp_max": 23.7,
+          "temp_min": 18.7,
+          "chuva_mm": 9.7,
+          "prob_chuva_pct": 97,
+          "et0_mm": 2.6
+        },
+        {
+          "data": "2026-11-17",
+          "temp_max": 24,
+          "temp_min": 18.8,
+          "chuva_mm": 11.1,
+          "prob_chuva_pct": 100,
+          "et0_mm": 3
+        },
+        {
+          "data": "2026-11-18",
+          "temp_max": 24.9,
+          "temp_min": 18.6,
+          "chuva_mm": 6,
+          "prob_chuva_pct": 100,
+          "et0_mm": 3.2
+        },
+        {
+          "data": "2026-11-19",
+          "temp_max": 25.2,
+          "temp_min": 19.6,
+          "chuva_mm": 5.1,
+          "prob_chuva_pct": 98,
+          "et0_mm": 3.3
+        },
+        {
+          "data": "2026-11-20",
+          "temp_max": 26.1,
+          "temp_min": 19.7,
+          "chuva_mm": 5.4,
+          "prob_chuva_pct": 99,
+          "et0_mm": 3.9
+        },
+        {
+          "data": "2026-11-21",
+          "temp_max": 27.2,
+          "temp_min": 20,
+          "chuva_mm": 7.8,
+          "prob_chuva_pct": 95,
+          "et0_mm": 3.8
+        },
+        {
+          "data": "2026-11-22",
+          "temp_max": 28.2,
+          "temp_min": 19.3,
+          "chuva_mm": 7.8,
+          "prob_chuva_pct": 91,
+          "et0_mm": 3.7
+        },
+        {
+          "data": "2026-11-23",
+          "temp_max": 28,
+          "temp_min": 19.5,
+          "chuva_mm": 4.6,
+          "prob_chuva_pct": 94,
+          "et0_mm": 4.7
+        },
+        {
+          "data": "2026-11-24",
+          "temp_max": 27,
+          "temp_min": 19.3,
+          "chuva_mm": 15.2,
+          "prob_chuva_pct": 83,
+          "et0_mm": 4
+        },
+        {
+          "data": "2026-11-25",
+          "temp_max": 27.1,
+          "temp_min": 19.1,
+          "chuva_mm": 3.8,
+          "prob_chuva_pct": 90,
+          "et0_mm": 4.2
+        },
+        {
+          "data": "2026-11-26",
+          "temp_max": 25.1,
+          "temp_min": 18.9,
+          "chuva_mm": 20,
+          "prob_chuva_pct": 93,
+          "et0_mm": 3.1
+        },
+        {
+          "data": "2026-11-27",
+          "temp_max": 25.8,
+          "temp_min": 18.6,
+          "chuva_mm": 23.6,
+          "prob_chuva_pct": 87,
+          "et0_mm": 3.1
+        }
+      ]
+    },
+    "goiania": {
+      "municipio_key": "goiania",
+      "key": "goiania",
+      "nome": "Goiânia",
+      "uf": "GO",
+      "microrregiao": "Metropolitana de Goiânia",
+      "lat": -16.6869,
+      "lon": -49.2648,
+      "solo_predominante": "Latossolo Vermelho",
+      "solo_key_padrao": "argiloso_fertil",
+      "data_referencia_nasa": "2026-11-11",
+      "dias_validos_nasa": 30,
+      "gwetroot_atual": 0.45,
+      "gwettop_atual": 0.42,
+      "chuva_30d_mm": 110.1,
+      "temp_max_media_30d": 35.5,
+      "temp_min_media_30d": 22.1,
+      "dias_calor_extremo_30d": 22,
+      "radiacao_media": 20.8,
+      "serie_ultimos_14d": [
+        {
+          "data": "2026-10-29",
+          "gwetroot": 0.43,
+          "chuva_mm": 6.3,
+          "temp_max": 31.9
+        },
+        {
+          "data": "2026-10-30",
+          "gwetroot": 0.44,
+          "chuva_mm": 3.9,
+          "temp_max": 33.4
+        },
+        {
+          "data": "2026-10-31",
+          "gwetroot": 0.44,
+          "chuva_mm": 5.2,
+          "temp_max": 34.5
+        },
+        {
+          "data": "2026-11-01",
+          "gwetroot": 0.44,
+          "chuva_mm": 6,
+          "temp_max": 35
+        },
+        {
+          "data": "2026-11-02",
+          "gwetroot": 0.44,
+          "chuva_mm": 4.6,
+          "temp_max": 35.5
+        },
+        {
+          "data": "2026-11-03",
+          "gwetroot": 0.44,
+          "chuva_mm": 5.6,
+          "temp_max": 35.9
+        },
+        {
+          "data": "2026-11-04",
+          "gwetroot": 0.44,
+          "chuva_mm": 6,
+          "temp_max": 36.4
+        },
+        {
+          "data": "2026-11-05",
+          "gwetroot": 0.44,
+          "chuva_mm": 4.6,
+          "temp_max": 37.2
+        },
+        {
+          "data": "2026-11-06",
+          "gwetroot": 0.44,
+          "chuva_mm": 2.2,
+          "temp_max": 36.5
+        },
+        {
+          "data": "2026-11-07",
+          "gwetroot": 0.44,
+          "chuva_mm": 0.6,
+          "temp_max": 38.3
+        },
+        {
+          "data": "2026-11-08",
+          "gwetroot": 0.44,
+          "chuva_mm": 5.3,
+          "temp_max": 34.6
+        },
+        {
+          "data": "2026-11-09",
+          "gwetroot": 0.44,
+          "chuva_mm": 6.3,
+          "temp_max": 31.9
+        },
+        {
+          "data": "2026-11-10",
+          "gwetroot": 0.45,
+          "chuva_mm": 10,
+          "temp_max": 34.5
+        },
+        {
+          "data": "2026-11-11",
+          "gwetroot": 0.45,
+          "chuva_mm": 3.6,
+          "temp_max": 32.8
+        }
+      ],
+      "chuva_prevista_14d_mm": 124.3,
+      "et0_previsto_14d_mm": 54.3,
+      "balanco_hidrico_14d_mm": 70,
+      "dias_chuva_forte_14d": 0,
+      "temp_max_prevista_14d": 29.9,
+      "previsao_14d": [
+        {
+          "data": "2026-11-14",
+          "temp_max": 29.4,
+          "temp_min": 19.7,
+          "chuva_mm": 1,
+          "prob_chuva_pct": 75,
+          "et0_mm": 5.5
+        },
+        {
+          "data": "2026-11-15",
+          "temp_max": 29.7,
+          "temp_min": 19.7,
+          "chuva_mm": 2.7,
+          "prob_chuva_pct": 76,
+          "et0_mm": 5.3
+        },
+        {
+          "data": "2026-11-16",
+          "temp_max": 25.6,
+          "temp_min": 20.1,
+          "chuva_mm": 15,
+          "prob_chuva_pct": 92,
+          "et0_mm": 2.5
+        },
+        {
+          "data": "2026-11-17",
+          "temp_max": 25.6,
+          "temp_min": 19.9,
+          "chuva_mm": 14.6,
+          "prob_chuva_pct": 99,
+          "et0_mm": 3.5
+        },
+        {
+          "data": "2026-11-18",
+          "temp_max": 26.9,
+          "temp_min": 20.3,
+          "chuva_mm": 7.2,
+          "prob_chuva_pct": 100,
+          "et0_mm": 3.3
+        },
+        {
+          "data": "2026-11-19",
+          "temp_max": 26.5,
+          "temp_min": 20.2,
+          "chuva_mm": 14.2,
+          "prob_chuva_pct": 99,
+          "et0_mm": 3.3
+        },
+        {
+          "data": "2026-11-20",
+          "temp_max": 28.4,
+          "temp_min": 20.8,
+          "chuva_mm": 4.6,
+          "prob_chuva_pct": 96,
+          "et0_mm": 4.3
+        },
+        {
+          "data": "2026-11-21",
+          "temp_max": 28.8,
+          "temp_min": 20.5,
+          "chuva_mm": 6.4,
+          "prob_chuva_pct": 86,
+          "et0_mm": 3.8
+        },
+        {
+          "data": "2026-11-22",
+          "temp_max": 29.9,
+          "temp_min": 21.2,
+          "chuva_mm": 3.4,
+          "prob_chuva_pct": 85,
+          "et0_mm": 4.4
+        },
+        {
+          "data": "2026-11-23",
+          "temp_max": 29.6,
+          "temp_min": 21.1,
+          "chuva_mm": 5.6,
+          "prob_chuva_pct": 91,
+          "et0_mm": 4.8
+        },
+        {
+          "data": "2026-11-24",
+          "temp_max": 28.5,
+          "temp_min": 20.7,
+          "chuva_mm": 12.8,
+          "prob_chuva_pct": 83,
+          "et0_mm": 3.2
+        },
+        {
+          "data": "2026-11-25",
+          "temp_max": 29.2,
+          "temp_min": 20.6,
+          "chuva_mm": 11.8,
+          "prob_chuva_pct": 93,
+          "et0_mm": 4.2
+        },
+        {
+          "data": "2026-11-26",
+          "temp_max": 26.6,
+          "temp_min": 20.4,
+          "chuva_mm": 9.8,
+          "prob_chuva_pct": 90,
+          "et0_mm": 2.4
+        },
+        {
+          "data": "2026-11-27",
+          "temp_max": 27.8,
+          "temp_min": 20.1,
+          "chuva_mm": 15.2,
+          "prob_chuva_pct": 87,
+          "et0_mm": 3.8
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,12 @@
+node_modules/
+.env
+.env.*
+!.env.example
+.DS_Store
+auth_info_baileys/
+.tmp/
+*.log
+qrcode.png
+store-*.json
+backups/
+/data/

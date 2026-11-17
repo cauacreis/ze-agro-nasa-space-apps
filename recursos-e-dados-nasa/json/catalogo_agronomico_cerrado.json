@@ -1,0 +1,984 @@
+{
+  "atualizado_em": "2026-11-14T13:36:26.392Z",
+  "fontes": {
+    "nasa": "NASA POWER Agroclimatology API (community=AG)",
+    "previsao": "Open-Meteo 14-day FAO ET0 Forecast"
+  },
+  "solos_cerrado": {
+    "argiloso_fertil": {
+      "key": "argiloso_fertil",
+      "nome": "Terra Argilosa Boa (Latossolo)",
+      "cad_mm_cm": 1.4,
+      "retencao_label": "Alta retenção de água",
+      "fator_agua": 1,
+      "fator_compactacao": 0.75,
+      "resumo": "Segura bem a umidade na raiz, mas compacta fácil se repetir a mesma raiz."
+    },
+    "medio_cerrado": {
+      "key": "medio_cerrado",
+      "nome": "Terra Mista de Cerrado",
+      "cad_mm_cm": 1,
+      "retencao_label": "Retenção média de água",
+      "fator_agua": 0.85,
+      "fator_compactacao": 0.65,
+      "resumo": "Equilibrada para grãos, mas perde umidade rápido sem cobertura de palhada."
+    },
+    "arenoso_seco": {
+      "key": "arenoso_seco",
+      "nome": "Terra Arenosa (Seca Rápido)",
+      "cad_mm_cm": 0.6,
+      "retencao_label": "Baixa retenção de água",
+      "fator_agua": 0.65,
+      "fator_compactacao": 0.35,
+      "resumo": "Esquenta e seca rápido nos veranicos; exige raiz profunda e palhada contínua."
+    },
+    "degradado_compactado": {
+      "key": "degradado_compactado",
+      "nome": "Terra Cansada / Sem Palhada",
+      "cad_mm_cm": 0.75,
+      "retencao_label": "Baixa infiltração no solo",
+      "fator_agua": 0.68,
+      "fator_compactacao": 0.95,
+      "resumo": "Pouca matéria orgânica e camada dura; precisa de descompactação biológica e nitrogênio."
+    }
+  },
+  "culturas_cerrado": {
+    "soja": {
+      "key": "soja",
+      "nome": "Soja",
+      "familia": "leguminosa",
+      "papel": "Comercial (proteína / renda)",
+      "ciclo_dias": 115,
+      "demanda_agua_mm": 550,
+      "tolerancia_seca": 3,
+      "tolerancia_calor": 3,
+      "fixa_nitrogenio_kg_ha": 90,
+      "aporte_palhada_t_ha": 2.5,
+      "profundidade_raiz_cm": 45,
+      "retorno_economico": 5,
+      "quebra_nematoides": false,
+      "pragas_comuns": [
+        "Ferrugem-asiática",
+        "Percevejo-marrom",
+        "Nematoides"
+      ]
+    },
+    "milho": {
+      "key": "milho",
+      "nome": "Milho",
+      "familia": "graminea",
+      "papel": "Comercial + boa palhada",
+      "ciclo_dias": 125,
+      "demanda_agua_mm": 580,
+      "tolerancia_seca": 3,
+      "tolerancia_calor": 3,
+      "fixa_nitrogenio_kg_ha": -45,
+      "aporte_palhada_t_ha": 6.5,
+      "profundidade_raiz_cm": 75,
+      "retorno_economico": 4,
+      "quebra_nematoides": false,
+      "pragas_comuns": [
+        "Cigarrinha-do-milho",
+        "Lagarta-do-cartucho"
+      ]
+    },
+    "feijao": {
+      "key": "feijao",
+      "nome": "Feijão",
+      "familia": "leguminosa",
+      "papel": "Comercial ciclo curto",
+      "ciclo_dias": 85,
+      "demanda_agua_mm": 360,
+      "tolerancia_seca": 3,
+      "tolerancia_calor": 2,
+      "fixa_nitrogenio_kg_ha": 45,
+      "aporte_palhada_t_ha": 2,
+      "profundidade_raiz_cm": 35,
+      "retorno_economico": 4,
+      "quebra_nematoides": false,
+      "pragas_comuns": [
+        "Mosca-branca",
+        "Mofo-branco",
+        "Antracnose"
+      ]
+    },
+    "sorgo": {
+      "key": "sorgo",
+      "nome": "Sorgo Granífero",
+      "familia": "graminea",
+      "papel": "Comercial rústico anti-seca",
+      "ciclo_dias": 105,
+      "demanda_agua_mm": 380,
+      "tolerancia_seca": 5,
+      "tolerancia_calor": 5,
+      "fixa_nitrogenio_kg_ha": -25,
+      "aporte_palhada_t_ha": 7.5,
+      "profundidade_raiz_cm": 110,
+      "retorno_economico": 3,
+      "quebra_nematoides": true,
+      "pragas_comuns": [
+        "Pulgão-do-sorgo"
+      ]
+    },
+    "mandioca": {
+      "key": "mandioca",
+      "nome": "Mandioca",
+      "familia": "euforbiacea",
+      "papel": "Comercial rústica / segurança alimentar",
+      "ciclo_dias": 300,
+      "demanda_agua_mm": 520,
+      "tolerancia_seca": 5,
+      "tolerancia_calor": 5,
+      "fixa_nitrogenio_kg_ha": -30,
+      "aporte_palhada_t_ha": 4,
+      "profundidade_raiz_cm": 90,
+      "retorno_economico": 4,
+      "quebra_nematoides": true,
+      "pragas_comuns": [
+        "Mandarová",
+        "Ácaro-verde"
+      ]
+    },
+    "tomate": {
+      "key": "tomate",
+      "nome": "Tomate",
+      "familia": "solanacea",
+      "papel": "Hortaliça de alto valor",
+      "ciclo_dias": 110,
+      "demanda_agua_mm": 500,
+      "tolerancia_seca": 1,
+      "tolerancia_calor": 2,
+      "fixa_nitrogenio_kg_ha": -50,
+      "aporte_palhada_t_ha": 1.5,
+      "profundidade_raiz_cm": 40,
+      "retorno_economico": 5,
+      "quebra_nematoides": false,
+      "pragas_comuns": [
+        "Traça-do-tomateiro",
+        "Mosca-branca",
+        "Requeima"
+      ]
+    },
+    "pasto_fraco": {
+      "key": "pasto_fraco",
+      "nome": "Pasto Fraco / Degradado",
+      "familia": "graminea",
+      "papel": "Área em reforma",
+      "ciclo_dias": 180,
+      "demanda_agua_mm": 400,
+      "tolerancia_seca": 3,
+      "tolerancia_calor": 4,
+      "fixa_nitrogenio_kg_ha": -20,
+      "aporte_palhada_t_ha": 2,
+      "profundidade_raiz_cm": 50,
+      "retorno_economico": 2,
+      "quebra_nematoides": false,
+      "pragas_comuns": [
+        "Cigarrinha-das-pastagens",
+        "Compactação superficial"
+      ]
+    },
+    "braquiaria": {
+      "key": "braquiaria",
+      "nome": "Braquiária (Cobertura / Palhada)",
+      "familia": "graminea",
+      "papel": "Cobertura e descompactação",
+      "ciclo_dias": 90,
+      "demanda_agua_mm": 300,
+      "tolerancia_seca": 5,
+      "tolerancia_calor": 5,
+      "fixa_nitrogenio_kg_ha": 0,
+      "aporte_palhada_t_ha": 9,
+      "profundidade_raiz_cm": 160,
+      "retorno_economico": 2,
+      "quebra_nematoides": true,
+      "pragas_comuns": [
+        "Baixo risco em rotação curta"
+      ]
+    },
+    "crotalaria": {
+      "key": "crotalaria",
+      "nome": "Crotalária (Adubo Verde)",
+      "familia": "leguminosa",
+      "papel": "Fixação de nitrogênio e controle de nematoides",
+      "ciclo_dias": 75,
+      "demanda_agua_mm": 280,
+      "tolerancia_seca": 4,
+      "tolerancia_calor": 5,
+      "fixa_nitrogenio_kg_ha": 110,
+      "aporte_palhada_t_ha": 5.5,
+      "profundidade_raiz_cm": 130,
+      "retorno_economico": 2,
+      "quebra_nematoides": true,
+      "pragas_comuns": [
+        "Supressora de nematoides de solo"
+      ]
+    },
+    "girassol": {
+      "key": "girassol",
+      "nome": "Girassol",
+      "familia": "asteracea",
+      "papel": "Ciclagem de nutrientes e quebra de família",
+      "ciclo_dias": 100,
+      "demanda_agua_mm": 380,
+      "tolerancia_seca": 4,
+      "tolerancia_calor": 4,
+      "fixa_nitrogenio_kg_ha": -20,
+      "aporte_palhada_t_ha": 4.5,
+      "profundidade_raiz_cm": 140,
+      "retorno_economico": 3,
+      "quebra_nematoides": false,
+      "pragas_comuns": [
+        "Mancha-de-alternária"
+      ]
+    },
+    "gergelim": {
+      "key": "gergelim",
+      "nome": "Gergelim",
+      "familia": "pedaliacea",
+      "papel": "Comercial muito tolerante à seca e calor",
+      "ciclo_dias": 95,
+      "demanda_agua_mm": 310,
+      "tolerancia_seca": 5,
+      "tolerancia_calor": 5,
+      "fixa_nitrogenio_kg_ha": -15,
+      "aporte_palhada_t_ha": 3,
+      "profundidade_raiz_cm": 100,
+      "retorno_economico": 4,
+      "quebra_nematoides": true,
+      "pragas_comuns": [
+        "Baixa incidência de pragas no Cerrado"
+      ]
+    }
+  },
+  "canais_escoamento_goias": {
+    "rio_verde": {
+      "municipio_key": "rio_verde",
+      "nome": "Rio Verde",
+      "corredor_rodoviario": "BR-060 / BR-452 (Polo Agroindustrial Sudoeste)",
+      "distancia_media_entrega_km": 28,
+      "compradores_principais": "Cooperativas (COMIGO), esmagadoras, confinamentos e usinas de etanol de milho",
+      "canais_por_cultura": {
+        "soja": "Cooperativas locais (COMIGO), tradings na BR-060 e esmagadoras de óleo/farelo.",
+        "milho": "Usinas de etanol de milho, fábricas de ração avícola/suína e cooperativas locais.",
+        "feijao": "Empacotadoras do Sudoeste Goiano e atacado regional via BR-060 rumo a Goiânia/DF.",
+        "sorgo": "Confinamentos bovinos, granjas integradas de aves/suínos e fábricas de ração do polo.",
+        "mandioca": "Feiras regionais, agroindústrias de farinha/polvilho e atacado do Sudoeste.",
+        "gergelim": "Cerealistas exportadoras no corredor BR-060/BR-364 e processadoras de grãos.",
+        "girassol": "Esmagadoras regionais de óleo vegetal, fábricas de ração e sementeiras.",
+        "tomate": "Indústrias de polpa do eixo GO/DF e centrais de abastecimento via BR-060."
+      }
+    },
+    "jatai": {
+      "municipio_key": "jatai",
+      "nome": "Jataí",
+      "corredor_rodoviario": "BR-364 / BR-158 (Corredor Sudoeste–Ferrovia Norte-Sul)",
+      "distancia_media_entrega_km": 35,
+      "compradores_principais": "Armazéns graneleiros, usinas de etanol de milho, confinamentos e tradings",
+      "canais_por_cultura": {
+        "soja": "Armazéns graneleiros na BR-364, tradings e terminal multimodal Ferrovia Norte-Sul (Rio Verde/São Simão).",
+        "milho": "Usinas de etanol de milho na região e fábricas de ração animal do Sudoeste.",
+        "feijao": "Beneficiadoras de grãos de Jataí/Rio Verde e atacado interestadual pela BR-364.",
+        "sorgo": "Confinamentos de gado de corte e indústrias de ração animal no eixo BR-364/BR-158.",
+        "mandioca": "Agroindústrias locais de farinha e abastecimento direto ao varejo regional.",
+        "gergelim": "Tradings exportadoras de grãos especiais e cerealistas do Sudoeste Goiano.",
+        "girassol": "Unidades de extração de óleo e suplementação proteica para pecuária intensiva.",
+        "tomate": "Atacado regional e CEASA-GO por carga fracionada via BR-060/BR-364."
+      }
+    },
+    "cristalina": {
+      "municipio_key": "cristalina",
+      "nome": "Cristalina",
+      "corredor_rodoviario": "BR-040 / BR-050 (Eixo Brasília–Sudeste)",
+      "distancia_media_entrega_km": 25,
+      "compradores_principais": "Beneficiadoras de feijão/sementes, agroindústrias de processados e atacado do DF",
+      "canais_por_cultura": {
+        "soja": "Cooperativas do Entorno/Cristalina, sementeiras certificadas e esmagadoras pela BR-040.",
+        "milho": "Indústrias de alimentos, granjas do DF/Entorno e cooperativas locais (COACIL).",
+        "feijao": "Beneficiadoras e empacotadoras de Cristalina/Unaí com entrega direta para DF e Sudeste.",
+        "sorgo": "Pecuária leiteira do Entorno do DF e confinamentos ao longo da BR-040.",
+        "mandioca": "Centrais de abastecimento do DF (CEASA-DF) e agroindústrias de minimamente processados.",
+        "gergelim": "Cerealistas do Planalto Central com escoamento rápido pelo eixo BR-040/BR-050.",
+        "girassol": "Extratoras de óleo do Entorno e mistura para silagem/ração leiteira regional.",
+        "tomate": "Agroindústrias de extrato/molho e CEASA-DF a menos de 130 km pela BR-040."
+      }
+    },
+    "itaguaru": {
+      "municipio_key": "itaguaru",
+      "nome": "Itaguaru",
+      "corredor_rodoviario": "GO-070 / BR-153 (Vale do São Patrício–Goiânia)",
+      "distancia_media_entrega_km": 45,
+      "compradores_principais": "CEASA-GO, compras públicas PAA/PNAE (merenda/CONAB), feiras, laticínios e farinheiras",
+      "canais_por_cultura": {
+        "soja": "Cerealistas e armazéns do eixo Jaraguá/Anápolis/Inhumas pela GO-070 e BR-153.",
+        "milho": "Laticínios e pecuária leiteira do Vale do São Patrício (silagem/ração) e avícolas locais.",
+        "feijao": "CEASA-GO, compras públicas PAA/PNAE (merenda escolar/CONAB) e empacotadores de Itaberaí/Goiânia.",
+        "sorgo": "Silagem e grão para propriedades leiteiras e pequenos confinamentos da região.",
+        "mandioca": "Farinheiras artesanais, descascadoras locais, CEASA-GO e chamadas públicas PNAE/CONAB.",
+        "gergelim": "Cooperativas da agricultura familiar e atacadistas de alimentos naturais em Goiânia/Anápolis.",
+        "girassol": "Fábricas de ração do Vale do São Patrício e apicultura/óleos artesanais.",
+        "tomate": "Box atacadistas na CEASA-GO pela GO-070 e redes de varejo da Grande Goiânia."
+      }
+    },
+    "anapolis": {
+      "municipio_key": "anapolis",
+      "nome": "Anápolis",
+      "corredor_rodoviario": "BR-153 / BR-060 / Ferrovia Norte-Sul (Porto Seco & DAIA)",
+      "distancia_media_entrega_km": 20,
+      "compradores_principais": "Agroindústrias do DAIA, empacotadoras, Porto Seco Centro-Oeste e CEASA-GO",
+      "canais_por_cultura": {
+        "soja": "Esmagadoras e terminal ferroviário do Porto Seco (DAIA) conectados à BR-153/BR-060.",
+        "milho": "Agroindústrias de derivados de milho no DAIA, avícolas regionais e escoamento ferroviário.",
+        "feijao": "Empacotadoras e distribuidoras atacadistas de Anápolis com escoamento direto para DF e Goiânia.",
+        "sorgo": "Fábricas de ração animal no eixo Anápolis–Leopoldo de Bulhões e pecuária intensiva.",
+        "mandioca": "Indústrias de alimentos/congelados em Anápolis–Goiânia e CEASA-GO.",
+        "gergelim": "Indústrias alimentícias, panificação no DAIA e exportação conteinerizada via Porto Seco.",
+        "girassol": "Processadoras de óleo/ingredientes alimentícios no polo industrial e fábricas de ração.",
+        "tomate": "Agroindústrias processadoras do eixo Goiânia–Anápolis e abastecimento rápido pela BR-060."
+      }
+    },
+    "goiania": {
+      "municipio_key": "goiania",
+      "nome": "Goiânia",
+      "corredor_rodoviario": "BR-153 / BR-060 / GO-020 (CEASA-GO e Região Metropolitana)",
+      "distancia_media_entrega_km": 18,
+      "compradores_principais": "CEASA-GO, redes de supermercados, panificação/congelados e programas PAA/PNAE",
+      "canais_por_cultura": {
+        "soja": "Cerealistas e armazéns do cinturão metropolitano na BR-060/BR-153.",
+        "milho": "Varejo de milho verde/pamonharias, fábricas de ração e atacado da Região Metropolitana.",
+        "feijao": "CEASA-GO, redes supermercadistas da capital e entregas institucionais PAA/PNAE.",
+        "sorgo": "Pecuária leiteira do cinturão verde metropolitano e indústrias de nutrição animal na BR-153.",
+        "mandioca": "CEASA-GO, indústrias de mandioca congelada/à vácuo e merenda escolar (PNAE).",
+        "gergelim": "Redes de panificação, lojas de produtos naturais e distribuidoras atacadistas na capital.",
+        "girassol": "Processadoras alimentícias e extratoras regionais na Região Metropolitana.",
+        "tomate": "Entrega direta no pavilhão da CEASA-GO (BR-153) e redes hortifrúti de Goiânia."
+      }
+    }
+  },
+  "resumo_municipios": [
+    {
+      "municipio_key": "rio_verde",
+      "key": "rio_verde",
+      "nome": "Rio Verde",
+      "uf": "GO",
+      "microrregiao": "Sudoeste Goiano",
+      "lat": -17.7923,
+      "lon": -50.9192,
+      "solo_predominante": "Latossolo Vermelho Argiloso",
+      "solo_key_padrao": "argiloso_fertil",
+      "data_referencia_nasa": "2026-11-11",
+      "dias_validos_nasa": 30,
+      "gwetroot_atual": 0.47,
+      "gwettop_atual": 0.44,
+      "chuva_30d_mm": 84,
+      "temp_max_media_30d": 36.6,
+      "temp_min_media_30d": 22.7,
+      "dias_calor_extremo_30d": 22,
+      "radiacao_media": 20.9,
+      "chuva_prevista_14d_mm": 104.8,
+      "et0_previsto_14d_mm": 60.2,
+      "balanco_hidrico_14d_mm": 44.6,
+      "dias_chuva_forte_14d": 0,
+      "temp_max_prevista_14d": 31.7
+    },
+    {
+      "municipio_key": "jatai",
+      "key": "jatai",
+      "nome": "Jataí",
+      "uf": "GO",
+      "microrregiao": "Sudoeste Goiano",
+      "lat": -17.8814,
+      "lon": -51.7144,
+      "solo_predominante": "Latossolo Vermelho Argiloso",
+      "solo_key_padrao": "argiloso_fertil",
+      "data_referencia_nasa": "2026-11-11",
+      "dias_validos_nasa": 30,
+      "gwetroot_atual": 0.48,
+      "gwettop_atual": 0.45,
+      "chuva_30d_mm": 84.3,
+      "temp_max_media_30d": 35,
+      "temp_min_media_30d": 21.5,
+      "dias_calor_extremo_30d": 19,
+      "radiacao_media": 18.8,
+      "chuva_prevista_14d_mm": 101.4,
+      "et0_previsto_14d_mm": 61.8,
+      "balanco_hidrico_14d_mm": 39.6,
+      "dias_chuva_forte_14d": 1,
+      "temp_max_prevista_14d": 31.1
+    },
+    {
+      "municipio_key": "cristalina",
+      "key": "cristalina",
+      "nome": "Cristalina",
+      "uf": "GO",
+      "microrregiao": "Entorno do DF / Leste Goiano",
+      "lat": -16.7686,
+      "lon": -47.6136,
+      "solo_predominante": "Latossolo Vermelho-Amarelo",
+      "solo_key_padrao": "medio_cerrado",
+      "data_referencia_nasa": "2026-11-11",
+      "dias_validos_nasa": 30,
+      "gwetroot_atual": 0.43,
+      "gwettop_atual": 0.48,
+      "chuva_30d_mm": 152.7,
+      "temp_max_media_30d": 33.7,
+      "temp_min_media_30d": 21.8,
+      "dias_calor_extremo_30d": 15,
+      "radiacao_media": 20,
+      "chuva_prevista_14d_mm": 149,
+      "et0_previsto_14d_mm": 53.8,
+      "balanco_hidrico_14d_mm": 95.2,
+      "dias_chuva_forte_14d": 0,
+      "temp_max_prevista_14d": 27.1
+    },
+    {
+      "municipio_key": "itaguaru",
+      "key": "itaguaru",
+      "nome": "Itaguaru",
+      "uf": "GO",
+      "microrregiao": "Anápolis / Centro Goiano",
+      "lat": -15.7589,
+      "lon": -49.6033,
+      "solo_predominante": "Cambissolo / Argissolo",
+      "solo_key_padrao": "medio_cerrado",
+      "data_referencia_nasa": "2026-11-11",
+      "dias_validos_nasa": 30,
+      "gwetroot_atual": 0.46,
+      "gwettop_atual": 0.44,
+      "chuva_30d_mm": 128.9,
+      "temp_max_media_30d": 35.3,
+      "temp_min_media_30d": 22.3,
+      "dias_calor_extremo_30d": 21,
+      "radiacao_media": 20.6,
+      "chuva_prevista_14d_mm": 128.1,
+      "et0_previsto_14d_mm": 52.3,
+      "balanco_hidrico_14d_mm": 75.8,
+      "dias_chuva_forte_14d": 0,
+      "temp_max_prevista_14d": 29.9
+    },
+    {
+      "municipio_key": "anapolis",
+      "key": "anapolis",
+      "nome": "Anápolis",
+      "uf": "GO",
+      "microrregiao": "Centro Goiano",
+      "lat": -16.3281,
+      "lon": -48.953,
+      "solo_predominante": "Latossolo Vermelho-Amarelo",
+      "solo_key_padrao": "medio_cerrado",
+      "data_referencia_nasa": "2026-11-11",
+      "dias_validos_nasa": 30,
+      "gwetroot_atual": 0.48,
+      "gwettop_atual": 0.44,
+      "chuva_30d_mm": 132.4,
+      "temp_max_media_30d": 34.1,
+      "temp_min_media_30d": 21,
+      "dias_calor_extremo_30d": 15,
+      "radiacao_media": 19.7,
+      "chuva_prevista_14d_mm": 123.5,
+      "et0_previsto_14d_mm": 52,
+      "balanco_hidrico_14d_mm": 71.5,
+      "dias_chuva_forte_14d": 0,
+      "temp_max_prevista_14d": 28.2
+    },
+    {
+      "municipio_key": "goiania",
+      "key": "goiania",
+      "nome": "Goiânia",
+      "uf": "GO",
+      "microrregiao": "Metropolitana de Goiânia",
+      "lat": -16.6869,
+      "lon": -49.2648,
+      "solo_predominante": "Latossolo Vermelho",
+      "solo_key_padrao": "argiloso_fertil",
+      "data_referencia_nasa": "2026-11-11",
+      "dias_validos_nasa": 30,
+      "gwetroot_atual": 0.45,
+      "gwettop_atual": 0.42,
+      "chuva_30d_mm": 110.1,
+      "temp_max_media_30d": 35.5,
+      "temp_min_media_30d": 22.1,
+      "dias_calor_extremo_30d": 22,
+      "radiacao_media": 20.8,
+      "chuva_prevista_14d_mm": 124.3,
+      "et0_previsto_14d_mm": 54.3,
+      "balanco_hidrico_14d_mm": 70,
+      "dias_chuva_forte_14d": 0,
+      "temp_max_prevista_14d": 29.9
+    }
+  ],
+  "simulacoes_referencia": {
+    "rio_verde_soja_agua": {
+      "ok": true,
+      "contexto": {
+        "municipio_key": "rio_verde",
+        "municipio": "Rio Verde - GO",
+        "microrregiao": "Sudoeste Goiano",
+        "lat": -17.7923,
+        "lon": -50.9192,
+        "cultura_anterior": "Soja",
+        "familia_anterior": "leguminosa",
+        "solo": "Terra Arenosa (Seca Rápido)",
+        "solo_key": "arenoso_seco",
+        "solo_resumo": "Esquenta e seca rápido nos veranicos; exige raiz profunda e palhada contínua.",
+        "prioridade": "agua",
+        "corredor_logistico": "BR-060 / BR-452 (Polo Agroindustrial Sudoeste)",
+        "compradores_principais": "Cooperativas (COMIGO), esmagadoras, confinamentos e usinas de etanol de milho"
+      },
+      "leitura_nasa": {
+        "data_referencia": "2026-11-11",
+        "caixa_agua_raiz_pct": 47,
+        "umidade_superficie_pct": 44,
+        "status_umidade": "Atenção",
+        "resumo_umidade": "Reserva moderada: evapora rápido se o solo ficar descoberto.",
+        "chuva_30d_mm": 84,
+        "temp_max_media_30d": 36.6,
+        "dias_calor_extremo_30d": 22,
+        "status_calor": "Alto",
+        "resumo_calor": "22 dias acima de 34°C nos últimos 30 dias (média 36.6°C).",
+        "chuva_prevista_14d_mm": 104.8,
+        "et0_previsto_14d_mm": 60.2,
+        "balanco_hidrico_14d_mm": 44.6
+      },
+      "pulso_regional": {
+        "municipio_key": "rio_verde",
+        "municipio": "Rio Verde",
+        "culturas_em_alta": [
+          "Soja",
+          "Milho + Braquiária",
+          "Sorgo"
+        ],
+        "alerta_fitossanitario": "Pressão elevada de cigarrinha-do-milho e percevejo-marrom relatada na região — evitar repetir gramínea em sequência direta.",
+        "tendencia_solo_agua": "Produtores da região estão consorciando braquiária para segurar umidade após ondas de calor acima de 35°C.",
+        "total_relatos_regiao": 18,
+        "contagem_prioridades": {
+          "agua": 7,
+          "solo": 5,
+          "renda": 3,
+          "pragas": 3
+        },
+        "planos_mais_buscados": {}
+      },
+      "risco_monocultura": {
+        "cultura": "Soja",
+        "score_resiliencia": 12,
+        "nivel_risco": "Risco Alto",
+        "perda_agua_estimada": "-22%",
+        "pragas_em_risco": [
+          "Ferrugem-asiática",
+          "Percevejo-marrom"
+        ],
+        "risco_escoamento": "Colher Soja junto com toda a região concentra a saída no mesmo pico, disputa caminhão e pressiona o frete e o preço.",
+        "motivos": [
+          "Mantém as mesmas raízes na mesma profundidade, favorecendo Ferrugem-asiática e Percevejo-marrom.",
+          "Com 22 dias de calor forte e raiz em 47%, solo sem alternância perde até 22% de umidade útil.",
+          "Pressão elevada de cigarrinha-do-milho e percevejo-marrom relatada na região — evitar repetir gramínea em sequência direta.",
+          "Colher Soja junto com toda a região concentra a saída no mesmo pico, disputa caminhão e pressiona o frete e o preço."
+        ]
+      },
+      "ranking": [
+        {
+          "posicao": 1,
+          "selo": "#1 Recomendado",
+          "id": "braquiaria_soja_milho",
+          "titulo": "Braquiária (Palhada) → Soja → Milho",
+          "score_resiliencia": 93,
+          "economia_agua_pct": 35,
+          "balanco_nitrogenio_kg_ha": 45,
+          "palhada_t_ha": 18,
+          "profundidade_raiz_max_cm": 160,
+          "quebra_ciclo_imediata": true,
+          "janela_plantio": "Janela favorável nos próximos 14 dias (+44.6 mm de saldo hídrico sobre a evaporação), desde que plante sobre palhada.",
+          "escoamento": {
+            "indice_facilidade": 90,
+            "nivel_liquidez": "Alta Liquidez no Polo",
+            "cultura_comercial_foco": "Soja",
+            "corredor_logistico": "BR-060 / BR-452 (Polo Agroindustrial Sudoeste)",
+            "distancia_media_km": 28,
+            "compradores_polo": "Cooperativas (COMIGO), esmagadoras, confinamentos e usinas de etanol de milho",
+            "canal_recomendado": "Cooperativas locais (COMIGO), tradings na BR-060 e esmagadoras de óleo/farelo.",
+            "condicao_estrada_colheita": "Planeje embarque pela BR-060 / BR-452 (Polo Agroindustrial Sudoeste) monitorando a umidade superficial (44%).",
+            "alerta_saturacao_frete": "Evita concentrar toda a venda na mesma semana das lavouras de Soja da região."
+          },
+          "etapas_detalhadas": [
+            {
+              "ordem": 1,
+              "momento": "1ª Etapa (Proteção)",
+              "cultura": "Braquiária (Cobertura / Palhada)",
+              "familia": "graminea",
+              "papel": "Cobertura e descompactação",
+              "ciclo_dias": 90
+            },
+            {
+              "ordem": 2,
+              "momento": "2ª Etapa (Safra Principal)",
+              "cultura": "Soja",
+              "familia": "leguminosa",
+              "papel": "Comercial (proteína / renda)",
+              "ciclo_dias": 115
+            },
+            {
+              "ordem": 3,
+              "momento": "3ª Etapa (Safrinha)",
+              "cultura": "Milho",
+              "familia": "graminea",
+              "papel": "Comercial + boa palhada",
+              "ciclo_dias": 125
+            }
+          ],
+          "por_que_funciona": [
+            "Quebra imediata de ciclo: sai de leguminosa (Soja) para graminea (Braquiária (Cobertura / Palhada)).",
+            "Produz 18 t/ha de palhada somada com raízes até 160 cm, conservando cerca de +35% de água no solo.",
+            "Saldo natural estimado de +45 kg/ha de nitrogênio fixado para reduzir adubação química."
+          ]
+        },
+        {
+          "posicao": 2,
+          "selo": "#2 Alternativa Forte",
+          "id": "gergelim_braquiaria_feijao",
+          "titulo": "Gergelim → Braquiária → Feijão",
+          "score_resiliencia": 89,
+          "economia_agua_pct": 30,
+          "balanco_nitrogenio_kg_ha": 30,
+          "palhada_t_ha": 14,
+          "profundidade_raiz_max_cm": 160,
+          "quebra_ciclo_imediata": true,
+          "janela_plantio": "Janela favorável nos próximos 14 dias (+44.6 mm de saldo hídrico sobre a evaporação), desde que plante sobre palhada.",
+          "escoamento": {
+            "indice_facilidade": 95,
+            "nivel_liquidez": "Alta Liquidez no Polo",
+            "cultura_comercial_foco": "Gergelim",
+            "corredor_logistico": "BR-060 / BR-452 (Polo Agroindustrial Sudoeste)",
+            "distancia_media_km": 28,
+            "compradores_polo": "Cooperativas (COMIGO), esmagadoras, confinamentos e usinas de etanol de milho",
+            "canal_recomendado": "Cerealistas exportadoras no corredor BR-060/BR-364 e processadoras de grãos.",
+            "condicao_estrada_colheita": "Ciclo de ~95 dias permite colher fora do pico de chuva pesada e do apagão de caminhões.",
+            "alerta_saturacao_frete": "Evita concentrar toda a venda na mesma semana das lavouras de Soja da região."
+          },
+          "etapas_detalhadas": [
+            {
+              "ordem": 1,
+              "momento": "1ª Etapa (Agora)",
+              "cultura": "Gergelim",
+              "familia": "pedaliacea",
+              "papel": "Comercial muito tolerante à seca e calor",
+              "ciclo_dias": 95
+            },
+            {
+              "ordem": 2,
+              "momento": "2ª Etapa (Cobertura)",
+              "cultura": "Braquiária (Cobertura / Palhada)",
+              "familia": "graminea",
+              "papel": "Cobertura e descompactação",
+              "ciclo_dias": 90
+            },
+            {
+              "ordem": 3,
+              "momento": "3ª Etapa (Próxima Safra)",
+              "cultura": "Feijão",
+              "familia": "leguminosa",
+              "papel": "Comercial ciclo curto",
+              "ciclo_dias": 85
+            }
+          ],
+          "por_que_funciona": [
+            "Quebra imediata de ciclo: sai de leguminosa (Soja) para pedaliacea (Gergelim).",
+            "Produz 14 t/ha de palhada somada com raízes até 160 cm, conservando cerca de +30% de água no solo.",
+            "Saldo natural estimado de +30 kg/ha de nitrogênio fixado para reduzir adubação química."
+          ]
+        },
+        {
+          "posicao": 3,
+          "selo": "#3 Opção Conservadora",
+          "id": "sorgo_feijao_girassol",
+          "titulo": "Sorgo Granífero → Feijão → Girassol",
+          "score_resiliencia": 84,
+          "economia_agua_pct": 30,
+          "balanco_nitrogenio_kg_ha": 0,
+          "palhada_t_ha": 14,
+          "profundidade_raiz_max_cm": 140,
+          "quebra_ciclo_imediata": true,
+          "janela_plantio": "Janela favorável nos próximos 14 dias (+44.6 mm de saldo hídrico sobre a evaporação), desde que plante sobre palhada.",
+          "escoamento": {
+            "indice_facilidade": 95,
+            "nivel_liquidez": "Alta Liquidez no Polo",
+            "cultura_comercial_foco": "Sorgo Granífero",
+            "corredor_logistico": "BR-060 / BR-452 (Polo Agroindustrial Sudoeste)",
+            "distancia_media_km": 28,
+            "compradores_polo": "Cooperativas (COMIGO), esmagadoras, confinamentos e usinas de etanol de milho",
+            "canal_recomendado": "Confinamentos bovinos, granjas integradas de aves/suínos e fábricas de ração do polo.",
+            "condicao_estrada_colheita": "Ciclo de ~105 dias permite colher fora do pico de chuva pesada e do apagão de caminhões.",
+            "alerta_saturacao_frete": "Evita concentrar toda a venda na mesma semana das lavouras de Soja da região."
+          },
+          "etapas_detalhadas": [
+            {
+              "ordem": 1,
+              "momento": "1ª Etapa (Agora)",
+              "cultura": "Sorgo Granífero",
+              "familia": "graminea",
+              "papel": "Comercial rústico anti-seca",
+              "ciclo_dias": 105
+            },
+            {
+              "ordem": 2,
+              "momento": "2ª Etapa (Sucessão)",
+              "cultura": "Feijão",
+              "familia": "leguminosa",
+              "papel": "Comercial ciclo curto",
+              "ciclo_dias": 85
+            },
+            {
+              "ordem": 3,
+              "momento": "3ª Etapa (Diversificação)",
+              "cultura": "Girassol",
+              "familia": "asteracea",
+              "papel": "Ciclagem de nutrientes e quebra de família",
+              "ciclo_dias": 100
+            }
+          ],
+          "por_que_funciona": [
+            "Quebra imediata de ciclo: sai de leguminosa (Soja) para graminea (Sorgo Granífero).",
+            "Produz 14 t/ha de palhada somada com raízes até 140 cm, conservando cerca de +30% de água no solo.",
+            "Ajuda a reduzir nematoides e pressões regionais citadas em Rio Verde (Soja, Milho + Braquiária)."
+          ]
+        }
+      ]
+    },
+    "itaguaru_milho_solo": {
+      "ok": true,
+      "contexto": {
+        "municipio_key": "itaguaru",
+        "municipio": "Itaguaru - GO",
+        "microrregiao": "Anápolis / Centro Goiano",
+        "lat": -15.7589,
+        "lon": -49.6033,
+        "cultura_anterior": "Milho",
+        "familia_anterior": "graminea",
+        "solo": "Terra Cansada / Sem Palhada",
+        "solo_key": "degradado_compactado",
+        "solo_resumo": "Pouca matéria orgânica e camada dura; precisa de descompactação biológica e nitrogênio.",
+        "prioridade": "solo",
+        "corredor_logistico": "GO-070 / BR-153 (Vale do São Patrício–Goiânia)",
+        "compradores_principais": "CEASA-GO, compras públicas PAA/PNAE (merenda/CONAB), feiras, laticínios e farinheiras"
+      },
+      "leitura_nasa": {
+        "data_referencia": "2026-11-11",
+        "caixa_agua_raiz_pct": 46,
+        "umidade_superficie_pct": 44,
+        "status_umidade": "Atenção",
+        "resumo_umidade": "Reserva moderada: evapora rápido se o solo ficar descoberto.",
+        "chuva_30d_mm": 128.9,
+        "temp_max_media_30d": 35.3,
+        "dias_calor_extremo_30d": 21,
+        "status_calor": "Alto",
+        "resumo_calor": "21 dias acima de 34°C nos últimos 30 dias (média 35.3°C).",
+        "chuva_prevista_14d_mm": 128.1,
+        "et0_previsto_14d_mm": 52.3,
+        "balanco_hidrico_14d_mm": 75.8
+      },
+      "pulso_regional": {
+        "municipio_key": "itaguaru",
+        "municipio": "Itaguaru",
+        "culturas_em_alta": [
+          "Banana",
+          "Milho",
+          "Feijão"
+        ],
+        "alerta_fitossanitario": "Relatos de cigarrinha no milho e déficit de cobertura morta em áreas inclinadas.",
+        "tendencia_solo_agua": "Pequenos produtores priorizando consórcio de feijão, mandioca e braquiária para proteger o solo da erosão.",
+        "total_relatos_regiao": 12,
+        "contagem_prioridades": {
+          "agua": 4,
+          "solo": 4,
+          "renda": 3,
+          "pragas": 1
+        },
+        "planos_mais_buscados": {}
+      },
+      "risco_monocultura": {
+        "cultura": "Milho",
+        "score_resiliencia": 12,
+        "nivel_risco": "Risco Alto",
+        "perda_agua_estimada": "-12%",
+        "pragas_em_risco": [
+          "Cigarrinha-do-milho",
+          "Lagarta-do-cartucho"
+        ],
+        "risco_escoamento": "Colher Milho junto com toda a região concentra a saída no mesmo pico, disputa caminhão e pressiona o frete e o preço.",
+        "motivos": [
+          "Mantém as mesmas raízes na mesma profundidade, favorecendo Cigarrinha-do-milho e Lagarta-do-cartucho.",
+          "Com 21 dias de calor forte e raiz em 46%, solo sem alternância perde até 12% de umidade útil.",
+          "Relatos de cigarrinha no milho e déficit de cobertura morta em áreas inclinadas.",
+          "Colher Milho junto com toda a região concentra a saída no mesmo pico, disputa caminhão e pressiona o frete e o preço."
+        ]
+      },
+      "ranking": [
+        {
+          "posicao": 1,
+          "selo": "#1 Recomendado",
+          "id": "crotalaria_milho_soja",
+          "titulo": "Crotalária → Milho → Soja",
+          "score_resiliencia": 93,
+          "economia_agua_pct": 28,
+          "balanco_nitrogenio_kg_ha": 155,
+          "palhada_t_ha": 14.5,
+          "profundidade_raiz_max_cm": 130,
+          "quebra_ciclo_imediata": true,
+          "janela_plantio": "Janela favorável nos próximos 14 dias (+75.8 mm de saldo hídrico sobre a evaporação), desde que plante sobre palhada.",
+          "escoamento": {
+            "indice_facilidade": 92,
+            "nivel_liquidez": "Alta Liquidez no Polo",
+            "cultura_comercial_foco": "Milho",
+            "corredor_logistico": "GO-070 / BR-153 (Vale do São Patrício–Goiânia)",
+            "distancia_media_km": 45,
+            "compradores_polo": "CEASA-GO, compras públicas PAA/PNAE (merenda/CONAB), feiras, laticínios e farinheiras",
+            "canal_recomendado": "Laticínios e pecuária leiteira do Vale do São Patrício (silagem/ração) e avícolas locais.",
+            "condicao_estrada_colheita": "Planeje embarque pela GO-070 / BR-153 (Vale do São Patrício–Goiânia) monitorando a umidade superficial (44%).",
+            "alerta_saturacao_frete": "Evita concentrar toda a venda na mesma semana das lavouras de Banana da região."
+          },
+          "etapas_detalhadas": [
+            {
+              "ordem": 1,
+              "momento": "1ª Etapa (Adubação Verde)",
+              "cultura": "Crotalária (Adubo Verde)",
+              "familia": "leguminosa",
+              "papel": "Fixação de nitrogênio e controle de nematoides",
+              "ciclo_dias": 75
+            },
+            {
+              "ordem": 2,
+              "momento": "2ª Etapa (Safra)",
+              "cultura": "Milho",
+              "familia": "graminea",
+              "papel": "Comercial + boa palhada",
+              "ciclo_dias": 125
+            },
+            {
+              "ordem": 3,
+              "momento": "3ª Etapa (Próxima Safra)",
+              "cultura": "Soja",
+              "familia": "leguminosa",
+              "papel": "Comercial (proteína / renda)",
+              "ciclo_dias": 115
+            }
+          ],
+          "por_que_funciona": [
+            "Quebra imediata de ciclo: sai de graminea (Milho) para leguminosa (Crotalária (Adubo Verde)).",
+            "Produz 14.5 t/ha de palhada somada com raízes até 130 cm, conservando cerca de +28% de água no solo.",
+            "Saldo natural estimado de +155 kg/ha de nitrogênio fixado para reduzir adubação química."
+          ]
+        },
+        {
+          "posicao": 2,
+          "selo": "#2 Alternativa Forte",
+          "id": "crotalaria_mandioca_feijao",
+          "titulo": "Crotalária (Adubo Verde) → Mandioca → Feijão",
+          "score_resiliencia": 90,
+          "economia_agua_pct": 24,
+          "balanco_nitrogenio_kg_ha": 125,
+          "palhada_t_ha": 11.5,
+          "profundidade_raiz_max_cm": 130,
+          "quebra_ciclo_imediata": true,
+          "janela_plantio": "Janela favorável nos próximos 14 dias (+75.8 mm de saldo hídrico sobre a evaporação), desde que plante sobre palhada.",
+          "escoamento": {
+            "indice_facilidade": 92,
+            "nivel_liquidez": "Alta Liquidez no Polo",
+            "cultura_comercial_foco": "Mandioca",
+            "corredor_logistico": "GO-070 / BR-153 (Vale do São Patrício–Goiânia)",
+            "distancia_media_km": 45,
+            "compradores_polo": "CEASA-GO, compras públicas PAA/PNAE (merenda/CONAB), feiras, laticínios e farinheiras",
+            "canal_recomendado": "Farinheiras artesanais, descascadoras locais, CEASA-GO e chamadas públicas PNAE/CONAB.",
+            "condicao_estrada_colheita": "Planeje embarque pela GO-070 / BR-153 (Vale do São Patrício–Goiânia) monitorando a umidade superficial (44%).",
+            "alerta_saturacao_frete": "Evita concentrar toda a venda na mesma semana das lavouras de Banana da região."
+          },
+          "etapas_detalhadas": [
+            {
+              "ordem": 1,
+              "momento": "1ª Etapa (Recuperação)",
+              "cultura": "Crotalária (Adubo Verde)",
+              "familia": "leguminosa",
+              "papel": "Fixação de nitrogênio e controle de nematoides",
+              "ciclo_dias": 75
+            },
+            {
+              "ordem": 2,
+              "momento": "2ª Etapa (Safra Principal)",
+              "cultura": "Mandioca",
+              "familia": "euforbiacea",
+              "papel": "Comercial rústica / segurança alimentar",
+              "ciclo_dias": 300
+            },
+            {
+              "ordem": 3,
+              "momento": "3ª Etapa (Sucessão)",
+              "cultura": "Feijão",
+              "familia": "leguminosa",
+              "papel": "Comercial ciclo curto",
+              "ciclo_dias": 85
+            }
+          ],
+          "por_que_funciona": [
+            "Quebra imediata de ciclo: sai de graminea (Milho) para leguminosa (Crotalária (Adubo Verde)).",
+            "Produz 11.5 t/ha de palhada somada com raízes até 130 cm, conservando cerca de +24% de água no solo.",
+            "Saldo natural estimado de +125 kg/ha de nitrogênio fixado para reduzir adubação química."
+          ]
+        },
+        {
+          "posicao": 3,
+          "selo": "#3 Opção Conservadora",
+          "id": "gergelim_braquiaria_feijao",
+          "titulo": "Gergelim → Braquiária → Feijão",
+          "score_resiliencia": 88,
+          "economia_agua_pct": 30,
+          "balanco_nitrogenio_kg_ha": 30,
+          "palhada_t_ha": 14,
+          "profundidade_raiz_max_cm": 160,
+          "quebra_ciclo_imediata": true,
+          "janela_plantio": "Janela favorável nos próximos 14 dias (+75.8 mm de saldo hídrico sobre a evaporação), desde que plante sobre palhada.",
+          "escoamento": {
+            "indice_facilidade": 92,
+            "nivel_liquidez": "Alta Liquidez no Polo",
+            "cultura_comercial_foco": "Gergelim",
+            "corredor_logistico": "GO-070 / BR-153 (Vale do São Patrício–Goiânia)",
+            "distancia_media_km": 45,
+            "compradores_polo": "CEASA-GO, compras públicas PAA/PNAE (merenda/CONAB), feiras, laticínios e farinheiras",
+            "canal_recomendado": "Cooperativas da agricultura familiar e atacadistas de alimentos naturais em Goiânia/Anápolis.",
+            "condicao_estrada_colheita": "Ciclo de ~95 dias permite colher fora do pico de chuva pesada e do apagão de caminhões.",
+            "alerta_saturacao_frete": "Evita concentrar toda a venda na mesma semana das lavouras de Banana da região."
+          },
+          "etapas_detalhadas": [
+            {
+              "ordem": 1,
+              "momento": "1ª Etapa (Agora)",
+              "cultura": "Gergelim",
+              "familia": "pedaliacea",
+              "papel": "Comercial muito tolerante à seca e calor",
+              "ciclo_dias": 95
+            },
+            {
+              "ordem": 2,
+              "momento": "2ª Etapa (Cobertura)",
+              "cultura": "Braquiária (Cobertura / Palhada)",
+              "familia": "graminea",
+              "papel": "Cobertura e descompactação",
+              "ciclo_dias": 90
+            },
+            {
+              "ordem": 3,
+              "momento": "3ª Etapa (Próxima Safra)",
+              "cultura": "Feijão",
+              "familia": "leguminosa",
+              "papel": "Comercial ciclo curto",
+              "ciclo_dias": 85
+            }
+          ],
+          "por_que_funciona": [
+            "Quebra imediata de ciclo: sai de graminea (Milho) para pedaliacea (Gergelim).",
+            "Produz 14 t/ha de palhada somada com raízes até 160 cm, conservando cerca de +30% de água no solo.",
+            "Saldo natural estimado de +30 kg/ha de nitrogênio fixado para reduzir adubação química."
+          ]
+        }
+      ]
+    }
+  }
+}

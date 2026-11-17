@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zé Agro · Planejador de Rotação de Culturas (NASA Earth + Embrapa)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    :root {
+      --bg: #f4f6f0;
+      --surface: #ffffff;
+      --surface-soft: #f9fbf7;
+      --border: #dce4d5;
+      --text: #172318;
+      --muted: #536455;
+      --primary: #1f6f3d;
+      --primary-dark: #15512b;
+      --primary-soft: #e7f4eb;
+      --accent: #b45309;
+      --accent-soft: #fef3c7;
+      --danger: #b91c1c;
+      --danger-soft: #fee2e2;
+      --info: #0369a1;
+      --info-soft: #e0f2fe;
+      --radius: 16px;
+      --shadow: 0 6px 24px rgba(23, 35, 24, 0.06);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .topbar {
+      background: linear-gradient(135deg, #123e22 0%, #1f6f3d 100%);
+      color: #fff;
+      padding: 20px 16px 24px;
+      border-bottom: 4px solid #84cc16;
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    .topbar-inner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-badge {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.14);
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+    }
+
+    .brand h1 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .brand p {
+      font-size: 0.875rem;
+      color: rgba(255, 255, 255, 0.86);
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.14);
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .topbar-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-topbar-wa {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #84cc16;
+      color: #123e22;
+      padding: 6px 13px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .btn-topbar-wa:hover {
+      background: #a3e635;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #84cc16;
+    }
+
+    main {
+      padding: 20px 0 48px;
+    }
+
+    .grid-main {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+
+    @media (min-width: 920px) {
+      .grid-main {
+        grid-template-columns: 400px 1fr;
+        align-items: start;
+      }
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .card + .card {
+      margin-top: 16px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--primary);
+      background: var(--primary-soft);
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+    }
+
+    .card h2 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .sub {
+      font-size: 0.875rem;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    .step-group {
+      margin-bottom: 16px;
+    }
+
+    .step-label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .chips {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .chips.cols-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media (max-width: 440px) {
+      .chips.cols-3 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .chip {
+      border: 1.5px solid var(--border);
+      background: var(--surface-soft);
+      color: var(--text);
+      padding: 10px 10px;
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 0.84rem;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .chip:hover {
+      border-color: var(--primary);
+      background: #f0f8f2;
+    }
+
+    .chip.active {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+      color: var(--primary-dark);
+      box-shadow: 0 0 0 2px rgba(31, 111, 61, 0.14);
+    }
+
+    .chip small {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .btn-primary {
+      width: 100%;
+      border: none;
+      border-radius: 12px;
+      background: var(--primary);
+      color: #fff;
+      font-family: inherit;
+      font-size: 0.96rem;
+      font-weight: 700;
+      padding: 13px 16px;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+
+    .btn-primary:hover { background: var(--primary-dark); }
+    .btn-primary:disabled { opacity: 0.65; cursor: wait; }
+
+    /* Telemetry Grid */
+    .telemetry-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    @media (min-width: 600px) {
+      .telemetry-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .metric-box {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      background: var(--surface-soft);
+    }
+
+    .metric-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .metric-val-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .metric-val {
+      font-size: 1.55rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 999px;
+    }
+
+    .badge.ok { background: var(--primary-soft); color: var(--primary-dark); }
+    .badge.alerta { background: var(--accent-soft); color: var(--accent); }
+    .badge.critico { background: var(--danger-soft); color: var(--danger); }
+    .badge.info { background: var(--info-soft); color: var(--info); }
+
+    .meter-track {
+      width: 100%;
+      height: 10px;
+      background: #e5eadf;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 6px;
+    }
+
+    .meter-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: var(--primary);
+      transition: width 0.3s ease;
+    }
+
+    .meter-fill.alerta { background: #d97706; }
+    .meter-fill.critico { background: #dc2626; }
+
+    .metric-desc {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .regional-box {
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: #f2f7fb;
+      border: 1px solid #d5e5f2;
+      font-size: 0.85rem;
+    }
+
+    .regional-box strong { color: #0c4a6e; }
+
+    /* Map */
+    .map-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .layer-btn {
+      border: 1px solid var(--border);
+      background: var(--surface-soft);
+      color: var(--text);
+      padding: 7px 11px;
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .layer-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    .map-wrap {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    #map {
+      width: 100%;
+      height: 320px;
+      background: #e6efe6;
+      z-index: 1;
+    }
+
+    .map-legend {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      z-index: 450;
+      background: rgba(255, 255, 255, 0.94);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 10px;
+      font-size: 0.74rem;
+      line-height: 1.35;
+      color: #163020;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      max-width: 240px;
+      pointer-events: none;
+    }
+
+    .map-legend-title {
+      font-weight: 700;
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    .map-legend-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 2px;
+    }
+
+    .legend-swatch {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      border: 1px solid rgba(0, 0, 0, 0.25);
+      flex-shrink: 0;
+    }
+
+    .city-map-label {
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      color: #123e22;
+      font-weight: 700;
+      font-size: 0.7rem;
+      padding: 1px 6px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+    }
+
+    .city-map-label.active {
+      background: #123e22;
+      color: #ffffff;
+      border-color: #123e22;
+    }
+
+    /* Alert monoculture */
+    .mono-card {
+      border: 1.5px solid #fca5a5;
+      background: #fff7f7;
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    .mono-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .mono-head h3 {
+      font-size: 1rem;
+      font-weight: 800;
+      color: #991b1b;
+    }
+
+    .mono-list {
+      padding-left: 18px;
+      font-size: 0.85rem;
+      color: #7f1d1d;
+    }
+
+    .mono-list li + li { margin-top: 4px; }
+
+    /* Ranking cards */
+    .rank-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .rank-card {
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      background: var(--surface);
+      transition: border-color 0.15s ease;
+    }
+
+    .rank-card.top1 {
+      border-color: var(--primary);
+      border-width: 2px;
+      background: linear-gradient(180deg, #f3faf5 0%, #ffffff 35%);
+    }
+
+    .rank-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .rank-pos {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .pos-num {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: var(--text);
+      color: #fff;
+      font-weight: 800;
+      font-size: 0.95rem;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .rank-card.top1 .pos-num {
+      background: var(--primary);
+    }
+
+    .rank-title h3 {
+      font-size: 1.02rem;
+      font-weight: 800;
+    }
+
+    .rank-selo {
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+    }
+
+    .score-pill {
+      background: var(--primary-soft);
+      color: var(--primary-dark);
+      padding: 6px 12px;
+      border-radius: 10px;
+      font-weight: 800;
+      font-size: 0.95rem;
+    }
+
+    .stages {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    @media (min-width: 620px) {
+      .stages {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .stage-box {
+      border: 1px solid var(--border);
+      background: var(--surface-soft);
+      border-radius: 10px;
+      padding: 10px;
+    }
+
+    .stage-moment {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--primary);
+      text-transform: uppercase;
+    }
+
+    .stage-crop {
+      font-size: 0.94rem;
+      font-weight: 800;
+      margin: 2px 0;
+    }
+
+    .stage-meta {
+      font-size: 0.76rem;
+      color: var(--muted);
+    }
+
+    .kpis-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .kpi-mini {
+      background: #f6f8f4;
+      border-radius: 10px;
+      padding: 8px 10px;
+      text-align: center;
+    }
+
+    .kpi-mini span {
+      display: block;
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .kpi-mini strong {
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+
+    .window-box {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 0.84rem;
+      margin-bottom: 10px;
+    }
+
+    .outflow-box {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 0.83rem;
+      margin-bottom: 10px;
+    }
+
+    .reasons-list {
+      padding-left: 18px;
+      font-size: 0.84rem;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .reasons-list li + li { margin-top: 4px; }
+
+    .actions-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .btn-wa {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: none;
+      border-radius: 10px;
+      background: #16a34a;
+      color: #fff;
+      font-family: inherit;
+      font-size: 0.86rem;
+      font-weight: 700;
+      padding: 10px 14px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .btn-wa:hover { background: #15803d; }
+
+    .btn-secondary {
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text);
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 0.84rem;
+      font-weight: 600;
+      padding: 10px 14px;
+      cursor: pointer;
+    }
+
+    .btn-secondary:hover { background: var(--surface-soft); }
+
+    .footer-note {
+      margin-top: 22px;
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <div class="brand">
+        <div class="brand-badge">🌾</div>
+        <div>
+          <h1>Zé Agro · Planejador de Rotação & Saúde do Solo</h1>
+          <p>Observações da Terra (NASA Earth) + Solo do Cerrado + Embrapa para Goiás</p>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <a class="btn-topbar-wa" href="/testar">📲 Testar no WhatsApp (QR)</a>
+        <div class="status-pill">
+          <span class="dot"></span>
+          <span id="statusTexto">Carregando...</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="grid-main">
+      <!-- COLUNA ESQUERDA: ENTRADAS SIMPLES (4 CLIQUES) -->
+      <section class="card" aria-label="Dados da Lavoura">
+        <span class="section-tag">Passo a Passo · 4 Cliques</span>
+        <h2>1. Como está sua área hoje?</h2>
+        <p class="sub">Escolha a cidade, o último plantio, o solo e sua prioridade para gerar o ranking de rotação.</p>
+
+        <div class="step-group">
+          <span class="step-label">Município em Goiás</span>
+          <div class="chips cols-3" id="chipsCidade"></div>
+        </div>
+
+        <div class="step-group">
+          <span class="step-label">O que você colheu por último / tem no talhão?</span>
+          <div class="chips cols-3" id="chipsCultura">
+            <button type="button" class="chip active" data-val="soja">Soja<small>Leguminosa</small></button>
+            <button type="button" class="chip" data-val="milho">Milho<small>Gramínea</small></button>
+            <button type="button" class="chip" data-val="feijao">Feijão<small>Ciclo curto</small></button>
+            <button type="button" class="chip" data-val="mandioca">Mandioca<small>Rústica</small></button>
+            <button type="button" class="chip" data-val="tomate">Tomate<small>Hortaliça</small></button>
+            <button type="button" class="chip" data-val="pasto_fraco">Pasto Fraco<small>Reforma</small></button>
+          </div>
+        </div>
+
+        <div class="step-group">
+          <span class="step-label">Como está a terra nesse talhão?</span>
+          <div class="chips" id="chipsSolo">
+            <button type="button" class="chip active" data-val="argiloso_fertil">Terra Argilosa Boa<small>Segura mais água</small></button>
+            <button type="button" class="chip" data-val="medio_cerrado">Terra Mista<small>Padrão Cerrado</small></button>
+            <button type="button" class="chip" data-val="arenoso_seco">Terra Arenosa<small>Seca rápido</small></button>
+            <button type="button" class="chip" data-val="degradado_compactado">Terra Cansada<small>Pouca palhada</small></button>
+          </div>
+        </div>
+
+        <div class="step-group">
+          <span class="step-label">Qual sua maior prioridade agora?</span>
+          <div class="chips" id="chipsPrioridade">
+            <button type="button" class="chip active" data-val="agua">💧 Economizar Água<small>Segurar seca</small></button>
+            <button type="button" class="chip" data-val="solo">🌱 Recuperar Solo<small>Adubo e palhada</small></button>
+            <button type="button" class="chip" data-val="renda">💰 Renda &amp; Escoamento<small>Caixa e venda fácil</small></button>
+            <button type="button" class="chip" data-val="pragas">🛡️ Quebrar Pragas<small>Cortar doenças</small></button>
+          </div>
+        </div>
+
+        <button type="button" class="btn-primary" id="btnSimular">Atualizar Plano de Rotação</button>
+      </section>
+
+      <!-- COLUNA DIREITA: SATÉLITE NASA + MAPA + RANKING -->
+      <div>
+        <!-- BLOCO 2: LEITURA NASA -->
+        <section class="card">
+          <span class="section-tag">Observação da Terra · NASA + Clima 14d</span>
+          <h2 id="tituloCidade">Leitura Atual — Rio Verde (GO)</h2>
+          <p class="sub" id="subDataRef">Dados satelitais mais recentes da microrregião</p>
+
+          <div class="telemetry-grid">
+            <div class="metric-box">
+              <div class="metric-title">Caixa d'Água do Solo na Raiz (NASA)</div>
+              <div class="metric-val-row">
+                <span class="metric-val" id="valCaixaAgua">--%</span>
+                <span class="badge alerta" id="badgeUmidade">--</span>
+              </div>
+              <div class="meter-track">
+                <div class="meter-fill" id="barraAgua" style="width: 0%"></div>
+              </div>
+              <p class="metric-desc" id="descUmidade">Carregando...</p>
+            </div>
+
+            <div class="metric-box">
+              <div class="metric-title">Chuva (30 dias) &amp; Calor Forte (NASA)</div>
+              <div class="metric-val-row">
+                <span class="metric-val" id="valChuva30d">-- mm</span>
+                <span class="badge info" id="badgeCalor">-- dias ≥34°C</span>
+              </div>
+              <p class="metric-desc" id="descCalor">Carregando...</p>
+            </div>
+
+            <div class="metric-box">
+              <div class="metric-title">Próximos 14 Dias (Chuva vs. Evaporação)</div>
+              <div class="metric-val-row">
+                <span class="metric-val" id="valPrev14d">-- mm</span>
+                <span class="badge ok" id="badgeSaldo14d">Saldo -- mm</span>
+              </div>
+              <p class="metric-desc" id="descPrev14d">Carregando...</p>
+            </div>
+
+            <div class="metric-box">
+              <div class="metric-title">Perfil do Solo Selecionado</div>
+              <div class="metric-val-row">
+                <span class="metric-val" style="font-size:1.1rem;" id="valSoloNome">--</span>
+              </div>
+              <p class="metric-desc" id="descSolo">--</p>
+            </div>
+          </div>
+
+          <div class="regional-box" id="boxRegional">
+            <strong>Tendência na sua Região:</strong> <span id="textoRegional">Carregando...</span>
+          </div>
+        </section>
+
+        <!-- BLOCO 3: MAPA INTERATIVO GOIÁS + NASA GIBS -->
+        <section class="card">
+          <span class="section-tag">Visão Espacial · Goiás</span>
+          <h2>Mapa da Região &amp; Camadas Satélite NASA</h2>
+          <p class="sub">Clique em um polo no mapa ou alterne as camadas de vegetação e umidade do solo da NASA.</p>
+          <div class="map-toolbar">
+            <button type="button" class="layer-btn active" data-layer="base">🗺️ Mapa da Região</button>
+            <button type="button" class="layer-btn" data-layer="ndvi">🌱 NASA Vegetação (MODIS NDVI)</button>
+            <button type="button" class="layer-btn" data-layer="smap">💧 NASA Umidade do Solo (SMAP)</button>
+          </div>
+          <div class="map-wrap">
+            <div id="map"></div>
+            <div class="map-legend" id="mapLegend"></div>
+          </div>
+        </section>
+
+        <!-- BLOCO 4: MONOCULTURA VS RANKING NUMERADO -->
+        <section class="card">
+          <span class="section-tag">Decisão de Plantio</span>
+          <h2>Comparação: Repetir Cultura vs. Ranking de Rotação</h2>
+          <p class="sub">Veja o risco de repetir o último cultivo e as 3 melhores sequências numeradas para seu solo e clima.</p>
+
+          <div class="mono-card" id="monoCard">
+            <div class="mono-head">
+              <h3 id="monoTitulo">⚠️ Se você repetir a mesma cultura agora...</h3>
+              <span class="badge critico" id="monoBadge">Risco --</span>
+            </div>
+            <ul class="mono-list" id="monoMotivos"></ul>
+          </div>
+
+          <div class="rank-list" id="rankList"></div>
+        </section>
+      </div>
+    </div>
+
+    <p class="footer-note">
+      Fontes: NASA POWER Agroclimatology · NASA GIBS (MODIS / SMAP) · Open-Meteo 14d · Embrapa Cerrados ·
+      <a href="/api/rotacao/csv" style="color: var(--primary); font-weight: 700;">📥 Baixar Dados CSV (NASA + Clima Goiás)</a>
+    </p>
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    const state = {
+      cidade: 'rio_verde',
+      cultura_anterior: 'soja',
+      tipo_solo: 'argiloso_fertil',
+      prioridade: 'agua',
+      cidades: [],
+      ultimoResultado: null,
+      camadaMapa: 'base'
+    };
+
+    function escapeHtml(str) {
+      return String(str ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function setStatus(texto) {
+      document.getElementById('statusTexto').textContent = texto;
+    }
+
+    function bindChips(containerId, field, onSelect) {
+      const container = document.getElementById(containerId);
+      container.addEventListener('click', (e) => {
+        const btn = e.target.closest('.chip');
+        if (!btn) return;
+        container.querySelectorAll('.chip').forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        state[field] = btn.dataset.val;
+        if (onSelect) onSelect(state[field]);
+        simularRotacao();
+      });
+    }
+
+    // Mapa Leaflet + NASA GIBS
+    let map;
+    let gibsLayer = null;
+    let zoneLayerGroup = null;
+    const markers = {};
+
+    const GOIAS_CONTORNO = [
+      [-12.8, -50.3], [-13.2, -49.1], [-12.9, -47.9], [-13.3, -46.5],
+      [-13.8, -46.1], [-14.7, -46.2], [-15.4, -47.3], [-15.5, -48.1],
+      [-16.0, -47.3], [-16.8, -47.5], [-17.6, -47.6], [-18.4, -48.1],
+      [-18.5, -49.2], [-19.0, -50.1], [-19.4, -50.8], [-18.8, -52.2],
+      [-18.1, -53.1], [-17.4, -53.2], [-16.2, -52.5], [-15.7, -51.8],
+      [-14.9, -51.1], [-13.9, -50.6], [-13.0, -50.4]
+    ];
+
+    const LABEL_POS = {
+      rio_verde: { direction: 'bottom', offset: [0, 9] },
+      jatai: { direction: 'left', offset: [-9, 0] },
+      itaguaru: { direction: 'top', offset: [0, -9] },
+      anapolis: { direction: 'right', offset: [9, 0] },
+      goiania: { direction: 'left', offset: [-9, 0] },
+      cristalina: { direction: 'right', offset: [9, 0] }
+    };
+
+    function corSmap(pct) {
+      if (pct >= 60) return '#0284c7';
+      if (pct >= 45) return '#f59e0b';
+      return '#dc2626';
+    }
+
+    function corNdvi(cidade) {
+      const pct = Number(cidade.caixa_agua_solo_pct || 0);
+      const saldo = Number(cidade.balanco_hidrico_14d_mm || 0);
+      if (pct >= 60 || saldo >= 45) return '#16a34a';
+      if (pct >= 45 || saldo >= 10) return '#84cc16';
+      return '#eab308';
+    }
+
+    function atualizarLegendaMapa(tipo) {
+      const legendEl = document.getElementById('mapLegend');
+      if (!legendEl) return;
+
+      if (tipo === 'smap') {
+        legendEl.innerHTML = `
+          <span class="map-legend-title">Umidade do Solo (NASA SMAP)</span>
+          <div class="map-legend-row"><span class="legend-swatch" style="background:#0284c7"></span> Boa reserva na raiz (&ge; 60%)</div>
+          <div class="map-legend-row"><span class="legend-swatch" style="background:#f59e0b"></span> Atenção na raiz (45% a 59%)</div>
+          <div class="map-legend-row"><span class="legend-swatch" style="background:#dc2626"></span> Seca na raiz (&lt; 45%)</div>
+        `;
+        return;
+      }
+
+      if (tipo === 'ndvi') {
+        legendEl.innerHTML = `
+          <span class="map-legend-title">Vegetação (NASA MODIS NDVI)</span>
+          <div class="map-legend-row"><span class="legend-swatch" style="background:#16a34a"></span> Cobertura / vigor alto</div>
+          <div class="map-legend-row"><span class="legend-swatch" style="background:#84cc16"></span> Vigor moderado</div>
+          <div class="map-legend-row"><span class="legend-swatch" style="background:#eab308"></span> Solo exposto / estresse</div>
+        `;
+        return;
+      }
+
+      legendEl.innerHTML = `
+        <span class="map-legend-title">6 Polos Monitorados · Goiás</span>
+        <div class="map-legend-row"><span class="legend-swatch" style="background:#84cc16"></span> Polo selecionado</div>
+        <div class="map-legend-row"><span class="legend-swatch" style="background:#1f6f3d"></span> Demais polos agrícolas</div>
+        <div class="map-legend-row"><span class="legend-swatch" style="background:#64748b; border-radius:2px; height:3px;"></span> Eixos logísticos regionais</div>
+      `;
+    }
+
+    function atualizarOverlaysMapa(tipo) {
+      if (!zoneLayerGroup) return;
+      zoneLayerGroup.clearLayers();
+
+      const porChave = {};
+      state.cidades.forEach((c) => { porChave[c.municipio_key] = c; });
+
+      const rotas = [
+        ['jatai', 'rio_verde', 'goiania', 'anapolis'],
+        ['itaguaru', 'anapolis', 'cristalina'],
+        ['goiania', 'cristalina']
+      ];
+      rotas.forEach((seq) => {
+        const coords = seq.map((k) => porChave[k]).filter(Boolean).map((c) => [c.lat, c.lon]);
+        if (coords.length >= 2) {
+          L.polyline(coords, {
+            color: '#475569',
+            weight: 2,
+            opacity: 0.55,
+            dashArray: '5, 6',
+            interactive: false
+          }).addTo(zoneLayerGroup);
+        }
+      });
+
+      state.cidades.forEach((c) => {
+        const cor = tipo === 'smap'
+          ? corSmap(c.caixa_agua_solo_pct)
+          : tipo === 'ndvi'
+            ? corNdvi(c)
+            : '#1f6f3d';
+
+        L.circle([c.lat, c.lon], {
+          radius: 46000,
+          color: cor,
+          weight: tipo === 'base' ? 1 : 1.5,
+          opacity: tipo === 'base' ? 0.35 : 0.65,
+          fillColor: cor,
+          fillOpacity: tipo === 'base' ? 0.1 : 0.24,
+          interactive: false
+        }).addTo(zoneLayerGroup);
+      });
+    }
+
+    function initMap(cidades) {
+      map = L.map('map').setView([-16.3, -49.5], 6);
+      L.tileLayer('/api/rotacao/tile/base/{z}/{y}/{x}', {
+        attribution: '&copy; OpenStreetMap &copy; CARTO',
+        maxNativeZoom: 18,
+        maxZoom: 18
+      }).addTo(map);
+
+      L.polygon(GOIAS_CONTORNO, {
+        color: '#1f6f3d',
+        weight: 2,
+        opacity: 0.75,
+        fillColor: '#bbf7d0',
+        fillOpacity: 0.14,
+        interactive: false
+      }).addTo(map);
+
+      zoneLayerGroup = L.layerGroup().addTo(map);
+
+      cidades.forEach((c) => {
+        const pos = LABEL_POS[c.municipio_key] || { direction: 'right', offset: [9, 0] };
+        const ativo = c.municipio_key === state.cidade;
+        const marker = L.circleMarker([c.lat, c.lon], {
+          radius: ativo ? 10 : 7,
+          color: '#123e22',
+          weight: 2,
+          fillColor: ativo ? '#84cc16' : '#1f6f3d',
+          fillOpacity: 0.95
+        }).addTo(map);
+
+        marker.bindTooltip(`${c.nome} (${c.caixa_agua_solo_pct}%)`, {
+          permanent: true,
+          direction: pos.direction,
+          offset: pos.offset,
+          className: `city-map-label${ativo ? ' active' : ''}`
+        });
+        marker.on('click', () => {
+          state.cidade = c.municipio_key;
+          selecionarChip('chipsCidade', c.municipio_key);
+          ajustarSoloPadrao(c.municipio_key);
+          simularRotacao();
+        });
+        markers[c.municipio_key] = marker;
+      });
+
+      setMapLayer(state.camadaMapa);
+    }
+
+    function atualizarMarcadores() {
+      Object.entries(markers).forEach(([key, marker]) => {
+        const ativo = key === state.cidade;
+        marker.setStyle({
+          radius: ativo ? 11 : 7,
+          fillColor: ativo ? '#84cc16' : '#1f6f3d'
+        });
+        const tipEl = marker.getTooltip()?.getElement();
+        if (tipEl) tipEl.classList.toggle('active', ativo);
+        if (ativo && map) {
+          const latLng = marker.getLatLng();
+          map.panTo(latLng, { animate: true });
+        }
+      });
+    }
+
+    function setMapLayer(tipo) {
+      state.camadaMapa = tipo;
+      document.querySelectorAll('.layer-btn').forEach((b) => {
+        b.classList.toggle('active', b.dataset.layer === tipo);
+      });
+      atualizarLegendaMapa(tipo);
+      if (!map) return;
+      if (gibsLayer) {
+        map.removeLayer(gibsLayer);
+        gibsLayer = null;
+      }
+      if (tipo === 'ndvi') {
+        gibsLayer = L.tileLayer('/api/rotacao/tile/ndvi/{z}/{y}/{x}', {
+          opacity: 0.72,
+          maxNativeZoom: 9,
+          maxZoom: 18,
+          attribution: 'NASA GIBS MODIS NDVI'
+        }).addTo(map);
+      } else if (tipo === 'smap') {
+        gibsLayer = L.tileLayer('/api/rotacao/tile/smap/{z}/{y}/{x}', {
+          opacity: 0.72,
+          maxNativeZoom: 6,
+          maxZoom: 18,
+          attribution: 'NASA GIBS SMAP'
+        }).addTo(map);
+      }
+      atualizarOverlaysMapa(tipo);
+    }
+
+    function selecionarChip(containerId, val) {
+      const container = document.getElementById(containerId);
+      container.querySelectorAll('.chip').forEach((b) => {
+        b.classList.toggle('active', b.dataset.val === val);
+      });
+    }
+
+    function ajustarSoloPadrao(municipioKey) {
+      const found = state.cidades.find((c) => c.municipio_key === municipioKey);
+      if (found && found.solo_key_padrao) {
+        state.tipo_solo = found.solo_key_padrao;
+        selecionarChip('chipsSolo', state.tipo_solo);
+      }
+    }
+
+    function renderCidades(cidades) {
+      const el = document.getElementById('chipsCidade');
+      el.innerHTML = cidades
+        .map(
+          (c) =>
+            `<button type="button" class="chip ${c.municipio_key === state.cidade ? 'active' : ''}" data-val="${escapeHtml(c.municipio_key)}">` +
+            `${escapeHtml(c.nome)}<small>Raiz: ${escapeHtml(c.caixa_agua_solo_pct)}%</small></button>`
+        )
+        .join('');
+    }
+
+    function renderResultado(res) {
+      state.ultimoResultado = res;
+      const c = res.contexto;
+      const n = res.leitura_nasa;
+      const p = res.pulso_regional;
+
+      document.getElementById('tituloCidade').textContent = `Leitura Atual — ${c.municipio}`;
+      document.getElementById('subDataRef').textContent = `Referência satelital de ${n.data_referencia} · ${c.microrregiao}`;
+
+      document.getElementById('valCaixaAgua').textContent = `${n.caixa_agua_raiz_pct}%`;
+      const badgeU = document.getElementById('badgeUmidade');
+      badgeU.textContent = n.status_umidade;
+      badgeU.className = 'badge ' + (n.caixa_agua_raiz_pct >= 60 ? 'ok' : n.caixa_agua_raiz_pct >= 45 ? 'alerta' : 'critico');
+
+      const barra = document.getElementById('barraAgua');
+      barra.style.width = `${Math.min(100, Math.max(8, n.caixa_agua_raiz_pct))}%`;
+      barra.className = 'meter-fill ' + (n.caixa_agua_raiz_pct >= 60 ? '' : n.caixa_agua_raiz_pct >= 45 ? 'alerta' : 'critico');
+      document.getElementById('descUmidade').textContent = n.resumo_umidade;
+
+      document.getElementById('valChuva30d').textContent = `${n.chuva_30d_mm} mm`;
+      document.getElementById('badgeCalor').textContent = `${n.dias_calor_extremo_30d} dias ≥34°C`;
+      document.getElementById('descCalor').textContent = n.resumo_calor;
+
+      document.getElementById('valPrev14d').textContent = `${n.chuva_prevista_14d_mm} mm`;
+      const saldoEl = document.getElementById('badgeSaldo14d');
+      const sinal = n.balanco_hidrico_14d_mm >= 0 ? '+' : '';
+      saldoEl.textContent = `Saldo ${sinal}${n.balanco_hidrico_14d_mm} mm`;
+      saldoEl.className = 'badge ' + (n.balanco_hidrico_14d_mm >= 20 ? 'ok' : n.balanco_hidrico_14d_mm >= 0 ? 'alerta' : 'critico');
+      document.getElementById('descPrev14d').textContent = `Evaporação estimada de ${n.et0_previsto_14d_mm} mm nos próximos 14 dias.`;
+
+      document.getElementById('valSoloNome').textContent = c.solo;
+      document.getElementById('descSolo').textContent = c.solo_resumo;
+
+      const altas = (p.culturas_em_alta || []).slice(0, 3).join(', ');
+      const corredorTxt = c.corredor_logistico ? ` · Eixo logístico: ${c.corredor_logistico}.` : '';
+      const sat = p.saturacao_antimanada;
+      const satTxt = sat?.diversificou_top1 && sat?.plano_mais_concentrado
+        ? ` 🛡️ Trava anti-efeito manada ativa: ${sat.concentracao_top_pct}% das buscas recentes já vão para "${sat.plano_mais_concentrado}" — o #1 foi diversificado para proteger preço e frete.`
+        : sat?.tem_concentracao && sat?.plano_mais_concentrado
+          ? ` ⚠️ Alerta anti-manada: "${sat.plano_mais_concentrado}" concentra ${sat.concentracao_top_pct}% das buscas no polo — avalie #2 e #3.`
+          : '';
+      document.getElementById('textoRegional').textContent =
+        `${p.alerta_fitossanitario} Culturas em destaque na região: ${altas} (${p.total_relatos_regiao || 0} relatos regionais)${corredorTxt}${satTxt}`;
+
+      // Monocultura
+      const m = res.risco_monocultura;
+      document.getElementById('monoTitulo').textContent = `⚠️ Se você repetir ${m.cultura} agora (Resiliência: ${m.score_resiliencia}/100)`;
+      document.getElementById('monoBadge').textContent = `${m.nivel_risco} · Água ${m.perda_agua_estimada}`;
+      document.getElementById('monoMotivos').innerHTML = m.motivos.map((x) => `<li>${escapeHtml(x)}</li>`).join('');
+
+      // Ranking Numerado
+      const rankEl = document.getElementById('rankList');
+      rankEl.innerHTML = res.ranking
+        .map((item, idx) => {
+          const sinalN = item.balanco_nitrogenio_kg_ha >= 0 ? `+${item.balanco_nitrogenio_kg_ha}` : `${item.balanco_nitrogenio_kg_ha}`;
+          const stagesHtml = item.etapas_detalhadas
+            .map(
+              (et) =>
+                `<div class="stage-box">
+                  <div class="stage-moment">${escapeHtml(et.momento)}</div>
+                  <div class="stage-crop">${escapeHtml(et.cultura)}</div>
+                  <div class="stage-meta">${escapeHtml(et.familia)} · ~${escapeHtml(et.ciclo_dias)} dias</div>
+                </div>`
+            )
+            .join('');
+          const motivosHtml = item.por_que_funciona.map((r) => `<li>${escapeHtml(r)}</li>`).join('');
+
+          return `
+            <article class="rank-card ${idx === 0 ? 'top1' : ''}">
+              <div class="rank-top">
+                <div class="rank-pos">
+                  <div class="pos-num">#${escapeHtml(item.posicao)}</div>
+                  <div class="rank-title">
+                    <div class="rank-selo">${escapeHtml(item.selo)}</div>
+                    <h3>${escapeHtml(item.titulo)}</h3>
+                  </div>
+                </div>
+                <div class="score-pill">Resiliência: ${escapeHtml(item.score_resiliencia)}/100</div>
+              </div>
+
+              <div class="stages">${stagesHtml}</div>
+
+              <div class="kpis-row">
+                <div class="kpi-mini"><span>Água Conservada</span><strong>+${escapeHtml(item.economia_agua_pct)}%</strong></div>
+                <div class="kpi-mini"><span>Palhada no Solo</span><strong>${escapeHtml(item.palhada_t_ha)} t/ha</strong></div>
+                <div class="kpi-mini"><span>Nitrogênio Natural</span><strong>${escapeHtml(sinalN)} kg/ha</strong></div>
+              </div>
+
+              <div class="window-box"><strong>🗓️ Quando entrar:</strong> ${escapeHtml(item.janela_plantio)}</div>
+              ${
+                item.escoamento
+                  ? `<div class="outflow-box">
+                      <strong>🚚 Escoamento em ${escapeHtml(c.municipio)} (${escapeHtml(item.escoamento.nivel_liquidez)} · ~${escapeHtml(item.escoamento.distancia_media_km)} km):</strong>
+                      ${escapeHtml(item.escoamento.canal_recomendado)}<br/>
+                      <small style="color: var(--muted);">🛣️ ${escapeHtml(item.escoamento.corredor_logistico)} — ${escapeHtml(item.escoamento.condicao_estrada_colheita)}</small>
+                    </div>`
+                  : ''
+              }
+              <ul class="reasons-list">${motivosHtml}</ul>
+
+              ${
+                idx === 0
+                  ? `<div class="actions-row">
+                      <a class="btn-wa" href="https://api.whatsapp.com/send?text=${encodeURIComponent((res.whatsapp_texto || '').replace(/[\uD800-\uDFFF\uFE0F]/g, ''))}" target="_blank" rel="noopener">📲 Enviar Plano #1 no WhatsApp</a>
+                      <button type="button" class="btn-secondary" id="btnCopiarWa">Copiar Resumo</button>
+                    </div>`
+                  : ''
+              }
+            </article>
+          `;
+        })
+        .join('');
+
+      const btnCopiar = document.getElementById('btnCopiarWa');
+      if (btnCopiar) {
+        btnCopiar.addEventListener('click', async () => {
+          try {
+            await navigator.clipboard.writeText(res.whatsapp_texto || '');
+            btnCopiar.textContent = 'Resumo copiado!';
+            setTimeout(() => { btnCopiar.textContent = 'Copiar Resumo'; }, 2500);
+          } catch {
+            btnCopiar.textContent = 'Selecione no WhatsApp';
+          }
+        });
+      }
+
+      atualizarMarcadores();
+    }
+
+    async function simularRotacao(registrar = true) {
+      const btn = document.getElementById('btnSimular');
+      btn.disabled = true;
+      setStatus('Processando...');
+      try {
+        const resp = await fetch('/api/rotacao/simular', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            cidade: state.cidade,
+            cultura_anterior: state.cultura_anterior,
+            tipo_solo: state.tipo_solo,
+            prioridade: state.prioridade,
+            registrar
+          })
+        });
+        const data = await resp.json();
+        if (data.ok) {
+          renderResultado(data);
+          setStatus('Conectado');
+        } else {
+          setStatus('Erro ao calcular');
+        }
+      } catch {
+        setStatus('Sem conexão');
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    async function boot() {
+      try {
+        const resp = await fetch('/api/rotacao/cidades');
+        const data = await resp.json();
+        state.cidades = data.cidades || [];
+        renderCidades(state.cidades);
+        initMap(state.cidades);
+        bindChips('chipsCidade', 'cidade', ajustarSoloPadrao);
+        bindChips('chipsCultura', 'cultura_anterior');
+        bindChips('chipsSolo', 'tipo_solo');
+        bindChips('chipsPrioridade', 'prioridade');
+        document.getElementById('btnSimular').addEventListener('click', () => simularRotacao(true));
+        document.querySelectorAll('.layer-btn').forEach((b) => {
+          b.addEventListener('click', () => setMapLayer(b.dataset.layer));
+        });
+        await simularRotacao(false);
+      } catch {
+        setStatus('Erro ao carregar');
+      }
+    }
+
+    boot();
+  </script>
+</body>
+</html>
