@@ -32,6 +32,32 @@ function lerJson(p) {
     }
 }
 
+let cacheMunicipiosNormMem = null;
+function carregarMapaMunicipiosCache() {
+    if (cacheMunicipiosNormMem) return cacheMunicipiosNormMem;
+    const bruto = lerJson(MUN_CACHE_PATH);
+    const mapa = new Map();
+    for (const entry of Object.values(bruto || {})) {
+        const lista = Array.isArray(entry?.lista) ? entry.lista : [];
+        for (const m of lista) {
+            if (!m?.nome || !m?.uf) continue;
+            const k = norm(m.nome);
+            if (!mapa.has(k)) {
+                mapa.set(k, { nome: m.nome, uf: m.uf });
+            }
+        }
+    }
+    if (mapa.size > 0) cacheMunicipiosNormMem = mapa;
+    return mapa;
+}
+
+export function buscarMunicipioEmCacheIBGE(texto = '') {
+    const k = norm(texto).replace(/[?!.,;:]+$/g, '').trim();
+    if (!k || k.length < 3) return null;
+    const mapa = carregarMapaMunicipiosCache();
+    return mapa.get(k) || null;
+}
+
 function salvarJson(p, obj) {
     try {
         fs.mkdirSync(path.dirname(p), { recursive: true });

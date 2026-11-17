@@ -37,10 +37,10 @@ async function viaOpenMeteo(city) {
     const rotulosEspeciais = ['hoje', 'amanhã', 'depois de amanhã'];
     const previsaoDias = j.daily.time.map((data, i) => {
         const dataDia = new Date(data + 'T12:00:00');
-        let rotulo = rotulosEspeciais[i];
-        if (!rotulo) {
-            rotulo = dataDia.toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'numeric' });
-        }
+        const diaSemanaData = dataDia.toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'numeric' });
+        const rotulo = rotulosEspeciais[i]
+            ? `${rotulosEspeciais[i]} (${diaSemanaData})`
+            : diaSemanaData;
         return {
             dia: rotulo,
             data: data,
@@ -53,6 +53,7 @@ async function viaOpenMeteo(city) {
 
     const hoje = previsaoDias[0];
     const amanha = previsaoDias[1];
+    const ultimoDia = previsaoDias[previsaoDias.length - 1];
 
     return {
         cidade: geo.nome + (geo.uf ? ` (${geo.uf})` : ''),
@@ -61,7 +62,7 @@ async function viaOpenMeteo(city) {
         temperaturaMinimaHoje: hoje.minima,
         chanceDeChuva: hoje.chanceDeChuvaMaxima,
         previsaoDias: previsaoDias,
-        resumo: `A temperatura em ${geo.nome} é de ${Math.round(j.current.temperature_2m)}°C (máxima de ${hoje.maxima} e mínima de ${hoje.minima} hoje) com ${hoje.chanceDeChuvaMaxima} de chance de chuva. Amanhã: ${amanha.condicao}, de ${amanha.minima} a ${amanha.maxima}, com até ${amanha.chanceDeChuvaMaxima} de chance de chuva. Previsão completa de 7 dias disponível no campo previsaoDias.`
+        resumo: `A temperatura em ${geo.nome} é de ${Math.round(j.current.temperature_2m)}°C (máxima de ${hoje.maxima} e mínima de ${hoje.minima} hoje) com ${hoje.chanceDeChuvaMaxima} de chance de chuva. Amanhã (${amanha.dia}): ${amanha.condicao}, de ${amanha.minima} a ${amanha.maxima}, com até ${amanha.chanceDeChuvaMaxima} de chance de chuva. Previsão diária disponível de ${hoje.dia} até ${ultimoDia?.dia || 'os próximos 7 dias'}.`
     };
 }
 

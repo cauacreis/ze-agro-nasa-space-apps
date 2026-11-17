@@ -16,10 +16,15 @@ import {
     normalizarOralidadeRural,
     detectarIntencaoNatural,
     PERGUNTA_ROTACAO_RE,
+    ehOutraIntencaoNaoRotacao,
     ehPerguntaRotacaoValida,
     extrairContextoRotacaoPergunta,
     executarRotacaoNasaERegistrar,
     detectarCidadeConversa,
+    detectarContextoCidadeConversa,
+    extrairTodasCidadesMensagem,
+    detectarConfirmacaoDadosCadastro,
+    aplicarConfirmacaoCadastroSeFaltar,
     conversaPedeRotacao,
     resolverSaidaRotacao,
     detectarMacrorregiaoBrasil,
@@ -997,6 +1002,150 @@ async function runTests() {
             lastUserMessage: 'Quanto custa plantar 1 hectare de milho hoje contando maquinário, diesel e insumos?'
         }).map((t) => t.function?.name);
         assert.ok(toolsMaq.includes('consultar_custo_producao'));
+
+        // Regressão: previsão de chuva para sexta-feira após resposta de rotação em áudio não deve cair no plano de rotação
+        assert.equal(ehOutraIntencaoNaoRotacao('Previsão de chuva para a próxima sexta feira'), true);
+        assert.equal(ehOutraIntencaoNaoRotacao('O chão tá seco demais e o milheto não nasce. O que aguenta sem chuva?'), false);
+        const histAudioSexta = [
+            { role: 'user', content: 'Como fazer rotação?' },
+            { role: 'assistant', content: 'Em Rio Verde, a raiz está em 46% de umidade. Se quiser custo, manejo ou comparar as três, manda outro áudio.' },
+            { role: 'user', content: 'Previsão de chuva para a próxima sexta feira' }
+        ];
+        assert.equal(conversaPedeRotacao(histAudioSexta), false);
+
+        // Regressão: sem chute silencioso de Rio Verde/soja, preservação de cidade fixa, troca de cultura e acompanhamento de variedade
+        const ctxSemDados = extrairContextoRotacaoPergunta('O que eu planto depois da colheita?', null, 'indefinido');
+        assert.equal(ctxSemDados.cidade, null);
+        assert.equal(ctxSemDados.culturaAnterior, null);
+
+        assert.equal(detectarCidadeConversa([{ role: 'user', content: 'e em São Paulo?' }], null), null);
+        assert.equal(
+            detectarCidadeConversa([
+                { role: 'user', content: 'e em São Paulo?' },
+                { role: 'assistant', content: 'De qual cidade de São Paulo você está falando?' },
+                { role: 'user', content: 'Capital' }
+            ], null),
+            'São Paulo - SP'
+        );
+        const ctxConsultaPontual = detectarContextoCidadeConversa([{ role: 'user', content: 'Em Goiânia, qual será?' }], 'Itaguaru');
+        assert.equal(ctxConsultaPontual.cidade, 'Goiânia');
+        assert.equal(ctxConsultaPontual.origem, 'consulta');
+
+        const histSojaCurto = [
+            { role: 'user', content: 'Se eu for plantar soja como vc me ajuda?' },
+            { role: 'assistant', content: 'Qual tipo de soja você vai plantar? Convencional, RR ou Intacta?' },
+            { role: 'user', content: 'Convencional' }
+        ];
+        assert.equal(await orchestratorAgent('Convencional', 'indefinido', { messageHistory: histSojaCurto }), 'SOJA');
+
+        const toolsTrocaCultura = selecionarFerramentasConversa({
+            lastUserMessage: 'Quero plantar soja intacta agora',
+            memoryEnriquecida: { city: 'Itaguaru' },
+            userCrop: 'milho',
+            userVariety: 'crioula'
+        }).map((t) => t.function?.name);
+        assert.ok(toolsTrocaCultura.includes('memorizar_perfil_plantio'));
+
+        const toolsSemCidade = selecionarFerramentasConversa({
+            lastUserMessage: 'Previsão de chuva para sexta-feira?',
+            memoryEnriquecida: { faltaCidade: true }
+        }).map((t) => t.function?.name);
+        assert.ok(!toolsSemCidade.includes('consultar_clima'));
+
+        assert.equal(verificarGuardrailInput('Calcula a 3 derivada de x ao cubo').bloqueado, true);
+
+        // Regressão: confirmação leve quando puxou cidade/cultura só do cadastro, sem repetir nem spammar quando citado na mensagem
+        const confSoCidade = detectarConfirmacaoDadosCadastro({
+            messageHistory: [
+                { role: 'user', content: 'Previsao de chuva para minha cidade, itaguaru sexta feira' },
+                { role: 'assistant', content: 'Itaguaru - previsão para sexta-feira, 20/11: 100%.' },
+                { role: 'user', content: 'Previsão de chuva para a prox sexta' }
+            ],
+            lastUserMessage: 'Previsão de chuva para a prox sexta',
+            resolvedCity: 'Itaguaru',
+            userCrop: 'indefinido',
+            route: 'GERAL',
+            climaAtualTexto: 'Itaguaru: hoje (terça-feira, 17/11)...'
+        });
+        assert.equal(confSoCidade?.confirmarCidade, true);
+        assert.match(confSoCidade?.exemplo || '', /Itaguaru/);
+
+        const confJaCitouCidade = detectarConfirmacaoDadosCadastro({
+            messageHistory: [{ role: 'user', content: 'Previsao de chuva para Itaguaru sexta' }],
+            lastUserMessage: 'Previsao de chuva para Itaguaru sexta',
+            resolvedCity: 'Itaguaru',
+            userCrop: 'indefinido',
+            route: 'GERAL',
+            climaAtualTexto: 'Itaguaru...'
+        });
+        assert.equal(confJaCitouCidade, null);
+
+        const confCulturaCadastro = detectarConfirmacaoDadosCadastro({
+            messageHistory: [{ role: 'user', content: 'Qual adubo eu passo agora?' }],
+            lastUserMessage: 'Qual adubo eu passo agora?',
+            resolvedCity: 'Itaguaru',
+            userCrop: 'milho',
+            userVariety: 'Crioula',
+            route: 'MILHO'
+        });
+        assert.equal(confCulturaCadastro?.confirmarCultura, true);
+        assert.match(confCulturaCadastro?.exemplo || '', /milho.*Crioula/i);
+
+        const confNaoRepeteSeguido = detectarConfirmacaoDadosCadastro({
+            messageHistory: [
+                { role: 'assistant', content: 'Considerei *Itaguaru* do teu cadastro — era dessa cidade mesmo?' },
+                { role: 'user', content: 'e sabado?' }
+            ],
+            lastUserMessage: 'e sabado?',
+            resolvedCity: 'Itaguaru',
+            route: 'GERAL',
+            climaAtualTexto: 'Itaguaru...'
+        });
+        assert.equal(confNaoRepeteSeguido, null);
+
+        const promptConfirmacao = buildCropMessages(
+            'GERAL',
+            [{ role: 'user', content: 'Previsão de chuva para a prox sexta' }],
+            'low_ticket',
+            'indefinido',
+            'indefinido',
+            false,
+            { city: 'Itaguaru', climaAtualTexto: 'Itaguaru...' }
+        );
+        assert.match(promptConfirmacao[0].content, /CONFIRMAÇÃO DE DADOS DO CADASTRO/);
+        assert.match(promptConfirmacao[0].content, /Itaguaru/);
+
+        // Regressão print ao vivo: "e em uruana?" e comparação dupla "uruana ... ou itaguaru", além da aplicação determinística da confirmação
+        assert.equal(detectarCidadeConversa([{ role: 'user', content: 'e em uruana?' }], 'Itaguaru'), 'Uruana');
+        assert.deepEqual(
+            extrairTodasCidadesMensagem('vai chover em uruana amanha tbm? ou só em itaguaru'),
+            ['Uruana', 'Itaguaru']
+        );
+        const histClimaUruana = [
+            { role: 'user', content: 'previsao de chuva amanha' },
+            { role: 'assistant', content: 'Itaguaru - amanhã (quarta-feira, 18/11): 91% de chance de chuva.' },
+            { role: 'user', content: 'e em uruana?' }
+        ];
+        assert.equal(await orchestratorAgent('e em uruana?', 'milho', { messageHistory: histClimaUruana }), 'GERAL');
+        const textoComConfirmacao = aplicarConfirmacaoCadastroSeFaltar(
+            'Itaguaru - amanhã (quarta-feira, 18/11): 91% de chance de chuva.\n\nFicou claro ou quer algum ajuste pro manejo?',
+            confSoCidade
+        );
+        assert.doesNotMatch(textoComConfirmacao, /Ficou claro/);
+        assert.match(textoComConfirmacao, /Considerei \*Itaguaru\* do teu cadastro/);
+
+        // Regressão: "e em goiania?" e "e em piracanjuba" não podem sobrescrever cidade fixa e precisam liberar consultar_clima
+        const ctxGoianiaConsulta = detectarContextoCidadeConversa([{ role: 'user', content: 'e em goiania?' }], 'Itaguaru');
+        assert.equal(ctxGoianiaConsulta.cidade, 'Goiânia');
+        assert.equal(ctxGoianiaConsulta.origem, 'consulta');
+        const ctxPiracanjubaConsulta = detectarContextoCidadeConversa([{ role: 'user', content: 'e em piracanjuba' }], 'Itaguaru');
+        assert.equal(ctxPiracanjubaConsulta.cidade, 'Piracanjuba');
+        assert.equal(ctxPiracanjubaConsulta.origem, 'consulta');
+        const toolsPiracanjuba = selecionarFerramentasConversa({
+            lastUserMessage: 'e em piracanjuba',
+            memoryEnriquecida: { city: 'Piracanjuba' }
+        }).map((t) => t.function?.name);
+        assert.ok(toolsPiracanjuba.includes('consultar_clima'));
     } finally {
         fs.writeFileSync(signalsPath, signalsSnapshot2, 'utf-8');
     }

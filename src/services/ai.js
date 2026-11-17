@@ -15,7 +15,8 @@ import { avaliarRotacaoNasa, normalizarCulturaKey, normalizarSementeKey, normali
 import { registrarSinalAnonimo } from './communitySignals.js';
 import { consultarPrecoCeasa, consultarCotacaoAgro } from './market.js';
 import { calcularCustoDetalhadoCultivo } from './custosProducao.js';
-import { obterDadosAgricolasMunicipioIBGE } from './ibgeAgro.js';
+import { obterDadosAgricolasMunicipioIBGE, buscarMunicipioEmCacheIBGE } from './ibgeAgro.js';
+import { geocodificarCidadeBrasil } from './nasaLive.js';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { getTodayContext } from './moon.js';
 import { chatCompletions, registrarUso, lerChavesProvedor } from './provedores.js';
@@ -350,7 +351,7 @@ const COLOQUIAL_ROCA_RE = /(?:^fala\b|\b(?:so|opa|vei|veio|mano|doido|irmao|parc
 const PROMPT_INJECTION_RE = /(ignore\s+(?:todas\s+as\s+|as\s+)?instru|ignore\s+(?:all\s+)?previous\s+instructions|disregard\s+previous|system\s*prompt|revele\s+(seu|o)\s*prompt|mostre\s+(suas|as)\s+regras\s+internas|jailbreak|modo\s+desenvolvedor|dan\s+mode)/i;
 const ILLEGAL_AGRO_RE = /(receita\s+agronomica\s+fals|comprar\s+agrotoxico\s+sem\s+receita|mistura\s+proibida\s+de\s+veneno|veneno\s+ilegal|defensivo\s+proibido\s+sem\s+bula)/i;
 const OFF_TOPIC_RE = /(jogo do tigrinho|cassino online|aposta esportiva|escreva um codigo em python|escreva um script javascript|programar em react|trader de bitcoin|criptomoeda meme|votar em qual candidato|maior guitarrista|melhor guitarrista|melhor cantor|banda de rock|quem ganhou o jogo|escala[cç][aã]o do time|receita de bolo|filme da netflix|\bderivada\b|\bbhaskara\b|\bpolin[oô]mio\b|\blogaritmo\b|\bfatorial de\b|teorema de pit[aá]goras|equa[cç][aã]o diferencial|matriz inversa|\bx\s+ao\s+(?:quadrado|cubo)\b|\b[xyz]\s*\^\s*\d+|calcul(?:e|a)\s+(?:a\s+)?(?:(?:\d+[ªºa]?\s+)?derivada|integral)\b|\bintegral\s+(?:definida|indefinida|dupla|tripla|impr[oó]pria)\b|\bintegral\s+de\s+(?:\d*[xyz]|[xyz]\s*\^)|centraliz\w*\s+(?:uma?\s+)?div\b|\b(?:bubble|quick|merge|insertion)\s*sort\b|\b(?:meta|patch|build|elo|rank)\s+(?:atual\s+)?do\s+lol\b|league\s+of\s+legends|\bvalorant\b|\bfree\s*fire\b)/i;
-const PROMPT_LEAK_RE = /\b(REGRA INQUEBRÁVEL DE CIDADE|ADAPTAÇÃO DE TOM \([^)]+\)|IDIOMA OBRIGATÓRIO|IDIOMA OBLIGATORIO|MANDATORY LANGUAGE[^:]*|VOICE OUTPUT MODE|TONE ADAPTATION \([^)]+\)|HUMAN_STYLE_RULE|TRUST_RULE|SAFETY_RULE)\s*:?/gi;
+const PROMPT_LEAK_RE = /\b(REGRA INQUEBRÁVEL DE CIDADE|ADAPTAÇÃO DE TOM \([^)]+\)|CONFIRMA[ÇC][ÃA]O DE DADOS DO CADASTRO|ALERTA DE DADO AUSENTE(?:\s*\([^)]+\))?|ALERTA DE ROTA[ÇC][ÃA]O INCOMPLETA|PERGUNTA PURA DE CLIMA|IDIOMA OBRIGATÓRIO|IDIOMA OBLIGATORIO|MANDATORY LANGUAGE[^:]*|VOICE OUTPUT MODE|TONE ADAPTATION \([^)]+\)|HUMAN_STYLE_RULE|TRUST_RULE|SAFETY_RULE)\s*:?/gi;
 
 function normSemAcento(texto) {
     return String(texto || '')
@@ -1163,15 +1164,28 @@ const CIDADES_GOIAS_PATTERNS = [
     { nome: 'Jataí', re: /\bjatai\b/i },
     { nome: 'Cristalina', re: /\bcristalina\b/i },
     { nome: 'Itaguaru', re: /\bitaguaru\b/i },
+    { nome: 'Uruana', re: /\buruana\b/i },
     { nome: 'Anápolis', re: /\banapolis\b/i },
     { nome: 'Goiânia', re: /\bgoiania\b/i },
     { nome: 'Inhumas', re: /\binhumas\b/i },
     { nome: 'Goianésia', re: /\bgoianesia\b/i },
+    { nome: 'Porangatu', re: /\bporangatu\b/i },
+    { nome: 'Mineiros', re: /\bmineiros\b/i },
+    { nome: 'Formosa', re: /\bformosa\b/i },
+    { nome: 'Ceres', re: /\bceres\b/i },
+    { nome: 'Rubiataba', re: /\brubiataba\b/i },
+    { nome: 'Pires do Rio', re: /\bpires\s+do\s+rio\b/i },
+    { nome: 'Ipameri', re: /\bipameri\b/i },
+    { nome: 'Quirinópolis', re: /\bquirinopolis\b/i },
+    { nome: 'Caldas Novas', re: /\bcaldas\s+novas\b/i },
     { nome: 'Trindade', re: /\btrindade\b/i },
     { nome: 'Morrinhos', re: /\bmorrinhos\b/i },
     { nome: 'Catalão', re: /\bcatalao\b/i },
     { nome: 'Luziânia', re: /\bluziania\b/i },
-    { nome: 'Itumbiara', re: /\bitumbiara\b/i }
+    { nome: 'Itumbiara', re: /\bitumbiara\b/i },
+    { nome: 'Goianira', re: /\bgoianira\b/i },
+    { nome: 'Senador Canedo', re: /\bsenador\s+canedo\b/i },
+    { nome: 'Aparecida de Goiânia', re: /\baparecida\s+de\s+goiania\b/i }
 ];
 
 const CULTURAS_ROTACAO_PATTERNS = [
@@ -1204,7 +1218,7 @@ export function ehOutraIntencaoNaoRotacao(texto = '') {
 
     const ehSistemaComparativo = /\b(?:estufa|vaso|apartamento|irrigado|sequeiro)\s+ou\b|\b(?:em|no)\s+(?:estufa|vaso|apartamento)\b|\b(?:espacamento|densidade\s+de\s+plantio|adubacao\s+de\s+cobertura)\b/i.test(norm);
     const ehPragaOuDefensivo = /\b(?:como\s+(?:combater|controlar|acabar|matar)|qual\s+(?:o\s+melhor\s+)?(?:veneno|inseticida|fungicida|herbicida|defensivo|produto\s+pra)|passar\s+(?:veneno|inseticida|fungicida|herbicida)|com\s+(?:lagarta|cigarrinha|percevejo|pulgao|ferrugem|mofo|fungo|bicho)|comendo\s+as?\s+folha|folha\s+(?:amarel|murch|manch))\b/i.test(norm);
-    const ehSoPrevisaoClima = /\b(?:vai\s+chover|previsao\s+do\s+tempo|vai\s+fazer\s+sol|chove\s+(?:hoje|amanha|essa\s+semana))\b/i.test(norm)
+    const ehSoPrevisaoClima = /\b(?:vai\s+chover|previsao\s+(?:de\s+|da\s+|do\s+)?(?:chuva|tempo|clima)|vai\s+fazer\s+sol|chove\s+(?:hoje|amanha|essa\s+semana|na\s+(?:segunda|terca|quarta|quinta|sexta|sabado|domingo))|tempo\s+(?:pra|para|na|no|essa)\s+[^.!?\n]*(?:hoje|amanha|semana|segunda|terca|quarta|quinta|sexta|sabado|domingo)|previsao\b[^.!?\n]*(?:segunda|terca|quarta|quinta|sexta|sabado|domingo|semana|hoje|amanha|fim\s+de\s+semana))\b/i.test(norm)
         && !/\b(o\s+que\s+(?:eu\s+)?(?:planto|plantar)|aguenta\s+(?:sol|seca|sem\s+chuva))\b/i.test(norm);
 
     if (!pedeRotacaoExplicita && (ehSistemaComparativo || ehPragaOuDefensivo || ehSoPrevisaoClima)) {
@@ -1223,7 +1237,7 @@ export function extrairContextoRotacaoPergunta(texto = '', memoryCity = null, re
     const cidade = CIDADES_GOIAS_PATTERNS.find((c) => c.re.test(norm))?.nome
         || detectarCidadeConversa([{ role: 'user', content: texto }], memoryCity)
         || memoryCity
-        || 'Rio Verde';
+        || null;
     let culturaMatch = CULTURAS_ROTACAO_PATTERNS.find((c) => c.re.test(norm))?.key || null;
     if (!culturaMatch) {
         const freeCropMatch = norm.match(/\b(?:colhi|colhemos|colhendo|tirei|tiramos|plantei|plantamos|planto|cultivo|depois d[oa]|apos d?[oa]?|repetir(?: o| a)?|plantar(?: o| a)?)\s+(?:(?:uma?|uns|umas|o|a|os|as|meu|minha|meus|minhas|esse|essa|este|esta|primeiro|primeira|ultimo|ultima)\s+)?([a-z]{3,20})\b/i);
@@ -1242,8 +1256,10 @@ export function extrairContextoRotacaoPergunta(texto = '', memoryCity = null, re
             culturaMatch = candidata;
         }
     }
-    const culturaAnterior = culturaMatch
-        || (registeredCrop && registeredCrop !== 'indefinido' ? registeredCrop : 'soja');
+    const cropValida = registeredCrop && !['indefinido', 'indefinida', 'nao informada', 'não informada'].includes(String(registeredCrop).trim().toLowerCase())
+        ? registeredCrop
+        : null;
+    const culturaAnterior = culturaMatch || cropValida || null;
 
     let prioridade = 'agua';
     if (/\b(escoa|vend|comprad|entreg|cooperativ|cei?asa|fret|caminh|mercad|comerc)\w*/.test(norm)) prioridade = 'escoamento';
@@ -1260,9 +1276,36 @@ export function extrairContextoRotacaoPergunta(texto = '', memoryCity = null, re
 const CIDADE_LIVRE_STOPWORDS = new Set([
     'casa', 'roca', 'fazenda', 'sitio', 'chacara', 'area', 'terra', 'lote', 'regiao',
     'estufa', 'vaso', 'vasos', 'apartamento', 'campo', 'sequeiro', 'irrigado', 'palhada',
-    'tempo', 'breve', 'media', 'geral', 'goias', 'brasil', 'hoje', 'agora', 'amanha', 'ontem', 'depois',
-    'soja', 'milho', 'feijao', 'mandioca', 'tomate', 'cafe', 'banana', 'caju', 'abacaxi', 'arroz', 'cana'
+    'tempo', 'breve', 'media', 'geral', 'brasil', 'hoje', 'agora', 'amanha', 'ontem', 'depois',
+    'soja', 'milho', 'feijao', 'mandioca', 'tomate', 'cafe', 'banana', 'caju', 'abacaxi', 'arroz', 'cana',
+    'semana', 'segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado', 'domingo', 'feira', 'clima', 'chuva', 'previsao',
+    'goias', 'sao paulo', 'minas gerais', 'rio de janeiro', 'espirito santo', 'bahia', 'maranhao', 'piaui',
+    'ceara', 'rio grande do norte', 'paraiba', 'pernambuco', 'alagoas', 'sergipe', 'parana', 'santa catarina',
+    'rio grande do sul', 'mato grosso', 'mato grosso do sul', 'tocantins', 'para', 'amazonas', 'acre',
+    'rondonia', 'roraima', 'amapa', 'distrito federal',
+    'go', 'sp', 'mg', 'rj', 'es', 'ba', 'ma', 'pi', 'ce', 'rn', 'pb', 'pe', 'al', 'se', 'pr', 'sc', 'rs', 'mt', 'ms', 'to', 'pa', 'am', 'ac', 'ro', 'rr', 'ap', 'df',
+    'sertao', 'nordeste', 'sudeste', 'centro oeste', 'norte', 'sul', 'capital', 'interior'
 ]);
+
+const CAPITAIS_POR_ESTADO = [
+    { re: /\b(sao\s+paulo|sp)\b/i, capital: 'São Paulo - SP' },
+    { re: /\b(goias|go)\b/i, capital: 'Goiânia - GO' },
+    { re: /\b(minas\s+gerais|mg)\b/i, capital: 'Belo Horizonte - MG' },
+    { re: /\b(rio\s+de\s+janeiro|rj)\b/i, capital: 'Rio de Janeiro - RJ' },
+    { re: /\b(maranhao|ma)\b/i, capital: 'São Luís - MA' },
+    { re: /\b(bahia|ba)\b/i, capital: 'Salvador - BA' },
+    { re: /\b(parana|pr)\b/i, capital: 'Curitiba - PR' },
+    { re: /\b(rio\s+grande\s+do\s+sul|rs)\b/i, capital: 'Porto Alegre - RS' },
+    { re: /\b(santa\s+catarina|sc)\b/i, capital: 'Florianópolis - SC' },
+    { re: /\b(mato\s+grosso\s+do\s+sul|ms)\b/i, capital: 'Campo Grande - MS' },
+    { re: /\b(mato\s+grosso|mt)\b/i, capital: 'Cuiabá - MT' },
+    { re: /\b(tocantins|to)\b/i, capital: 'Palmas - TO' },
+    { re: /\b(pernambuco|pe)\b/i, capital: 'Recife - PE' },
+    { re: /\b(ceara|ce)\b/i, capital: 'Fortaleza - CE' },
+    { re: /\b(para|pa)\b/i, capital: 'Belém - PA' }
+];
+
+const PALAVRAS_NAO_CIDADE_SOLTA_RE = /\b(oi+|ola|opa|bom\s+dia|boa\s+tarde|boa\s+noite|obrigad[oa]|valeu|sim|nao|quero|convencional|intacta|conkesta|crioul[oa]|hibrid[oa]|transgenic[oa]|organic[oa]|sequeiro|irrigad[oa]|soja|milho|feijao|mandioca|tomate|cafe|banana|citros|gado|boi|vaca|leite|estufa|orcamento|previsao|chuva|tempo|clima|capital|interior|rotacao|custo|preco|ceasa)\b/i;
 
 function capitalizarCidade(raw = '') {
     return raw
@@ -1274,23 +1317,45 @@ function capitalizarCidade(raw = '') {
         .join(' ');
 }
 
-/**
- * Procura a cidade do produtor nas mensagens recentes do usuário (da mais nova para a mais antiga),
- * usando polos de Goiás e padrões naturais ("sou de ...", "moro em ...", "na região de ..."), com fallback para memoryCity.
- */
-export function detectarCidadeConversa(messageHistory = [], memoryCity = null) {
-    const userMsgs = (messageHistory || [])
-        .filter((m) => m.role === 'user' && m.content)
-        .map((m) => String(m.content));
+export function ehDeclaracaoCidadeResidencia(msg = '') {
+    const norm = normSemAcento(msg);
+    return /\b(sou\s+de|moro\s+em|aqui\s+(?:de|em)|falo\s+de|minha\s+cidade|minha\s+(?:terra|roca|lavoura|fazenda)|planto[^.!?\n]{0,35}\bem\b|colhi[^.!?\n]{0,35}\bem\b)\b/i.test(norm);
+}
 
-    for (let i = userMsgs.length - 1; i >= 0; i--) {
-        const msg = userMsgs[i];
+/**
+ * Resolve a cidade atual da conversa e identifica se ela veio de residência/cadastro
+ * ou apenas de uma consulta pontual (para não sobrescrever a cidade fixa do produtor).
+ */
+export function detectarContextoCidadeConversa(messageHistory = [], memoryCity = null) {
+    const msgs = Array.isArray(messageHistory) ? messageHistory : [];
+
+    for (let i = msgs.length - 1; i >= 0; i--) {
+        const entry = msgs[i];
+        if (!entry || entry.role !== 'user' || !entry.content) continue;
+        const msg = String(entry.content);
         const norm = normSemAcento(msg);
+
         const perguntaEnciclopedica = /\bqual\s+(?:e\s+)?(?:o\s+|a\s+)?(?:tipo\s+de\s+solo|solo\s+predominante|populacao|capital|historia)\b/i.test(norm);
-        const contextoPessoal = /\b(sou\s+de|moro\s+em|aqui\s+em|minha\s+(?:terra|roca|lavoura|fazenda)|planto|plantando|colhi)\b/i.test(norm);
+        const contextoPessoal = ehDeclaracaoCidadeResidencia(msg);
         if (perguntaEnciclopedica && !contextoPessoal) {
             continue;
         }
+
+        const ehRespostaCidadeCurta = /^(?:a\s+)?([a-z\s]{3,36})[!?. ]*$/i.test(norm)
+            && !/^(?:e\s+|ou\s+)?(?:em|na|no|para|pra)\b/i.test(norm)
+            && !PALAVRAS_NAO_CIDADE_SOLTA_RE.test(norm)
+            && norm.split(/\s+/).length <= 4;
+        const assistantPediuCidadeAntes = msgs.slice(Math.max(0, i - 2), i).some((m) => m?.role === 'assistant' && /qual\s+(?:a\s+)?cidade/i.test(normSemAcento(String(m.content || ''))));
+
+        // Resposta "Capital" logo após pergunta sobre estado (ex.: "e em São Paulo?" -> "Capital")
+        if (/^(?:a\s+)?capital[!?. ]*$/i.test(norm)) {
+            const contextoAnterior = msgs.slice(Math.max(0, i - 3), i).map((m) => normSemAcento(m?.content || '')).join(' ');
+            const cap = CAPITAIS_POR_ESTADO.find((c) => c.re.test(contextoAnterior));
+            if (cap) {
+                return { cidade: cap.capital, origem: 'consulta' };
+            }
+        }
+
         const polo = CIDADES_GOIAS_PATTERNS.find((c) => {
             const m = norm.match(c.re);
             if (!m) return false;
@@ -1300,20 +1365,206 @@ export function detectarCidadeConversa(messageHistory = [], memoryCity = null) {
             }
             return true;
         });
-        if (polo) return polo.nome;
+        if (polo) {
+            const origem = (contextoPessoal || !memoryCity || (ehRespostaCidadeCurta && assistantPediuCidadeAntes)) ? 'residencia' : 'consulta';
+            return { cidade: polo.nome, origem };
+        }
 
-        const mLivre = String(msg).match(/\b(?:sou\s+de|moro\s+em|aqui\s+(?:de|em)|falo\s+de|munic[ií]pio\s+de|cidade\s+de|regi[aã]o\s+de|perto\s+de|pr[oó]ximo\s+(?:a|de)|l[aá]\s+em|plant\w*(?:\s+[a-zÀ-ÿ]+){1,5}?\s+(?:em|na\s+regi[aã]o\s+de)|colh\w*(?:\s+[a-zÀ-ÿ]+){1,5}?\s+(?:em|na\s+regi[aã]o\s+de)|(?:^|[,.!?]\s*)em)\s+([A-Za-zÀ-ÿ]{3,}(?:\s+(?:(?:d[aeo]s?\s+)?[A-Za-zÀ-ÿ]{2,})){0,3}?)(?=\s*(?:[-–/,?!.]|\b(?:e|ou|mas|que|qual|como|onde|quando|compensa|vale|seria|pra|para|no|na|com|depois|ap[oó]s|goi[aá]s|go|mg|mt|ms|sp|pr|ba|df|to)\b|$))/i);
+        const mLivre = String(msg).match(/\b(?:sou\s+de|moro\s+em|aqui\s+(?:de|em)|falo\s+de|minha\s+cidade(?:\s*(?:[eé]|,|:\s*))?\s+|munic[ií]pio\s+de|cidade\s+de|regi[aã]o\s+de|perto\s+de|pr[oó]ximo\s+(?:a|de)|l[aá]\s+em|plant\w*(?:\s+[a-zÀ-ÿ]+){1,5}?\s+(?:em|na\s+regi[aã]o\s+de)|colh\w*(?:\s+[a-zÀ-ÿ]+){1,5}?\s+(?:em|na\s+regi[aã]o\s+de)|(?:^|[,.!?]\s*)em|(?:\be|mas|tamb[eé]m|tbm|ou(?:\s+s[oó])?|como\s+(?:t[aá]|est[aá])|vai\s+chover|chove|chover|previs[aã]o|tempo|chuva)\s+(?:em|de|para|pra))\s+([A-Za-zÀ-ÿ]{3,}(?:\s+(?:(?:d[aeo]s?\s+)?[A-Za-zÀ-ÿ]{2,})){0,3}?)(?=\s*(?:[-–/,?!.]|\b(?:e|ou|mas|que|qual|como|onde|quando|compensa|vale|seria|pra|para|no|na|com|depois|ap[oó]s|hoje|amanh[aã]|segunda|ter[cç]a|quarta|quinta|sexta|s[aá]bado|domingo|semana|tamb[eé]m|tbm|s[oó]|goi[aá]s|go|mg|mt|ms|sp|pr|ba|df|to|ma)\b|$))/i);
         if (mLivre?.[1]) {
             const candidata = mLivre[1].trim();
             const candNorm = normSemAcento(candidata);
             const palavras = candNorm.split(/\s+/);
             if (!palavras.every((p) => CIDADE_LIVRE_STOPWORDS.has(p)) && !CIDADE_LIVRE_STOPWORDS.has(candNorm)) {
-                return capitalizarCidade(candidata);
+                const origem = (contextoPessoal || !memoryCity) ? 'residencia' : 'consulta';
+                return { cidade: capitalizarCidade(candidata), origem };
+            }
+        }
+
+        if (ehRespostaCidadeCurta) {
+            const cacheHit = buscarMunicipioEmCacheIBGE(msg);
+            if (cacheHit?.nome) {
+                return { cidade: `${cacheHit.nome} - ${cacheHit.uf}`, origem: 'residencia' };
             }
         }
     }
 
-    return memoryCity || null;
+    return { cidade: memoryCity || null, origem: memoryCity ? 'memoria' : null };
+}
+
+/**
+ * Extrai TODAS as cidades citadas em uma mesma mensagem (ex.: "vai chover em uruana amanha tbm? ou só em itaguaru").
+ */
+export function extrairTodasCidadesMensagem(msg = '') {
+    const raw = String(msg || '');
+    const norm = normSemAcento(raw);
+    const encontradas = [];
+    const seen = new Set();
+    const adicionar = (nome, pos = 999999) => {
+        const clean = String(nome || '').trim();
+        const k = normSemAcento(clean.split(' - ')[0]);
+        if (!clean || !k || seen.has(k)) return;
+        seen.add(k);
+        encontradas.push({ nome: clean, pos });
+    };
+
+    for (const c of CIDADES_GOIAS_PATTERNS) {
+        const m = norm.match(c.re);
+        if (!m) continue;
+        const antes = norm.slice(Math.max(0, (m.index || 0) - 30), m.index || 0);
+        if (!/\bnao\s+(?:to|estou|e|fica|moro|sou)\s+(?:em|de|na|no|a)?\s*$/i.test(antes)) {
+            adicionar(c.nome, m.index ?? 999999);
+        }
+    }
+
+    const reLivreGlobal = /\b(?:sou\s+de|moro\s+em|aqui\s+(?:de|em)|em|para|pra)\s+([A-Za-zÀ-ÿ]{3,}(?:\s+(?:(?:d[aeo]s?\s+)?[A-Za-zÀ-ÿ]{2,})){0,3}?)(?=\s*(?:[-–/,?!.]|\b(?:e|ou|mas|que|qual|como|onde|quando|compensa|vale|seria|pra|para|no|na|com|depois|ap[oó]s|hoje|amanh[aã]|segunda|ter[cç]a|quarta|quinta|sexta|s[aá]bado|domingo|semana|tamb[eé]m|tbm|s[oó]|goi[aá]s|go|mg|mt|ms|sp|pr|ba|df|to|ma)\b|$))/gi;
+    for (const match of raw.matchAll(reLivreGlobal)) {
+        const cand = match[1]?.trim() || '';
+        const candNorm = normSemAcento(cand);
+        const palavras = candNorm.split(/\s+/);
+        if (!cand || palavras.every((p) => CIDADE_LIVRE_STOPWORDS.has(p)) || CIDADE_LIVRE_STOPWORDS.has(candNorm)) continue;
+        const ibgeHit = buscarMunicipioEmCacheIBGE(cand);
+        if (ibgeHit?.nome) {
+            adicionar(ibgeHit.nome, match.index ?? 999999);
+        }
+    }
+
+    return encontradas.sort((a, b) => a.pos - b.pos).map((x) => x.nome);
+}
+
+/**
+ * Procura a cidade do produtor nas mensagens recentes do usuário (da mais nova para a mais antiga),
+ * usando polos de Goiás, padrões naturais e cache IBGE, com fallback para memoryCity.
+ */
+export function detectarCidadeConversa(messageHistory = [], memoryCity = null) {
+    return detectarContextoCidadeConversa(messageHistory, memoryCity).cidade;
+}
+
+/**
+ * Identifica quando a resposta usou cidade, cultura ou variedade apenas do cadastro salvo
+ * (sem o produtor ter citado na mensagem atual), para confirmar de forma leve no fim sem travar o papo.
+ */
+export function detectarConfirmacaoDadosCadastro({
+    messageHistory = [],
+    lastUserMessage = '',
+    resolvedCity = null,
+    userCrop = 'indefinido',
+    userVariety = 'indefinido',
+    route = 'GERAL',
+    ehRotacaoConversa = false,
+    ehAberturaRelato = false,
+    faltaCidade = false,
+    rotacaoDadosFaltando = '',
+    perguntaPuraClimaSemCultura = false,
+    climaAtualTexto = ''
+} = {}) {
+    if (ehAberturaRelato || faltaCidade || rotacaoDadosFaltando) return null;
+
+    const msgs = Array.isArray(messageHistory) ? messageHistory : [];
+    const ultimaAssistant = msgs.slice().reverse().find((m) => m.role === 'assistant')?.content || '';
+    if (/(?:do\s+(?:teu|seu)\s+cadastro|anotad[oa]\s+aqui|era\s+dess[ae]\s+cidade\s+mesmo|[eé]\s+dess[ae]\s+(?:plantio|cultura|regi[aã]o)|mudou\s+de\s+cidade|outra\s+cidade\s+ou\s+cultura)/i.test(normSemAcento(ultimaAssistant))) {
+        return null;
+    }
+
+    const normAtual = normalizarOralidadeRural(lastUserMessage);
+    if (!normAtual) return null;
+
+    const cidadeCitadaNaMsgAtual = Boolean(detectarContextoCidadeConversa([{ role: 'user', content: lastUserMessage }], null).cidade);
+    const precisaCidadeNoTurno = Boolean(climaAtualTexto)
+        || ehRotacaoConversa
+        || /\b(chuv|previsao|tempo|clima|garoa|janela|calor|umidad|solo|plant|seme|colh|escoa|vend|comprad|ceasa|cotac|preco|custo|gasto|orcamento)\w*/i.test(normAtual);
+    const usouCidadeDoCadastro = Boolean(resolvedCity) && !cidadeCitadaNaMsgAtual && precisaCidadeNoTurno;
+
+    const cropTrim = String(userCrop || '').trim();
+    const cropValida = cropTrim && !['indefinido', 'indefinida', 'nao informada', 'não informada'].includes(cropTrim.toLowerCase())
+        ? cropTrim
+        : null;
+    const varTrim = String(userVariety || '').trim();
+    const varValida = varTrim && !['indefinido', 'indefinida', 'nao informada', 'não informada'].includes(varTrim.toLowerCase())
+        ? varTrim
+        : null;
+
+    const mencionaCulturaNaMsg = Boolean(detectRouteFast(lastUserMessage))
+        || OUTRAS_CULTURAS_GERAIS_RE.test(normAtual)
+        || CULTURAS_ROTACAO_PATTERNS.some((c) => c.re.test(normAtual));
+    const mencionaVariedadeNaMsg = Boolean(
+        varValida && normAtual.includes(normSemAcento(varValida))
+    );
+    const ehPerguntaClimaOuPrecoSemCultura = perguntaPuraClimaSemCultura
+        || /\b(chuv|previsao|tempo|clima|garoa|ceasa)\b/i.test(normAtual);
+    const ehPerguntaManejoOuPlantio = route !== 'GERAL'
+        || ehRotacaoConversa
+        || /\b(plant|seme|adub|calcari|espacamento|praga|doenc|folha|custo|gasto|quanto\s+custa|colh|rotac|trat)\w*/i.test(normAtual);
+
+    const usouCulturaDoCadastro = Boolean(cropValida)
+        && !ehPerguntaClimaOuPrecoSemCultura
+        && ehPerguntaManejoOuPlantio
+        && !mencionaCulturaNaMsg;
+    const usouVariedadeDoCadastro = Boolean(cropValida && varValida)
+        && !ehPerguntaClimaOuPrecoSemCultura
+        && /\b(adub|espacamento|semente|plant|custo|trat|praga)\w*/i.test(normAtual)
+        && !mencionaVariedadeNaMsg;
+
+    if (!usouCidadeDoCadastro && !usouCulturaDoCadastro && !usouVariedadeDoCadastro) {
+        return null;
+    }
+
+    const itens = [];
+    if (usouCidadeDoCadastro) itens.push(`cidade: *${resolvedCity}*`);
+    if (usouCulturaDoCadastro || usouVariedadeDoCadastro) {
+        itens.push(`plantio: *${cropValida}*${usouVariedadeDoCadastro ? ` (*${varValida}*)` : ''}`);
+    }
+
+    let exemplo = '';
+    if (usouCidadeDoCadastro && (usouCulturaDoCadastro || usouVariedadeDoCadastro)) {
+        const plantioTxt = `*${cropValida}*${usouVariedadeDoCadastro ? ` (*${varValida}*)` : ''}`;
+        exemplo = ehRotacaoConversa
+            ? `Considerei *${resolvedCity}* e ${plantioTxt} do teu cadastro — se for outra cidade ou outra cultura, me avisa.`
+            : `Considerei *${resolvedCity}* e seu plantio de ${plantioTxt} do cadastro — era disso mesmo que você queria saber, ou é outra cidade ou cultura?`;
+    } else if (usouCidadeDoCadastro) {
+        exemplo = ehRotacaoConversa
+            ? `Considerei *${resolvedCity}* do teu cadastro — se quiser simular pra outra cidade, é só falar.`
+            : `Considerei *${resolvedCity}* do teu cadastro — era dessa cidade mesmo que você queria saber, ou prefere pra outra?`;
+    } else {
+        const plantioTxt = `*${cropValida}*${usouVariedadeDoCadastro ? ` (*${varValida}*)` : ''}`;
+        exemplo = ehRotacaoConversa
+            ? `Considerei seu plantio de ${plantioTxt} anotado aqui — se for outra cultura, me avisa.`
+            : `Considerei seu plantio de ${plantioTxt} que está anotado aqui — é dele mesmo ou tá vendo outra cultura?`;
+    }
+
+    return {
+        confirmarCidade: usouCidadeDoCadastro,
+        confirmarCultura: usouCulturaDoCadastro || usouVariedadeDoCadastro,
+        ehRotacaoConversa,
+        itens,
+        exemplo
+    };
+}
+
+/**
+ * Garante de forma determinística a pergunta leve de confirmação no fechamento quando
+ * a resposta usou cidade ou plantio apenas do cadastro salvo e a IA esqueceu de confirmar.
+ */
+export function aplicarConfirmacaoCadastroSeFaltar(texto = '', confirmacaoCadastro = null, { isAudio = false, idioma = IDIOMA_PADRAO } = {}) {
+    const out = String(texto || '').trim();
+    if (!out || !confirmacaoCadastro?.exemplo || confirmacaoCadastro.ehRotacaoConversa || isAudio) {
+        return out;
+    }
+    if ((normalizarCodigoIdioma(idioma) || IDIOMA_PADRAO) !== 'pt-BR') {
+        return out;
+    }
+
+    const normOut = normSemAcento(out);
+    if (/(?:do\s+(?:teu|seu)\s+cadastro|anotad[oa]\s+aqui|salvo\s+(?:no|aqui)|era\s+dess[ae]\s+cidade|dess[ae]\s+(?:plantio|cultura)\s+mesmo|mudou\s+de\s+(?:cidade|cultura)|outra\s+cidade\s+ou|outra\s+cultura)/i.test(normOut)) {
+        return out;
+    }
+
+    // Remove eventual pergunta genérica de fechamento ("Ficou claro ou quer algum ajuste...?") para não empilhar duas perguntas.
+    const semFechamentoGenerico = out
+        .replace(/\n*\s*(?:Ficou\s+(?:alguma\s+d[úu]vida|claro)|Quer\s+(?:que\s+eu\s+detalhe|algum\s+(?:detalhe|ajuste))|Tem\s+alguma\s+d[úu]vida)[^?\n]*\?\s*$/i, '')
+        .trim();
+
+    return `${semFechamentoGenerico}\n\n${confirmacaoCadastro.exemplo}`;
 }
 
 /**
@@ -1332,7 +1583,7 @@ export function conversaPedeRotacao(messageHistory = []) {
 
     const ultimaAssistant = (messageHistory || []).slice().reverse().find((m) => m.role === 'assistant')?.content || '';
     const normAssistant = normSemAcento(String(ultimaAssistant));
-    if (/melhor\s+caminho\s+agora|repetir\s+\w+\s+direto\s+agora|quer\s+saber\s+o\s+custo|como\s+cuidar\s+de|falando\s+de\s+dinheiro\s+pra\s+tua\s+area|conta\s+fechada|pra\s+vender|investimento\s+estimado|combinado:\s+vou\s+ficar\s+em\s+contato|forma\s+\*?profissional|plano\s+de\s+rotacao/i.test(normAssistant)) {
+    if (/melhor\s+caminho\s+agora|repetir\s+\w+\s+(?:direto\s+agora|nao\s+compensa)|nao\s+vale\s+a\s+pena|outras\s+opcoes\s+pra\s+comparar|na\s+venda\s+perto,\s+procure|se\s+quiser\s+custo,\s+manejo|manda\s+outro\s+audio|quer\s+saber\s+o\s+custo|como\s+cuidar\s+de|falando\s+de\s+dinheiro\s+pra\s+tua\s+area|conta\s+fechada|pra\s+vender|investimento\s+estimado|combinado:\s+vou\s+ficar\s+em\s+contato|forma\s+\*?profissional|plano\s+de\s+rotacao/i.test(normAssistant)) {
         return false;
     }
 
@@ -1424,7 +1675,8 @@ export function interpretarMensagemRotacao(rawText = '', memoryCity = null, regi
         const top1Match = texto.match(/#1 Recomendado\s*\(\d+\/100\):\*?\s*([^\n]+)/i);
         const escoamentoMatch = texto.match(/Escoamento\s*\([^)]+\):\*?\s*([^\n]+)/i);
 
-        const cidade = (cidadeMatch?.[1] || memoryCity || 'Rio Verde').trim();
+        const cidade = (cidadeMatch?.[1] || memoryCity || '').trim() || null;
+        if (!cidade) return null;
         const culturaAnterior = (anteriorMatch?.[1] || '').trim() || null;
         const planoTop1 = (top1Match?.[1] || 'plano #1 recomendado').trim();
         const escoamentoInfo = (escoamentoMatch?.[1] || '').trim() || null;
@@ -1598,7 +1850,7 @@ export function interpretarMensagemRotacao(rawText = '', memoryCity = null, regi
 // ---------------------------------------------------------------------------
 // BLOCOS DE REGRA COMPARTILHADOS ENTRE OS AGENTES
 // ---------------------------------------------------------------------------
-const CITY_RULE = `REGRA INQUEBRÁVEL DE CIDADE: NUNCA adivinhe a cidade ou o estado do produtor. NUNCA assuma que ele é de Anápolis, Rio Verde ou de Goiás se ele não falou. Se ele perguntar de clima, época de plantio ou venda regional e a cidade não estiver explícita na mensagem, no histórico recente ou em DADOS DO PRODUTOR, PARE e PERGUNTE: 'De qual cidade e estado você está falando?'. PROIBIDO perguntar ao produtor "qual a sua previsão de chuva?" ou "vai chover aí?". Quando a cidade já estiver informada na conversa ou na memória, VOCÊ puxa e entrega a previsão climática atual.`;
+const CITY_RULE = `REGRA INQUEBRÁVEL DE CIDADE: NUNCA adivinhe a cidade ou o estado do produtor. NUNCA assuma que ele é de Anápolis, Rio Verde, Jataí, Goiânia ou de Goiás se ele não falou. Se o produtor JÁ falou o nome da cidade (mesmo sem sigla do estado, ex.: "Uruana", "Itaguaru", "Peritoró"), NUNCA peça para ele repetir qual é o estado — consulte e entregue direto para essa cidade! Só pare e pergunte "De qual cidade e estado você está falando?" quando NÃO houver nome de cidade nem na mensagem nem no histórico/cadastro (ou quando ele falar só o nome de um estado inteiro, como "em São Paulo" ou "em Goiás"). Quando for uma pergunta PURA de previsão do tempo sem cultura citada na conversa, entregue APENAS a previsão climática real — PROIBIDO inventar ou encaixar cultura que o usuário não falou (como milho ou soja). PROIBIDO perguntar ao produtor "qual a sua previsão de chuva?" ou "vai chover aí?". Quando a cidade já estiver informada na conversa ou na memória, VOCÊ puxa e entrega a previsão climática atual.`;
 
 const SALES_RULE = `REGRA SOBRE PLANOS E COBRANÇAS: O atendimento do Zé Agro é gratuito e aberto ao produtor. NUNCA ofereça planos pagos, VIP, Premium, mensalidades de R$ 84,99 nem mencione limite de mensagens.`;
 
@@ -1628,7 +1880,7 @@ const HUMAN_STYLE_RULE = `ESTILO E DINÂMICA DE CONVERSA (OBRIGATÓRIO — papo 
 - Termine (exceto em respostas de rotação que já enviam o convite separado) com UMA pergunta curta e útil pra conversa andar de verdade. Quando a resposta tiver uma *explicação maior* (passo a passo completo, calendário ou vários cuidados), feche de jeito natural conferindo se ficou claro (ex.: "Ficou alguma dúvida desse passo a passo ou quer que eu detalhe alguma parte?"), variando as palavras e evitando usar isso em respostas curtas.
 - PRODUTOR 100% FAZEDOR DE TUDO (MÃO NA MASSA): Trate o produtor como quem resolve e executa tudo direto na roça com a sua ajuda! NUNCA mande o produtor "procurar um agrônomo", "confirmar com seu agrônomo", "ir na Emater" nem ofereça "montar resumo/base pra levar pro agrônomo". Se faltar análise de solo ou dado da lavoura, peça direto pro produtor mandar aqui (ou por foto) pra VOCÊ fazer a conta e passar o passo a passo na mão dele. SÓ fale de agrônomo/técnico ou monte instrução pra levar se o PRÓPRIO usuário pedir explicitamente (ou em risco grave de vida/doença de notificação obrigatória).
 - NÃO use emojis na resposta — mantenha o visual limpo, direto e natural como conversa séria no WhatsApp.
-- NUNCA comece duas respostas seguidas com a mesma palavra ou estrutura (o histórico mostra como você respondeu antes).
+- NUNCA comece duas respostas seguidas com a mesma palavra ou estrutura (o histórico mostra como você respondeu antes). E NUNCA repita o mesmo texto de uma resposta anterior se o produtor questionar algum dado (ex.: "Costuma ser?", "Os dados da NASA?"): responda diretamente à cobrança dele com os números reais do contexto ou admita o que não estiver disponível.
 
 MOSTRA OS RECURSOS (descoberta natural): quando fizer sentido na conversa — e no MÁXIMO 1x por conversa —, cite um recurso seu do jeito que amigo comenta: se ele descreve sintoma, lembre que "manda uma foto que eu vejo daqui"; se ele fala da lavoura, lembre que "se quiser, posso te mandar o tempo todo dia cedo"; se pergunta de produto, lembre que você acha com link de compra. Nunca empilhe todos os recursos de uma vez, nunca pareça comercial.`;
 
@@ -1637,7 +1889,8 @@ const IDENTITY_RULE = `IDENTIDADE: Seu nome é ZÉ AGRO e VOCÊ É UM HOMEM (agr
 const TRUST_RULE = `CONFIANÇA E HONESTIDADE (OBRIGATÓRIO — produtor desconfia de IA que alucina):
 - Quando usar os dados do dossiê, CITE A FONTE naturalmente: "pela Embrapa...", "nos dados da Embrapa diz...". Isso dá peso à sua resposta.
 - Se não souber ou a pergunta fugir do que está na sua base, ADMITA sem rodeio: "isso aí eu não sei te afirmar com certeza". NUNCA invente informação pra parecer que sabe.
-- PROIBIDO inventar nome químico, marca, mistura, concentração ou dose de defensivo, adubo, vermífugo, vacina ou remédio que não esteja escrito na sua base (ex.: NUNCA chute dose fixa em quilos se depende de análise de solo, e NUNCA indique herbicida/produto de outra cultura!). Erro de dose ou produto errado mata lavoura e boi. Se depender da análise de solo ou da bula, diga direto pro próprio produtor conferir a análise (ou mandar os números/foto aqui pra você calcular com ele) e seguir a bula — NUNCA mande ele procurar agrônomo por causa disso.
+- PROIBIDO inventar nome químico, marca, mistura, concentração ou dose de defensivo, desinfetante, adubo, vermífugo, vacina ou remédio que não esteja escrito na sua base (ex.: NUNCA chute dose fixa em quilos se depende de análise de solo, NUNCA indique herbicida/produto de outra cultura, NUNCA mande usar ureia/nitrogênio mineral no plantio da soja nem invente espaçamento absurdo como "22 mil plantas por hectare" ou "20 kg de semente" em soja, e em pecuária/mastite NUNCA invente receita caseira de cloro como "1 L de cloro por 1 L de água" — mande sempre seguir a diluição do rótulo do pré/pós-dipping registrado — nem use palavras sem sentido como "lobo" ou "lixeira de lobo" para úbere/teto/teteira). Erro de dose ou produto errado mata lavoura e boi. Se depender da análise de solo ou da bula, diga direto pro próprio produtor conferir a análise (ou mandar os números/foto aqui pra você calcular com ele) e seguir a bula — NUNCA mande ele procurar agrônomo por causa disso.
+- Em contas financeiras (custo, perda de leite/safra, margem), faça a multiplicação exata e nunca chute preço de venda do leite/saca sem o produtor informar ou vir de cotação real.
 - PROIBIDO chutar porcentagem de umidade do solo (como "30-40%") se esse número não veio nos dados reais da conversa — se não veio satélite, diga para conferir na mão se a terra está úmida na altura da raiz.
 - NUNCA diga que está vendo foto se não existir '[DIAGNÓSTICO TÉCNICO DE IMAGEM:]' no histórico.
 - Defensivo fora do que a bula permite (uso off-label) é ILEGAL: nunca sugira.
@@ -1765,14 +2018,55 @@ export async function orchestratorAgent(userMessage, registeredCrop, opts = {}) 
 
     const cropKey = String(registeredCrop || '').trim().toUpperCase();
     const validRegisteredCrop = cropKey && cropKey !== 'INDEFINIDO' && CROP_REGISTRY[cropKey] ? cropKey : null;
+
+    // Respostas curtas de continuação (ex.: "Convencional", "Crioula") devem herdar a cultura citada nos últimos turnos
+    // da conversa antes de recorrer ao cadastro antigo ou cair em GERAL sem KB.
+    const recentMsgs = Array.isArray(opts?.messageHistory) ? opts.messageHistory : [];
+    const turnoAnteriorEraClima = recentMsgs.slice(-5).some((m) => m?.content && /\b(chuv|previsao|tempo|clima|trovoada|umidade\s+do\s+solo)\b/i.test(normSemAcento(String(m.content))));
+    const ehFollowupSoCidade = /^(?:e\s+)?(?:em|na|no|para|pra)\s+[a-z\s]{3,35}[?!.]*$/i.test(normMsg)
+        || (Boolean(detectarContextoCidadeConversa([{ role: 'user', content: userMessage }], null).cidade) && normMsg.length <= 45);
+    const outraIntencaoGeral = /\b(ceasa|quanto\s+ta|preco\s+(?:da|do|no|na|hoje|ceasa)|cotacao|pronaf|credito|emprestimo|gado|boi|vaca|leite|clima|previsao|tempo|chuva|chover|garoa|segunda|terca|quarta|quinta|sexta|sabado|domingo|lua|anota|lembra|despesa|gasto|receita|lucro|balanco|apaga|dados|como\s+funciona)\b/i.test(normMsg)
+        || (turnoAnteriorEraClima && ehFollowupSoCidade);
+    const ehFollowupCurto = !ehMensagemImagem && !outraIntencaoGeral && normMsg.length <= 80;
+    let recentCropFromHistory = null;
+    if (recentMsgs.length > 0 && !ehMensagemImagem) {
+        for (let i = recentMsgs.length - 1; i >= Math.max(0, recentMsgs.length - 5); i--) {
+            const m = recentMsgs[i];
+            if (!m || !m.content) continue;
+            const txtHist = String(m.content);
+            if (i === recentMsgs.length - 1 && m.role === 'user' && txtHist.trim() === rawMsg.trim()) continue;
+            const normHist = normalizarOralidadeRural(txtHist);
+            if (OUTRAS_CULTURAS_GERAIS_RE.test(normHist) && m.role === 'user') {
+                recentCropFromHistory = 'GERAL';
+                break;
+            }
+            const rHist = detectRouteFast(txtHist);
+            if (rHist) {
+                recentCropFromHistory = rHist;
+                break;
+            }
+        }
+    }
+
+    if (ehFollowupCurto && recentCropFromHistory && recentCropFromHistory !== 'GERAL') {
+        const ehRespostaVariedadeOuSeguimento = /\b(convencional|intacta|conkesta|crioul[oa]|hibrid[oa]|rr|superprecoce|prata|nanica|maca|carioca|preto|caupi|catuai|bourbon|mundo novo|pera|tahiti|arroz|adub|espacamento|plantio|semente|calagem|gesso|folha|praga|sim|nao)\b/i.test(normMsg)
+            || recentCropFromHistory !== validRegisteredCrop;
+        if (ehRespostaVariedadeOuSeguimento) {
+            return recentCropFromHistory;
+        }
+    }
+
     if (validRegisteredCrop && !ehMensagemImagem) {
         const correcaoOuTrocaCultura = /\b(nao\s+(?:e|eh|quero|vou|to\s+plantando)\s+(?:milho|soja|feijao|tomate|banana|cafe|mandioca)|troc\w*\s+de\s+cultura|mud\w*\s+(?:de\s+cultura|para|pra)|na\s+verdade\s+e|voce\s+nao\s+entendeu)\b/i.test(normMsg);
-        const outraIntencaoGeral = /\b(ceasa|quanto\s+ta|preco\s+(?:da|do|no|na|hoje|ceasa)|cotacao|pronaf|credito|emprestimo|gado|boi|vaca|leite|clima|previsao|tempo|chuva|lua|anota|lembra|despesa|gasto|receita|lucro|balanco|apaga|dados|como\s+funciona)\b/i.test(normMsg);
         const saudacaoPura = /^(?:oi+|ola+|opa|bom\s+dia|boa\s+tarde|boa\s+noite|e\s+ai|firmeza|blz|beleza|tudo\s+bem|valeu|obrigad[oa]|tchau|ate\s+mais)[!?. ]*$/i.test(normMsg);
         const sinalAgronomicoContinuacao = /\b(solo|cobertura|adubo|adubacao|calagem|gesso|folha|praga|doenca|variedade|cultivar|espacamento|irrigacao|plantio|colheita|semente|fertili|lagarta|percevejo|ferrugem|nematoid|palhada|latossolo|argiloso|arenoso|ph|calcario|npk|ureia|kcl|map|dap)\b/i.test(normMsg);
         if (!correcaoOuTrocaCultura && !outraIntencaoGeral && !saudacaoPura && (normMsg.length <= 140 || sinalAgronomicoContinuacao)) {
             return validRegisteredCrop;
         }
+    }
+
+    if (turnoAnteriorEraClima && ehFollowupSoCidade) {
+        return 'GERAL';
     }
 
     const routeKeys = [...Object.keys(CROP_REGISTRY), 'GERAL'].join(', ');
@@ -1964,14 +2258,52 @@ export function buildCropMessages(routeKey, messageHistory, userPlan, userCrop, 
         : '';
     const luaBlock = precisaLua ? `\nDADOS DAS FASES DA LUA E PLANTIO:\n${moonKnowledge}\n` : '';
     const moonRuleBlock = precisaLua ? `\n${MOON_RULE}\n` : '';
-    const varExibicao = memory.userVariety && memory.userVariety !== 'indefinido' ? ` (${memory.userVariety})` : '';
+    const variedadeExibir = (userVariety && userVariety !== 'indefinido')
+        ? userVariety
+        : (memory.userVariety && memory.userVariety !== 'indefinido' ? memory.userVariety : 'indefinido');
+    const varExibicao = variedadeExibir !== 'indefinido' ? ` (${variedadeExibir})` : '';
+    const confirmacaoCadastro = (!degraded && !memory?.rotacaoDetalheTexto)
+        ? detectarConfirmacaoDadosCadastro({
+            messageHistory: historicoRecente,
+            lastUserMessage,
+            resolvedCity: cidadeResolvida,
+            userCrop,
+            userVariety: variedadeExibir,
+            routeKey,
+            route: routeKey,
+            ehRotacaoConversa: skipPorRotacao,
+            ehAberturaRelato: relatoCurto,
+            faltaCidade: Boolean(memory?.faltaCidade),
+            rotacaoDadosFaltando: memory?.rotacaoDadosFaltando || '',
+            perguntaPuraClimaSemCultura: Boolean(memory?.perguntaPuraClimaSemCultura),
+            climaAtualTexto: memory?.climaAtualTexto || ''
+        })
+        : null;
+    const confirmacaoCadastroBlock = confirmacaoCadastro
+        ? (skipPorRotacao
+            ? `\nCONFIRMAÇÃO DE DADOS DO CADASTRO: Você puxou ${confirmacaoCadastro.itens.join(' e ')} do cadastro sem o produtor citar agora. Inclua uma frase curta e natural (sem pergunta extra no fim): "${confirmacaoCadastro.exemplo}"`
+            : `\nCONFIRMAÇÃO DE DADOS DO CADASTRO (OBRIGATÓRIO NESTE TURNO): Você puxou ${confirmacaoCadastro.itens.join(' e ')} do cadastro sem o produtor citar agora. Depois de responder por completo, feche com UMA única linha natural confirmando se é esse mesmo (substituindo a pergunta genérica final para não duplicar): ex. "${confirmacaoCadastro.exemplo}"`)
+        : '';
     const cidadeNota = cidadeResolvida
-        ? `${cidadeResolvida} (já salva no cadastro — não precisa chamar 'memorizar_cidade')`
+        ? (memory?.cidadeFixaDiferente
+            ? `${cidadeResolvida} (consulta deste turno — cadastro fixo do produtor continua ${memory.cidadeFixaDiferente})`
+            : `${cidadeResolvida} (já salva no cadastro — não precisa chamar 'memorizar_cidade')`)
         : 'não informada (se ele citar a cidade, use a ferramenta memorizar_cidade)';
+    const faltaDadoBlock = [
+        memory?.faltaCidade
+            ? 'ALERTA DE DADO AUSENTE (CIDADE): O produtor NÃO informou a cidade/estado (nem há cidade salva). É TERMINANTEMENTE PROIBIDO adivinhar Rio Verde, Goiânia, Jataí ou Goiás. PARE e pergunte direto: "De qual cidade e estado você está falando?".'
+            : '',
+        memory?.rotacaoDadosFaltando
+            ? `ALERTA DE ROTAÇÃO INCOMPLETA: O produtor pediu sugestão de rotação/plantio, mas ainda NÃO informou ${memory.rotacaoDadosFaltando}. PROIBIDO chutar Rio Verde ou soja. Peça exatamente ${memory.rotacaoDadosFaltando} antes de montar o plano.`
+            : '',
+        memory?.perguntaPuraClimaSemCultura
+            ? 'PERGUNTA PURA DE CLIMA: Nenhuma cultura foi citada nesta dúvida de previsão. Entregue SOMENTE os dados reais de clima/chuva/solo e pergunte se ele quer ajustar com alguma cultura específica — PROIBIDO inventar ou assumir milho/soja do nada.'
+            : ''
+    ].filter(Boolean).join('\n');
     const memoryBlock = `DADOS DO PRODUTOR (memória de longo prazo):
 - Cidade: ${cidadeNota}
 - Cultura e variedade salvas: ${userCrop}${varExibicao}
-- Anotações de conversas passadas: ${memory.notes || 'nenhuma ainda'}`;
+- Anotações de conversas passadas: ${memory.notes || 'nenhuma ainda'}${faltaDadoBlock ? `\n${faltaDadoBlock}` : ''}${confirmacaoCadastroBlock}`;
     const nasaInjectedBlock = memory?.rotacaoNasaTexto
         ? `\nDADOS REAIS JÁ PUXADOS DO SATÉLITE NASA + CLIMA + ESCOAMENTO PARA ${cidadeResolvida || 'A CIDADE DO PRODUTOR'} (RESPONDA DIRETAMENTE COM BASE NESTES FATOS — NÃO CHAME FERRAMENTA DE ROTAÇÃO DE NOVO! EM TEXTO, ENTREGUE RESPOSTA LIMPA SEM EMOJIS, COM LINHA EM BRANCO E MARCADORES *• Título:* ..., COBRINDO CLIMA/RISCOS E SE VALE A PENA REPETIR, SUGESTÃO + PORQUÊ, GUIA BÁSICO DE QUANDO E COMO COMEÇAR E ONDE VENDER PERTO; SEM "**", SEM "PLANO DE ROTAÇÃO", SEM "#1 Recomendado", SEM "t/ha" OU "kg/ha", SEM LUA, SEM GAROA DIÁRIA E SEM PERGUNTA NO FINAL):\n${memory.rotacaoNasaTexto}`
         : '';
@@ -1990,7 +2322,7 @@ REGRAS OBRIGATÓRIAS PARA ESTA RESPOSTA:
         memory?.nasaSoloTexto ? `Satélite/Solo (NASA POWER): ${memory.nasaSoloTexto}` : ''
     ].filter(Boolean);
     const climaInjectedBlock = blocosClimaENasa.length > 0
-        ? `\nDADOS DE CLIMA E SATÉLITE JÁ PUXADOS PARA ${cidadeResolvida || 'A REGIÃO'} (ENTREGUE ESSES NÚMEROS CONCRETOS AO PRODUTOR — PROIBIDO IGNORAR ESTES DADOS, PROIBIDO DIZER "COSTUMA SER" SEM CITAR OS NÚMEROS ABAIXO E PROIBIDO PERGUNTAR A PREVISÃO DE CHUVA PARA ELE):\n${blocosClimaENasa.join('\n')}`
+        ? `\nDADOS DE CLIMA E SATÉLITE JÁ PUXADOS PARA ${cidadeResolvida || 'A REGIÃO'} (ENTREGUE ESSES NÚMEROS CONCRETOS AO PRODUTOR — RESPEITE EXATAMENTE OS DIAS DA SEMANA E DATAS DD/MM LISTADOS ABAIXO, NUNCA TROQUE O DIA DA SEMANA DA DATA NEM CHAME UMA DATA FUTURA DE "AMANHÃ"; SE ELE PEDIU "PRÓXIMA SEXTA", ENTREGUE A SEXTA-FEIRA LISTADA NOS PRÓXIMOS 7 DIAS OU AVISE ATÉ QUAL DATA REAL A PREVISÃO COBRE, PROIBIDO IGNORAR ESTES DADOS, PROIBIDO DIZER "COSTUMA SER" SEM CITAR OS NÚMEROS ABAIXO E PROIBIDO PERGUNTAR A PREVISÃO DE CHUVA PARA ELE):\n${blocosClimaENasa.join('\n')}`
         : '';
 
     const topoIdioma = resolverTopoIdiomaPrompt(targetLang, historicoRecente, '\n\n');
@@ -2556,13 +2888,23 @@ export function selecionarFerramentasConversa({
     const norm = normalizarOralidadeRural(textoUsuarioReal);
     const permitirNomes = new Set();
 
-    if (!memoryEnriquecida?.city) permitirNomes.add('memorizar_cidade');
-    if (!userCrop || userCrop === 'indefinido' || !userVariety || userVariety === 'indefinido') {
+    if (!memoryEnriquecida?.city && !memoryEnriquecida?.faltaCidade) permitirNomes.add('memorizar_cidade');
+    if (
+        !userCrop
+        || userCrop === 'indefinido'
+        || !userVariety
+        || userVariety === 'indefinido'
+        || /\b(plant|colh|cultiv|troc|mud|soja|milho|feijao|mandioca|tomate|cafe|banana|citros|gado|boi|vaca|leite|variedade|convencional|intacta|rr|crioul|hibrid|conkesta|catuai|prata|nanica|muda|maniva)\w*/i.test(norm)
+    ) {
         permitirNomes.add('memorizar_perfil_plantio');
     }
 
     if (!ehAberturaRelato) {
-        if (!memoryEnriquecida?.climaAtualTexto && /\b(chuv|clima|tempo|temperatura|previsao|garoa|sol|seco|plant|seme|umidade|weather|rain|forecast|humidity|lluvia|llover|pronostico|humedad|siembra)\w*/i.test(norm)) {
+        const pediuOutraCidadeClima = extrairTodasCidadesMensagem(textoUsuarioReal).length > 1
+            || /\b(outr[ao]\s+cidade|e\s+(?:em|na|no)\s+[a-z]{3,}|tambem|tbm)\b/i.test(norm);
+        const pareceConsultaLugarClima = /\b(chuv|chover|clima|tempo|temperatura|previsao|garoa|sol|seco|plant|seme|umidade|weather|rain|forecast|humidity|lluvia|llover|pronostico|humedad|siembra)\w*/i.test(norm)
+            || /^(?:e\s+)?(?:em|na|no|para|pra)\s+[a-z]{3,}/i.test(norm);
+        if (!memoryEnriquecida?.faltaCidade && (!memoryEnriquecida?.climaAtualTexto || pediuOutraCidadeClima) && pareceConsultaLugarClima) {
             permitirNomes.add('consultar_clima');
         }
         if (!memoryEnriquecida?.rotacaoNasaTexto && (ehRotacaoConversa || ehPerguntaRotacaoValida(norm) || /\b(rotat(?:e|ion)|after\s+harvest|rotacion|despues\s+de\s+cosech)\b/i.test(norm))) {
@@ -2682,7 +3024,7 @@ export async function generateAgroResponse(messageHistory, userPlan, userCrop, u
             return instantanea;
         }
 
-        route = await orchestratorAgent(lastUserMessage, userCrop);
+        route = await orchestratorAgent(lastUserMessage, userCrop, { messageHistory });
         console.log(`Orquestrador definiu a rota: ${route}${degraded ? ' (MODO ECONÔMICO)' : ''} [lang=${idiomaUsuario}]`);
 
         // Modo econômico: prompt mínimo, modelo leve, sem ferramentas (dieta de ~90%)
@@ -2702,13 +3044,58 @@ export async function generateAgroResponse(messageHistory, userPlan, userCrop, u
         estiloUsuario = detectarEstiloUsuario(lastUserMessage, { isAudio: memory?.isAudio });
 
         const lastNorm = normSemAcento(lastUserMessage);
-        const cidadeResolvida = detectarCidadeConversa(messageHistory, memory?.city);
-        if (cidadeResolvida && cidadeResolvida !== memory?.city) {
+        const ctxCidade = detectarContextoCidadeConversa(messageHistory, memory?.city);
+        let cidadeResolvida = ctxCidade.cidade;
+        let origemCidade = ctxCidade.origem;
+
+        // Se o produtor mandou só o nome da cidade (ex: "Peritoro") fora do cache local do IBGE, valida via geocodificação real antes de cair em fallback.
+        const msgLimpaCidade = String(lastUserMessage || '').replace(/[?!.,;:]+$/g, '').trim();
+        const normLimpaCidade = normSemAcento(msgLimpaCidade);
+        const candidataCidadeSolta = !cidadeResolvida
+            && msgLimpaCidade.length >= 4 && msgLimpaCidade.length <= 36
+            && normLimpaCidade.split(/\s+/).length <= 4
+            && !/[0-9?]/.test(msgLimpaCidade)
+            && !PALAVRAS_NAO_CIDADE_SOLTA_RE.test(normLimpaCidade)
+            && !OUTRAS_CULTURAS_GERAIS_RE.test(normLimpaCidade)
+            && !PERGUNTA_ROTACAO_RE.test(normLimpaCidade)
+            && !ehOutraIntencaoNaoRotacao(normLimpaCidade);
+        if (candidataCidadeSolta) {
+            try {
+                const geoSolta = await geocodificarCidadeBrasil(msgLimpaCidade, { timeoutMs: 2800 });
+                if (geoSolta?.nome && geoSolta?.uf) {
+                    cidadeResolvida = `${geoSolta.nome} - ${geoSolta.uf}`;
+                    origemCidade = 'residencia';
+                }
+            } catch {}
+        }
+
+        if (cidadeResolvida && (!memory?.city || origemCidade === 'residencia') && cidadeResolvida !== memory?.city) {
             try { await salvarCidade(whatsappNumber, cidadeResolvida); } catch {}
         }
+
+        const cidadeFixaDiferente = (memory?.city && cidadeResolvida && origemCidade === 'consulta' && cidadeResolvida !== memory.city)
+            ? memory.city
+            : null;
+
+        // Sincroniza cultura ativa da conversa quando o produtor muda de plantio em relação ao cadastro antigo
+        const ROTAS_CULTURA_MAP = {
+            SOJA: 'soja', MILHO: 'milho', FEIJAO: 'feijao', CAFE: 'cafe',
+            TOMATE: 'tomate', MANDIOCA: 'mandioca', CITROS: 'citros', BANANA: 'banana'
+        };
+        const culturaDaRota = ROTAS_CULTURA_MAP[route] || null;
+        const ultimaMsgMencionouCultura = Boolean(culturaDaRota && detectRouteFast(lastUserMessage) === route);
+        const culturaAnteriorNorm = String(userCrop || '').trim().toLowerCase();
+        const culturaAtiva = (culturaDaRota && ultimaMsgMencionouCultura && culturaDaRota !== culturaAnteriorNorm)
+            ? culturaDaRota
+            : (culturaDaRota || userCrop);
+        const variedadeAtiva = (culturaAtiva !== culturaAnteriorNorm && culturaAnteriorNorm && culturaAnteriorNorm !== 'indefinido')
+            ? 'indefinido'
+            : userVariety;
+
         memoryEnriquecida = {
             ...memory,
-            ...(cidadeResolvida ? { city: cidadeResolvida } : {})
+            ...(cidadeResolvida ? { city: cidadeResolvida } : {}),
+            ...(cidadeFixaDiferente ? { cidadeFixaDiferente } : {})
         };
 
         const ehPerguntaRotacaoAtual = ehPerguntaRotacaoValida(lastNorm);
@@ -2717,29 +3104,62 @@ export async function generateAgroResponse(messageHistory, userPlan, userCrop, u
         if (ehRotacaoConversa) {
             const userMsgs = (messageHistory || []).filter((m) => m.role === 'user' && m.content).map((m) => String(m.content));
             const textoRot = ehPerguntaRotacaoAtual ? lastUserMessage : userMsgs.slice(-2).join(' ');
-            const ctxRot = extrairContextoRotacaoPergunta(textoRot, memoryEnriquecida.city, userCrop);
-            rotPre = await executarRotacaoNasaERegistrar({
-                cidade: ctxRot.cidade,
-                culturaAnterior: ctxRot.culturaAnterior,
-                prioridade: ctxRot.prioridade,
-                tipoSemente: ctxRot.tipoSemente || '',
-                whatsappNumber,
-                isAudio: estiloUsuario.isAudio
-            });
-            ultimoResumoRotacao = rotPre.texto;
-            memoryEnriquecida.rotacaoNasaTexto = rotPre.contextoIA || rotPre.texto;
+            const ctxRot = extrairContextoRotacaoPergunta(textoRot, memoryEnriquecida.city, culturaAtiva);
+            if (ctxRot.cidade && ctxRot.culturaAnterior) {
+                rotPre = await executarRotacaoNasaERegistrar({
+                    cidade: ctxRot.cidade,
+                    culturaAnterior: ctxRot.culturaAnterior,
+                    prioridade: ctxRot.prioridade,
+                    tipoSemente: ctxRot.tipoSemente || '',
+                    whatsappNumber,
+                    isAudio: estiloUsuario.isAudio
+                });
+                ultimoResumoRotacao = rotPre.texto;
+                memoryEnriquecida.rotacaoNasaTexto = rotPre.contextoIA || rotPre.texto;
+            } else {
+                const faltando = [
+                    !ctxRot.cidade ? 'cidade e estado' : '',
+                    !ctxRot.culturaAnterior ? 'qual cultura colheu ou pretende plantar' : ''
+                ].filter(Boolean).join(' e ');
+                memoryEnriquecida.rotacaoDadosFaltando = faltando;
+                if (!ctxRot.cidade) memoryEnriquecida.faltaCidade = true;
+            }
         }
 
-        const pediuPrevisaoCurta = /\b(chuv|previsao|tempo|clima|garoa|semana|hoje|amanha)\b/i.test(lastNorm);
+        const pediuClimaOuJanelaSemCidade = !memoryEnriquecida.city
+            && /\b(chuv|previsao|tempo|clima|garoa|janela|melhor\s+dia|onde\s+vend|comprad|escoa)\w*/i.test(lastNorm);
+        if (pediuClimaOuJanelaSemCidade) {
+            memoryEnriquecida.faltaCidade = true;
+        }
+
+        const turnoAnteriorClima = (messageHistory || [])
+            .slice(Math.max(0, (messageHistory || []).length - 5), -1)
+            .some((m) => m?.content && /\b(chuv|chover|previsao|tempo|clima|trovoada|pancadas|temperatura)\b/i.test(normSemAcento(String(m.content))));
+        const ehContinuacaoClimaCidade = turnoAnteriorClima && (
+            Boolean(detectarContextoCidadeConversa([{ role: 'user', content: lastUserMessage }], null).cidade)
+            || /^(?:e\s+)?(?:em|na|no|para|pra)\s+[a-z]{3,}/i.test(lastNorm)
+        );
+
+        const pediuPrevisaoPura = (/\b(chuv|previsao|tempo|clima|garoa|semana|hoje|amanha|segunda|terca|quarta|quinta|sexta|sabado|domingo)\b/i.test(lastNorm) || ehContinuacaoClimaCidade)
+            && !detectRouteFast(lastUserMessage)
+            && !OUTRAS_CULTURAS_GERAIS_RE.test(lastNorm)
+            && (!culturaAnteriorNorm || culturaAnteriorNorm === 'indefinido');
+        if (pediuPrevisaoPura && route === 'GERAL') {
+            memoryEnriquecida.perguntaPuraClimaSemCultura = true;
+        }
+
+        const pediuPrevisaoCurta = ehContinuacaoClimaCidade || /\b(chuv|previsao|tempo|clima|garoa|semana|hoje|amanha|segunda|terca|quarta|quinta|sexta|sabado|domingo|feriado)\b/i.test(lastNorm);
         const ehPerguntaLua = /\blua\b/i.test(lastNorm);
         const ehAberturaRelato = !ehRotacaoConversa && ehRelatoSemPergunta(lastUserMessage, { skipPorRotacao: false });
 
+        const pediuClimaOuComparacao = ehContinuacaoClimaCidade || /\b(chuv|chover|tempo|clim|plant|seme|umidad|sol|sec|variedad|convencional|intacta|rr|terra|solo|melhor|cresc|cobert|adub|calcari|praga|doenc|folha|amarel|murch|safra|lavoura|colheit|milho|soja|feij|mandioca|tomate|banan|pasto|nasa|satelit|calor|quent|frio|temperatur|dado|previs)\w*/i.test(lastNorm);
+        const cidadesMencionadasNoTurno = extrairTodasCidadesMensagem(lastUserMessage);
         if (
             !memory?.rotacaoDetalheTexto
             && memoryEnriquecida.city
-            && (ehRotacaoConversa || /\b(chuv|tempo|clim|plant|seme|umidad|sol|sec|variedad|convencional|intacta|rr|terra|solo|melhor|cresc|cobert|adub|calcari|praga|doenc|folha|amarel|murch|safra|lavoura|colheit|milho|soja|feij|mandioca|tomate|banan|pasto|nasa|satelit|calor|quent|frio|temperatur|dado|previs)\w*/i.test(lastNorm))
+            && (ehRotacaoConversa || pediuClimaOuComparacao)
         ) {
-            const pediuNasaOuSolo = ehRotacaoConversa || /\b(nasa|satelit|umidad|calor|quent|temperatur|solo|terra|dado|chuv|clim|tempo|sec)\w*/i.test(lastNorm);
+            const pediuNasaOuSolo = ehRotacaoConversa || /\b(nasa|satelit|umidad|calor|quent|temperatur|solo|terra|dado|chuv|chover|clim|tempo|sec)\w*/i.test(lastNorm);
             if (pediuNasaOuSolo && !memoryEnriquecida.nasaSoloTexto) {
                 try {
                     const leituraNasa = await obterLeituraNasaSoloAoVivo(memoryEnriquecida.city);
@@ -2751,17 +3171,43 @@ export async function generateAgroResponse(messageHistory, userPlan, userCrop, u
                 }
             }
             try {
-                const weatherPre = await getWeatherAndRainRisk(memoryEnriquecida.city);
-                if (weatherPre?.resumo) {
-                    const dias3 = !ehAberturaRelato && (!ehRotacaoConversa || pediuPrevisaoCurta) && Array.isArray(weatherPre.previsaoDias)
-                        ? weatherPre.previsaoDias.slice(0, 3).map((d) => `${d.dia}: ${d.condicao} (${d.chanceDeChuvaMaxima}, ${d.minima}-${d.maxima})`).join(' | ')
-                        : '';
-                    memoryEnriquecida.climaAtualTexto = dias3 ? `${weatherPre.resumo} Próximos dias: ${dias3}` : weatherPre.resumo;
+                const cidadesClimaAlvo = cidadesMencionadasNoTurno.length > 1
+                    ? cidadesMencionadasNoTurno.slice(0, 3)
+                    : [memoryEnriquecida.city];
+                const climasRes = await Promise.allSettled(cidadesClimaAlvo.map((cid) => getWeatherAndRainRisk(cid)));
+                const textosClima = climasRes
+                    .filter((res) => res.status === 'fulfilled' && res.value?.resumo)
+                    .map((res) => {
+                        const w = res.value;
+                        const dias = !ehAberturaRelato && (!ehRotacaoConversa || pediuPrevisaoCurta) && Array.isArray(w.previsaoDias)
+                            ? w.previsaoDias.slice(0, pediuPrevisaoCurta ? 7 : 3).map((d) => `${d.dia}: ${d.condicao} (${d.chanceDeChuvaMaxima}, ${d.minima}-${d.maxima})`).join(' | ')
+                            : '';
+                        return dias ? `[${w.cidade}] ${w.resumo} Próximos dias: ${dias}` : `[${w.cidade}] ${w.resumo}`;
+                    });
+                if (textosClima.length > 0) {
+                    memoryEnriquecida.climaAtualTexto = textosClima.join('\n');
                 }
             } catch (wErr) {
                 console.log('⚠️ Pré-busca de clima falhou:', wErr?.message || wErr);
             }
         }
+
+        const confirmacaoCadastroTurno = (!degraded && !memory?.rotacaoDetalheTexto)
+            ? detectarConfirmacaoDadosCadastro({
+                messageHistory,
+                lastUserMessage,
+                resolvedCity: memoryEnriquecida.city || null,
+                userCrop: culturaAtiva,
+                userVariety: variedadeAtiva,
+                route,
+                ehRotacaoConversa,
+                ehAberturaRelato,
+                faltaCidade: Boolean(memoryEnriquecida.faltaCidade),
+                rotacaoDadosFaltando: memoryEnriquecida.rotacaoDadosFaltando || '',
+                perguntaPuraClimaSemCultura: Boolean(memoryEnriquecida.perguntaPuraClimaSemCultura),
+                climaAtualTexto: memoryEnriquecida.climaAtualTexto || ''
+            })
+            : null;
 
         const podeUsarCachePalco = !degraded
             && !estiloUsuario.isAudio
@@ -2780,14 +3226,14 @@ export async function generateAgroResponse(messageHistory, userPlan, userCrop, u
             }
         }
 
-        const messages = buildCropMessages(route, messageHistory, userPlan, userCrop, userVariety, false, memoryEnriquecida);
+        const messages = buildCropMessages(route, messageHistory, userPlan, culturaAtiva, variedadeAtiva, false, memoryEnriquecida);
         const toolsDisponiveis = selecionarFerramentasConversa({
             lastUserMessage,
             memoryEnriquecida,
             ehAberturaRelato,
             ehRotacaoConversa,
-            userCrop,
-            userVariety
+            userCrop: culturaAtiva,
+            userVariety: variedadeAtiva
         });
         const usarFerramentas = toolsDisponiveis.length > 0;
 
@@ -2981,61 +3427,87 @@ export async function generateAgroResponse(messageHistory, userPlan, userCrop, u
                         content: JSON.stringify({ resultado: r, texto: formatarJanela(r) })
                     });
                 } else if (toolCall.function.name === 'planejar_rotacao_nasa') {
-                    const cidade = args?.cidade || memoryEnriquecida.city || 'Rio Verde';
-                    const rotObj = (rotPre && !args?.tipo_solo && !args?.prioridade && !args?.cidade)
-                        ? rotPre
-                        : await executarRotacaoNasaERegistrar({
-                            cidade,
-                            culturaAnterior: args?.cultura_anterior || userCrop || 'soja',
-                            tipoSolo: args?.tipo_solo || '',
-                            prioridade: args?.prioridade || 'agua',
-                            whatsappNumber,
-                            registrarUso: false,
-                            isAudio: estiloUsuario.isAudio
+                    const cidade = args?.cidade || memoryEnriquecida.city || null;
+                    const culturaAnt = args?.cultura_anterior || (culturaAtiva && culturaAtiva !== 'indefinido' ? culturaAtiva : null);
+                    if (!cidade || !culturaAnt) {
+                        messages.push({
+                            role: 'tool',
+                            tool_call_id: toolCall.id,
+                            content: JSON.stringify({
+                                precisa_perguntar: true,
+                                faltando: [!cidade ? 'cidade e estado' : '', !culturaAnt ? 'cultura anterior ou pretendida' : ''].filter(Boolean),
+                                instrucao: 'Pare e pergunte ao produtor qual a cidade/estado e o que ele colheu ou quer plantar antes de gerar o plano.'
+                            })
                         });
-                    rodouRotacaoNasa = true;
-                    ultimoResumoRotacao = rotObj.texto;
-                    messages.push({
-                        role: 'tool',
-                        tool_call_id: toolCall.id,
-                        content: JSON.stringify({ dados_reais: rotObj.contextoIA || rotObj.texto })
-                    });
+                    } else {
+                        const rotObj = (rotPre && !args?.tipo_solo && !args?.prioridade && !args?.cidade)
+                            ? rotPre
+                            : await executarRotacaoNasaERegistrar({
+                                cidade,
+                                culturaAnterior: culturaAnt,
+                                tipoSolo: args?.tipo_solo || '',
+                                prioridade: args?.prioridade || 'agua',
+                                whatsappNumber,
+                                registrarUso: false,
+                                isAudio: estiloUsuario.isAudio
+                            });
+                        rodouRotacaoNasa = true;
+                        ultimoResumoRotacao = rotObj.texto;
+                        messages.push({
+                            role: 'tool',
+                            tool_call_id: toolCall.id,
+                            content: JSON.stringify({ dados_reais: rotObj.contextoIA || rotObj.texto })
+                        });
+                    }
                 } else if (toolCall.function.name === 'consultar_custo_producao') {
-                    const cidadeCusto = args?.cidade || memoryEnriquecida.city || 'Rio Verde';
-                    const culturaKeyCusto = normalizarCulturaKey(args?.cultura || userCrop || 'soja');
-                    const sementeKeyCusto = normalizarSementeKey(culturaKeyCusto, args?.tipo_semente || userVariety || '');
-                    const soloKeyCusto = normalizarSoloKey(args?.tipo_solo || '', 'medio_cerrado');
-                    const areaCusto = Number(args?.area_ha) > 0 ? Number(args.area_ha) : 1;
+                    const cidadeCusto = args?.cidade || memoryEnriquecida.city || null;
+                    const culturaBrutaCusto = args?.cultura || (culturaAtiva && culturaAtiva !== 'indefinido' ? culturaAtiva : null);
+                    if (!cidadeCusto || !culturaBrutaCusto) {
+                        messages.push({
+                            role: 'tool',
+                            tool_call_id: toolCall.id,
+                            content: JSON.stringify({
+                                precisa_perguntar: true,
+                                faltando: [!cidadeCusto ? 'cidade e estado' : '', !culturaBrutaCusto ? 'cultura' : ''].filter(Boolean),
+                                instrucao: 'Pare e pergunte ao produtor a cidade/estado (para puxar diesel ANP e produtividade IBGE reais) e a cultura antes de calcular custos.'
+                            })
+                        });
+                    } else {
+                        const culturaKeyCusto = normalizarCulturaKey(culturaBrutaCusto);
+                        const sementeKeyCusto = normalizarSementeKey(culturaKeyCusto, args?.tipo_semente || variedadeAtiva || '');
+                        const soloKeyCusto = normalizarSoloKey(args?.tipo_solo || '', 'medio_cerrado');
+                        const areaCusto = Number(args?.area_ha) > 0 ? Number(args.area_ha) : 1;
 
-                    const [ibgeRes, cotRes] = await Promise.allSettled([
-                        obterDadosAgricolasMunicipioIBGE(cidadeCusto, '', { timeoutMs: 3800 }),
-                        consultarCotacaoAgro(culturaKeyCusto, cidadeCusto, { timeoutMs: 3200 })
-                    ]);
-                    const ibgeCusto = ibgeRes.status === 'fulfilled' ? ibgeRes.value : null;
-                    const cotCusto = cotRes.status === 'fulfilled' ? cotRes.value : null;
-                    const ufMatchCusto = String(cidadeCusto).match(/\b(AC|AL|AP|AM|BA|CE|DF|ES|GO|MA|MT|MS|MG|PA|PB|PR|PE|PI|RJ|RN|RS|RO|RR|SC|SP|SE|TO)\b/i)?.[1]?.toUpperCase();
-                    const ufCusto = ibgeCusto?.uf || ufMatchCusto || 'GO';
+                        const [ibgeRes, cotRes] = await Promise.allSettled([
+                            obterDadosAgricolasMunicipioIBGE(cidadeCusto, '', { timeoutMs: 3800 }),
+                            consultarCotacaoAgro(culturaKeyCusto, cidadeCusto, { timeoutMs: 3200 })
+                        ]);
+                        const ibgeCusto = ibgeRes.status === 'fulfilled' ? ibgeRes.value : null;
+                        const cotCusto = cotRes.status === 'fulfilled' ? cotRes.value : null;
+                        const ufMatchCusto = String(cidadeCusto).match(/\b(AC|AL|AP|AM|BA|CE|DF|ES|GO|MA|MT|MS|MG|PA|PB|PR|PE|PI|RJ|RN|RS|RO|RR|SC|SP|SE|TO)\b/i)?.[1]?.toUpperCase();
+                        const ufCusto = ibgeCusto?.uf || ufMatchCusto || '';
 
-                    const calculoCusto = await calcularCustoDetalhadoCultivo({
-                        culturaKey: culturaKeyCusto,
-                        uf: ufCusto,
-                        soloKey: soloKeyCusto,
-                        tipoSementeKey: sementeKeyCusto,
-                        sobrePalhada: true,
-                        areaHa: areaCusto,
-                        ibgePam: ibgeCusto,
-                        cotacaoAgro: cotCusto,
-                        usarApiDiesel: true
-                    });
+                        const calculoCusto = await calcularCustoDetalhadoCultivo({
+                            culturaKey: culturaKeyCusto,
+                            uf: ufCusto,
+                            soloKey: soloKeyCusto,
+                            tipoSementeKey: sementeKeyCusto,
+                            sobrePalhada: true,
+                            areaHa: areaCusto,
+                            ibgePam: ibgeCusto,
+                            cotacaoAgro: cotCusto,
+                            usarApiDiesel: true
+                        });
 
-                    messages.push({
-                        role: 'tool',
-                        tool_call_id: toolCall.id,
-                        content: JSON.stringify({
-                            regra_anti_alucinacao: 'Use EXATAMENTE estes números calculados de maquinário, diesel, insumos, COE e retorno (quando presente). Nunca invente custos extras como arrendamento ou frete sem o produtor informar.',
-                            calculo: calculoCusto
-                        })
-                    });
+                        messages.push({
+                            role: 'tool',
+                            tool_call_id: toolCall.id,
+                            content: JSON.stringify({
+                                regra_anti_alucinacao: 'Use EXATAMENTE estes números calculados de maquinário, diesel, insumos, COE e retorno (quando presente). Nunca invente custos extras como arrendamento ou frete sem o produtor informar.',
+                                calculo: calculoCusto
+                            })
+                        });
+                    }
                 } else {
                     // Tool desconhecida: devolve vazio pra não travar a conversa final
                     messages.push({
@@ -3105,7 +3577,11 @@ export async function generateAgroResponse(messageHistory, userPlan, userCrop, u
                 idiomaUsuario
             );
             const respostaIdiomaCerto = await garantirIdiomaSaida(llmResponse, idiomaUsuario, estiloUsuario);
-            return respostaIdiomaCerto + linksInjetados;
+            const comConfirmacaoTool = aplicarConfirmacaoCadastroSeFaltar(respostaIdiomaCerto, confirmacaoCadastroTurno, {
+                isAudio: estiloUsuario.isAudio,
+                idioma: idiomaUsuario
+            });
+            return comConfirmacaoTool + linksInjetados;
         }
 
         if (memory?.rotacaoDetalheTexto) {
@@ -3128,14 +3604,18 @@ export async function generateAgroResponse(messageHistory, userPlan, userCrop, u
             idiomaUsuario
         );
         const saidaIdiomaGarantido = await garantirIdiomaSaida(saidaFinal, idiomaUsuario, estiloUsuario);
-        if (cacheKeyPalco && saidaIdiomaGarantido) {
+        const saidaComConfirmacao = aplicarConfirmacaoCadastroSeFaltar(saidaIdiomaGarantido, confirmacaoCadastroTurno, {
+            isAudio: estiloUsuario.isAudio,
+            idioma: idiomaUsuario
+        });
+        if (cacheKeyPalco && saidaComConfirmacao) {
             if (respostaCachePalco.size >= 150) {
                 const primeira = respostaCachePalco.keys().next().value;
                 if (primeira) respostaCachePalco.delete(primeira);
             }
-            respostaCachePalco.set(cacheKeyPalco, { resposta: saidaIdiomaGarantido, ts: Date.now() });
+            respostaCachePalco.set(cacheKeyPalco, { resposta: saidaComConfirmacao, ts: Date.now() });
         }
-        return saidaIdiomaGarantido;
+        return saidaComConfirmacao;
     } catch (error) {
         console.error("Erro no generateAgroResponse:", error?.message || error);
         // Uma retentativa única para erros transitórios (rede, 429, 5xx)

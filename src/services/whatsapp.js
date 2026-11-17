@@ -13,7 +13,7 @@ import { listarRegistros, registrosParaCSV } from './field.js';
 import { verificarAbuso } from './abuso.js';
 import { registrarUsoRecurso } from './persuasao.js';
 import { handleAdminCommand } from './admin.js';
-import { generateAgroResponse, transcribeAudio, generateAudioResponse, analyzeCropImage, prepararMensagemImagem, interpretarMensagemRotacao, detectarIntencaoNatural, garantirIdiomaSaida, classificarIdiomaTextoPorLLM } from './ai.js';
+import { generateAgroResponse, transcribeAudio, generateAudioResponse, analyzeCropImage, prepararMensagemImagem, interpretarMensagemRotacao, detectarIntencaoNatural, garantirIdiomaSaida, classificarIdiomaTextoPorLLM, ehDeclaracaoCidadeResidencia } from './ai.js';
 import { IDIOMA_PADRAO, normalizarCodigoIdioma, idiomaPadraoPorNumero, detectarTrocaIdioma, tMsg } from '../config/i18n.js';
 import { avaliarRotacaoNasa, formatarRotacaoWhatsApp, formatarDetalheRotacaoWhatsApp, montarContextoDetalheRotacao, SEPARADOR_MENSAGEM_AGREGADA } from './rotation.js';
 import { criarLembrete } from './reminders.js';
@@ -785,7 +785,13 @@ export async function connectToWhatsApp() {
             salvarHistoricoUsuario(whatsappNumber, history);
 
             const ehAudio = msgType === 'audioMessage';
-            const rotacaoIntent = interpretarMensagemRotacao(textContext, check.city, check.selectedCrop, history);
+            const rotacaoIntentRaw = interpretarMensagemRotacao(textContext, check.city, check.selectedCrop, history);
+            const rotacaoCompleta = rotacaoIntentRaw
+                && (
+                    rotacaoIntentRaw.tipo !== 'comando_rotacao'
+                    || (Boolean(rotacaoIntentRaw.cidade) && Boolean(rotacaoIntentRaw.culturaAnterior || rotacaoIntentRaw.culturaAlvo))
+                );
+            const rotacaoIntent = rotacaoCompleta ? rotacaoIntentRaw : null;
             if (rotacaoIntent) {
                 let respostaRotacao = '';
                 if (rotacaoIntent.tipo === 'plano_compartilhado') {
@@ -799,12 +805,14 @@ export async function connectToWhatsApp() {
                     try { registrarUsoRecurso(undefined, whatsappNumber, 'rotacao'); } catch {}
                     const r = await avaliarRotacaoNasa({
                         cidade: rotacaoIntent.cidade,
-                        cultura_anterior: rotacaoIntent.culturaAnterior,
+                        cultura_anterior: rotacaoIntent.culturaAnterior || rotacaoIntent.culturaAlvo,
                         prioridade: rotacaoIntent.prioridade,
                         ...(rotacaoIntent.tipoSemente ? { tipo_semente: rotacaoIntent.tipoSemente } : {})
                     });
                     const cidadeAtualizada = r.contexto?.municipio?.split(' - ')[0] || rotacaoIntent.cidade;
-                    try { await salvarCidade(whatsappNumber, cidadeAtualizada); } catch {}
+                    if (!check.city || ehDeclaracaoCidadeResidencia(textContext)) {
+                        try { await salvarCidade(whatsappNumber, cidadeAtualizada); } catch {}
+                    }
                     try {
                         registrarSinalAnonimo({
                             municipioKey: r.contexto?.municipio_key,
